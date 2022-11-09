@@ -117,6 +117,10 @@ public class AppServlet extends HttpServlet {
           break;
         case "/order" :
           renderOrderForm(request,response);
+          break;
+        case "/placeorder" :
+          placeOrder(request,response);
+          break;
         default:
           renderHome(request, response);
           break;
@@ -140,6 +144,7 @@ public class AppServlet extends HttpServlet {
   }
 
   private void placeOrder(HttpServletRequest request, HttpServletResponse response) {
+
   }
 
   private void renderAdminMovies(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {

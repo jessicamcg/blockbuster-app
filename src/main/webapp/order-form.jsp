@@ -29,23 +29,29 @@
                 <h3 class="mx-auto mt-3">Order Details</h3>
                     <form class="p-3" action="placeorder" method="post">
                        <fieldset class="form-group">
-                           <label>First Name: </label> <input type="text" class="form-control" name="firstname">
+                           <label>First Name: </label>
+                           <input type="text" value="<c:out value='${auth.firstName}' />" class="form-control" name="firstname">
                        </fieldset>
                        <fieldset class="form-group">
-                           <label>Last Name: </label> <input type="text" class="form-control" name="lastname">
+                           <label>Last Name: </label>
+                           <input type="text" value="<c:out value='${auth.lastName}' />" class="form-control" name="lastname">
                        </fieldset>
                        <fieldset class="form-group">
-                           <label>Phone: </label> <input type="text" class="form-control" name="phone">
+                           <label>Phone: </label>
+                           <input type="text" value="<c:out value='${auth.phone}' />" class="form-control" name="phone">
                        </fieldset>
                        <fieldset class="form-group">
-                           <label>Address: </label> <input type="text" class="form-control" name="address">
+                           <label>Address: </label>
+                           <input type="text" value="<c:out value='${auth.address}' />" class="form-control" name="address">
                        </fieldset>
                        <fieldset class="form-group">
-                           <label>Email: </label> <input type="text" class="form-control" name="email">
+                           <label>Email: </label>
+                           <input type="text" value="<c:out value='${auth.email}' />" class="form-control" name="email">
                        </fieldset>
 
                        <fieldset class="form-group">
-                           <label>Card Number: </label> <input type="test" class="form-control" name="cardNumber">
+                           <label>Card Number: </label>
+                           <input type="test" placeholder="Enter card number" class="form-control" name="cardNumber">
                        </fieldset>
 
                        <input class="btn btn-primary" type="submit" value="Place Order">
