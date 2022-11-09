@@ -4,19 +4,21 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Set;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Order {
-  private int id;
+  private String id;
   private int customerID;
-  private Set<Movie> orderItems;
+  private double total = 0;
+  private List<Movie> orderItems;
 
-  public Order(int id, int customerID) {
+  public Order(String id, int customerID, double total) {
     this.id = id;
     this.customerID = customerID;
+    this.total = total;
   }
 
 }

@@ -143,7 +143,13 @@ public class AppServlet extends HttpServlet {
     response.sendRedirect("cart");
   }
 
-  private void placeOrder(HttpServletRequest request, HttpServletResponse response) {
+  private void placeOrder(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    HttpSession session=request.getSession();
+    Customer customer = (Customer) session.getAttribute("auth");
+    List<Movie> cartMovies = (List<Movie>) session.getAttribute("cart");
+
+    ODAO.insertOrder(customer,cartMovies);
+    response.sendRedirect("home");
 
   }
 
