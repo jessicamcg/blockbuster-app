@@ -42,6 +42,7 @@
                   </div>
                   <div class="card-footer d-flex justify-content-center">
                     <a href="addtocart?id=<c:out value='${movie.id}' />" class="btn btn-primary">Add to Cart</a>
+                    <a href="movie-details?id=<c:out value='${movie.id}' />"class="btn btn-primary" style="margin-left: 20px"> View Details</a>
                   </div>
                 </div>
               </c:forEach>
