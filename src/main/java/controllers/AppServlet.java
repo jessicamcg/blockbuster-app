@@ -121,12 +121,29 @@ public class AppServlet extends HttpServlet {
         case "/placeorder" :
           placeOrder(request,response);
           break;
+        case "/movie-details" :
+          renderMovieDetails(request,response);
+          break;
         default:
           renderHome(request, response);
           break;
       }
     } catch (Exception ex) {
       ex.printStackTrace();
+    }
+  }
+
+
+  private void renderMovieDetails(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    HttpSession session = request.getSession();
+    int id = Integer.parseInt(request.getParameter("id"));
+    if (session.getAttribute("auth") == null) {
+      renderLogin(request, response);
+    } else {
+      Movie movies = MDAO.selectMovie(id);
+      request.setAttribute("movie", movies);
+      RequestDispatcher dispatcher = request.getRequestDispatcher("movie-details.jsp");
+      dispatcher.forward(request, response);
     }
   }
 

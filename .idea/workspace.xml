@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="663f105d-480a-41c5-89b4-343beae90c6f" name="Changes" comment="" />
+    <list default="true" id="e798beca-2d92-4cf8-9d06-48a5124e8576" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -38,6 +38,9 @@
       </MavenGeneralSettings>
     </option>
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectId" id="2Guk01BwahIPMEwlYjIkGvYOnNz" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -52,10 +55,9 @@
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;com.poratu.idea.plugins.tomcat.setting.TomcatServersConfigurable&quot;
-  }
-}</component>
+  }</component>
   <component name="RunManager">
-    <configuration name="tomcat" type="com.poratu.idea.plugins.tomcat">
+    <configuration name="Tomcat" type="com.poratu.idea.plugins.tomcat">
       <predefined_log_file enabled="true" id="Tomcat Localhost Log" />
       <predefined_log_file enabled="true" id="Tomcat Access Log" />
       <predefined_log_file id="Tomcat Catalina Log" />
@@ -63,6 +65,9 @@
       <predefined_log_file id="Tomcat Host Manager Log" />
       <option name="contextPath" value="/blockbuster-app" />
       <option name="docBase" value="C:\Users\jessica.guico\code-library\blockbuster-app\src\main\webapp" />
+      <option name="envOptions">
+        <map />
+      </option>
       <option name="tomcatInfo">
         <TomcatInfo>
           <option name="name" value="Apache Tomcat/9.0.68" />
