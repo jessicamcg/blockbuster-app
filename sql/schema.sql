@@ -8,7 +8,7 @@ create table category (
 create table movie (
 	id int not null auto_increment primary key,
     title varchar(100) not null,
-    summary varchar(100) not null,
+    summary varchar(300) not null,
     price decimal(9,2) not null,
     stock int not null,
     image_url varchar(500),
