@@ -17,7 +17,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @WebServlet("/")
 public class AppServlet extends HttpServlet {
@@ -136,7 +138,6 @@ public class AppServlet extends HttpServlet {
     }
   }
 
-
   private void renderMovieDetails(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
     HttpSession session = request.getSession();
     int id = Integer.parseInt(request.getParameter("id"));
@@ -157,12 +158,13 @@ public class AppServlet extends HttpServlet {
   private void searchAdminMovies(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
     String name = request.getParameter("title");
     List<Movie> movies = MDAO.selectMovieByName(name);
-    System.out.println(movies);
-    System.out.println(name);
+//    System.out.println(movies);
+//    System.out.println(name);
     request.setAttribute("movies", movies);
     RequestDispatcher dispatcher = request.getRequestDispatcher("admin-search.jsp");
     dispatcher.forward(request, response);
   }
+
   private void removeFromCart(HttpServletRequest request, HttpServletResponse response) throws IOException {
     int movieID = Integer.parseInt(request.getParameter("id"));
     Movie movie = MDAO.selectMovie(movieID);
@@ -278,6 +280,7 @@ public class AppServlet extends HttpServlet {
 // add cart details to session
     if (session.getAttribute("cart") == null) {
       List<Movie> cartMovies = new ArrayList<>();
+      Set<Object> cartDetails = new HashSet<>();
       cartMovies.add(MDAO.selectMovie(movieID));
       session.setAttribute("cart", cartMovies);
     } else {
