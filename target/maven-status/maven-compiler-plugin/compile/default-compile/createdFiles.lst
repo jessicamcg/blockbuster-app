@@ -1,8 +1,12 @@
 controllers\AppServlet.class
 dao\Connection.class
+dao\OrderDAO.class
+model\Category.class
 dao\CustomerDAO.class
+dao\CategoryDAO.class
 dao\MovieDAO.class
 dao\AdminDAO.class
 model\Customer.class
 model\Movie.class
+model\Order.class
 model\Admin.class
