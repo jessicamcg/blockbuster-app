@@ -10,10 +10,13 @@
     <header>
         <nav class="navbar navbar-expand-md navbar-dark" style="background-color: darkblue">
             <div>
-                <a href="<%=request.getContextPath()%>/" class="navbar-brand"> Blockbuster </a>
+                <a href="<%=request.getContextPath()%>/" class="navbar-brand text-warning font-weight-bold"> Blockbuster </a>
             </div>
             <ul class="navbar-nav">
-                <li><a href="<%=request.getContextPath()%>/movies" class="nav-link">Movies</a></li>
+              <li><a href="<%=request.getContextPath()%>/movies" class="nav-link">Movies</a></li>
+              <c:if test="${auth != null}">
+                <li><a href="<%=request.getContextPath()%>/logout" class="nav-link">Logout</a></li>
+              </c:if>
             </ul>
         </nav>
     </header>
