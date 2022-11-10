@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./develop
+        working-directory: develop
 
     steps:
       - uses: actions/checkout@v2
