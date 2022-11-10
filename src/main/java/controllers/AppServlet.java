@@ -100,6 +100,9 @@ public class AppServlet extends HttpServlet {
         case "/adminmovies":
           renderAdminMovies(request, response);
           break;
+        case "/searchadminmovies":
+          searchAdminMovies(request, response);
+          break;
         case "/admininsertmovie":
           insertMovie(request, response);
           break;
@@ -151,6 +154,15 @@ public class AppServlet extends HttpServlet {
     response.sendRedirect("order-form.jsp");
   }
 
+  private void searchAdminMovies(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    String name = request.getParameter("title");
+    List<Movie> movies = MDAO.selectMovieByName(name);
+    System.out.println(movies);
+    System.out.println(name);
+    request.setAttribute("movies", movies);
+    RequestDispatcher dispatcher = request.getRequestDispatcher("admin-search.jsp");
+    dispatcher.forward(request, response);
+  }
   private void removeFromCart(HttpServletRequest request, HttpServletResponse response) throws IOException {
     int movieID = Integer.parseInt(request.getParameter("id"));
     Movie movie = MDAO.selectMovie(movieID);

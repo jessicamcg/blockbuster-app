@@ -15,7 +15,7 @@ public class MovieDAO {
   private static final String INSERT_MOVIE = "insert into movie (title,summary,price,stock,image_url,category_id) values (?,?,?,?,?,?);";
   private static final String DELETE_MOVIE = "delete from movie where id=?;";
   private static final String UPDATE_MOVIE_BY_ID = "update movie set title=?, summary=?, price=?, stock=?, image_url=?, category_id=? where id = ?;";
-
+  private static final String SELECT_MOVIE_BY_NAME = "select * from movie where title=?";
   public void insertMovie(Movie movie) throws SQLException {
     try (java.sql.Connection connection = dao.Connection.getConnection();
          PreparedStatement ps = connection.prepareStatement(INSERT_MOVIE);) {
@@ -81,6 +81,29 @@ public class MovieDAO {
     return movie;
   }
 
+  public List<Movie> selectMovieByName(String title) {
+    List<Movie> movies = new ArrayList< >();
+    try (java.sql.Connection connection = dao.Connection.getConnection();
+         PreparedStatement ps = connection.prepareStatement(SELECT_MOVIE_BY_NAME);) {
+      ps.setString(1, title);
+      ResultSet rs = ps.executeQuery();
+
+      while (rs.next()) {
+        int id = rs.getInt("id");
+        String movieTitle = rs.getString("title");
+        String summary = rs.getString("summary");
+        float price = rs.getFloat("price");
+        int stock = rs.getInt("stock");
+        String imageURL = rs.getString("image_url");
+        int categoryID = rs.getInt("category_id");
+
+        movies.add(new Movie(id,title, summary, price, stock, imageURL,categoryID));
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return movies;
+  }
   public List<Movie> selectAllMovies() {
     List<Movie> movies = new ArrayList< >();
     try (java.sql.Connection connection = dao.Connection.getConnection();
