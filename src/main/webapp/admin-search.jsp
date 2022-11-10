@@ -30,16 +30,14 @@
         <div class="container col-9">
             <h3 class="text-center">Available Movies</h3>
             <hr>
-              <div class="d-flex justify-content-around">
-                <a class="btn btn-primary" href="<%=request.getContextPath()%>/adminnewmovieform">Add a Movie</a>
-              </div>
 
-              <div class="d-flex justify-content-around">
-                                        <form action="searchadminmovies" method="GET">
-                                        Search By Name: <input type="text" name="title">
-                                          <input type="submit" value="Search">
-                                          </form>
-                            </div>
+            <div class="d-flex justify-content-around">
+                <form action="searchadminmovies" method="GET">
+                    Search By Title: <input type="text" name="title">
+                    <input type="submit" value="Search"></form>
+                    <% String title = (String)session.getAttribute("title"); %>
+            </div>
+
             <br>
             <div class="card-columns">
               <c:forEach var="movie" items="${movies}">
@@ -63,5 +61,3 @@
 </body>
 
 </html>
-
-

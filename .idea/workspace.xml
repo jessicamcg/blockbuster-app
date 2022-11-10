@@ -6,9 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="663f105d-480a-41c5-89b4-343beae90c6f" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sql/schema.sql" beforeDir="false" afterPath="$PROJECT_DIR$/sql/schema.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/controllers/AppServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controllers/AppServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/movies.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/movies.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dao/MovieDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/MovieDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/admin-movies.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/admin-movies.jsp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,7 +55,7 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "C:/Users/hassan.momin/java/blockbusterCapstone/blockbuster-app/src/main/webapp",
+    "last_opened_file_path": "C:/Users/jordan.biehl/OneDrive - HCL Technologies Ltd/Desktop/blockbuster-app-main22",
     "settings.editor.selected.configurable": "com.poratu.idea.plugins.tomcat.setting.TomcatServersConfigurable"
   }
 }]]></component>
@@ -68,9 +68,6 @@
       <predefined_log_file id="Tomcat Host Manager Log" />
       <option name="contextPath" value="/blockbuster-app" />
       <option name="docBase" value="C:\Users\hassan.momin\java\blockbusterCapstone\blockbuster-app\src\main\webapp" />
-      <option name="envOptions">
-        <map />
-      </option>
       <option name="tomcatInfo">
         <TomcatInfo>
           <option name="name" value="Apache Tomcat/9.0.68" />
