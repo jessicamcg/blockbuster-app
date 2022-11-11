@@ -1,10 +1,7 @@
 package controllers;
 
 import dao.*;
-import model.Admin;
-import model.Category;
-import model.Customer;
-import model.Movie;
+import model.*;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -18,7 +15,6 @@ import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
 @WebServlet("/")
 public class AppServlet extends HttpServlet {
@@ -27,6 +23,7 @@ public class AppServlet extends HttpServlet {
   private AdminDAO ADAO;
   private MovieDAO MDAO;
   private OrderDAO ODAO;
+  private PaymentDAO PDAO;
 
   public void init() {
     custDAO = new CustomerDAO();
@@ -34,6 +31,7 @@ public class AppServlet extends HttpServlet {
     ADAO = new AdminDAO();
     MDAO = new MovieDAO();
     ODAO = new OrderDAO();
+    PDAO = new PaymentDAO();
   }
 
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -175,11 +173,12 @@ public class AppServlet extends HttpServlet {
   }
 
   private void placeOrder(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    int cardNumber = Integer.parseInt(request.getParameter("cc-number"));
     HttpSession session=request.getSession();
     Customer customer = (Customer) session.getAttribute("auth");
     List<Movie> cartMovies = (List<Movie>) session.getAttribute("cart");
     double cartTotal = (double) session.getAttribute("cartTotal");
-    ODAO.insertOrder(customer,cartMovies, cartTotal);
+    ODAO.insertOrder(customer,cartMovies, cartTotal,cardNumber);
     cartMovies.forEach((movie) -> {
       try {
         MDAO.updateMovieStock(movie);

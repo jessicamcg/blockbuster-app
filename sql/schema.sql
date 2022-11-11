@@ -45,6 +45,7 @@ create table payment (
     order_id varchar(40),
     amount decimal(9,2) not null,
     payment_status varchar(20) not null,
+    card_number int,
     foreign key (order_id)
     references order_details(id)
     on delete cascade

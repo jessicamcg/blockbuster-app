@@ -3,6 +3,7 @@ package dao;
 import model.Customer;
 import model.Movie;
 import model.Order;
+import model.Payment;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,7 +18,7 @@ public class OrderDAO {
   private static final String INSERT_ORDER = "insert into order_details (id,customer_id,total) values (?,?,?)";
   private static final String INSERT_ORDER_ITEMS = "insert into order_item (order_id, movie_id) values (?,?);";
 
-  public void insertOrder(Customer customer, List<Movie> cart, double cartTotal) {
+  public void insertOrder(Customer customer, List<Movie> cart, double cartTotal, int cardNumber) {
     try (java.sql.Connection connection = dao.Connection.getConnection();
          PreparedStatement ps = connection.prepareStatement(INSERT_ORDER);) {
       UUID uuid = UUID.randomUUID();
@@ -27,6 +28,9 @@ public class OrderDAO {
       ps.executeUpdate();
       Order order = selectOrder(String.valueOf(uuid));
       insertOrderItems(order, cart);
+      Payment payment = new Payment(String.valueOf(uuid),cartTotal, "New Order", cardNumber);
+      PaymentDAO PDAO = new PaymentDAO();
+      PDAO.insertPayment(payment);
     } catch (SQLException e) {
       e.printStackTrace();
     }
