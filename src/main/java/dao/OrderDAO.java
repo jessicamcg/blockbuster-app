@@ -17,6 +17,7 @@ public class OrderDAO {
   private static final String SELECT_ORDER_BY_ID = "select * from order_details where id=?;";
   private static final String INSERT_ORDER = "insert into order_details (id,customer_id,total) values (?,?,?)";
   private static final String INSERT_ORDER_ITEMS = "insert into order_item (order_id, movie_id) values (?,?);";
+  private static final String SELECT_ALL_ORDERS = "select * from order_details;";
 
   public void insertOrder(Customer customer, List<Movie> cart, double cartTotal, int cardNumber) {
     try (java.sql.Connection connection = dao.Connection.getConnection();
@@ -73,27 +74,23 @@ public class OrderDAO {
   }
 
   // doesnt work yet
-  public List<Movie> selectAllOrders() {
+  public List<Order> selectAllOrders() {
 
-    List<Movie> movies = new ArrayList< >();
+    List<Order> orders = new ArrayList< >();
     try (java.sql.Connection connection = dao.Connection.getConnection();
-         PreparedStatement ps = connection.prepareStatement(SELECT_ORDER_BY_ID);) {
+         PreparedStatement ps = connection.prepareStatement(SELECT_ALL_ORDERS);) {
       ResultSet rs = ps.executeQuery();
 
       while (rs.next()) {
-        int id = rs.getInt("id");
-        String title = rs.getString("title");
-        String summary = rs.getString("summary");
-        float price = rs.getFloat("price");
-        int stock = rs.getInt("stock");
-        String imageURL = rs.getString("image_url");
-        int categoryID = rs.getInt("category_id");
-        movies.add(new Movie(title, summary, price, stock, imageURL,categoryID));
+        int customerID = rs.getInt("customer_id");
+        String id = rs.getString("id");
+        double total = rs.getFloat("total");
+        orders.add(new Order(id,customerID,total));
       }
     } catch (SQLException e) {
       e.printStackTrace();
     }
-    return movies;
+    return orders;
   }
 
 }

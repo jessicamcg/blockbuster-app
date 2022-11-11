@@ -117,11 +117,17 @@ public class AppServlet extends HttpServlet {
         case "/admindeletemovie":
           deleteMovie(request, response);
           break;
+        case "/adminorders":
+          renderAdminOrders(request, response);
+          break;
         case "/order" :
           renderOrderForm(request,response);
           break;
         case "/placeorder" :
           placeOrder(request,response);
+          break;
+        case "/vieworders" :
+          renderOrders(request,response);
           break;
         case "/movie-details" :
           renderMovieDetails(request,response);
@@ -133,6 +139,21 @@ public class AppServlet extends HttpServlet {
     } catch (Exception ex) {
       ex.printStackTrace();
     }
+  }
+
+  private void renderAdminOrders(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    HttpSession session=request.getSession();
+    if (session.getAttribute("auth") instanceof Admin) {
+      List<Order> orders = ODAO.selectAllOrders();
+      session.setAttribute("orders",orders);
+      response.sendRedirect("admin-order.jsp");
+    } else {
+      response.sendRedirect("index.jsp");
+    }
+  }
+
+  private void renderOrders(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    response.sendRedirect("order-view.jsp");
   }
 
   private void renderMovieDetails(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -149,7 +170,7 @@ public class AppServlet extends HttpServlet {
   }
 
   private void renderOrderForm(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    System.out.println(request.getSession().getAttribute("cartTotal"));
+//    System.out.println(request.getSession().getAttribute("cartTotal"));
     response.sendRedirect("order-form.jsp");
   }
 

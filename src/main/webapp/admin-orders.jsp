@@ -28,31 +28,20 @@
 
     <div class="row">
         <div class="container col-10">
-            <h3 class="text-center">Your Cart</h3>
+            <h3 class="text-center">Your Orders</h3>
             <hr>
             <br>
             <div class="row">
-              <div class="container col-3">
-                <c:forEach var="movie" items="${cart}">
-                  <div class="card" style="width: 200px, max-height: 200px">
-                    <img class="" src=<c:out value='${movie.imageURL}'/> alt=<c:out value='${movie.title}'/> />
-                    <div class="">
-                      <div class="card-body">
-                        <h5 class="card-title"><c:out value="${movie.title}" /></h5>
-                        <p class="card-text font-weight-light">$<c:out value="${movie.price}" /></p>
-                      </div>
-                      <div class="card-footer d-flex justify-content-center">
-                        <a href="removefromcart?id=<c:out value='${movie.id}' />" class="btn btn-alert">Remove</a>
-                      </div>
+              <div class="container col-12">
+                <c:forEach var="order" items="${orders}">
+                  <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title"><c:out value="${order.id}" /></h5>
+                      <p class="card-text"><c:out value="${order.total}" /></p>
+                      <p class="card-text font-weight-light">$<c:out value="${order.paymentStatus}" /></p>
                     </div>
                   </div>
                 </c:forEach>
-              </div>
-              <div class="col-6">
-                <h5>Cart Details</h5>
-                <p>Number of Items: </p>
-                <p>Total: $<c:out value='${cartTotal}' /></p>
-                <a href="order" class="btn btn-primary">Place Order</a>
               </div>
             </div>
         </div>
