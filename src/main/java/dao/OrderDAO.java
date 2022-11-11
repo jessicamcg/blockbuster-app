@@ -24,7 +24,7 @@ public class OrderDAO {
       UUID uuid = UUID.randomUUID();
       ps.setString(1, String.valueOf(uuid));
       ps.setInt(2, customer.getId());
-      ps.setDouble(3,cart);
+//      ps.setDouble(3,cartDetails);
       ps.executeUpdate();
       Order order = selectOrder(String.valueOf(uuid));
       insertOrderItems(order, cart);
