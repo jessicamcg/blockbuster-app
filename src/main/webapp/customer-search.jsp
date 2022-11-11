@@ -31,6 +31,7 @@
         <div class="container col-9">
             <h3 class="text-center">Available Movies</h3>
             <hr>
+
             <div class="d-flex justify-content-around">
                                 <form action="searchmovies" method="GET">
                                     Search By Title: <input type="text" name="title">
@@ -39,8 +40,9 @@
                             </div>
             <br>
             <div class="card-columns">
+            <c:if test="${movies != null}">
               <c:forEach var="movie" items="${movies}">
-                <div class="card" style="width: 200px, max-height: 200px">
+                <div class="card" style="max-width: 200px, max-height: 200px">
                   <img class="card-img-top" src=<c:out value='${movie.imageURL}'/> alt=<c:out value='${movie.title}'/> />
                   <div class="card-body">
                     <h5 class="card-title"><c:out value="${movie.title}" /></h5>
@@ -53,11 +55,13 @@
                   </div>
                 </div>
               </c:forEach>
+              </c:if>
+              <c:if test="${movies.size() == 0}">
+                <b>Movie Not Found</b>
+              </c:if>
             </div>
         </div>
     </div>
 </body>
 
 </html>
-
-
