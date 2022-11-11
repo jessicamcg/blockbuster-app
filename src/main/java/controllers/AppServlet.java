@@ -178,8 +178,8 @@ public class AppServlet extends HttpServlet {
     HttpSession session=request.getSession();
     Customer customer = (Customer) session.getAttribute("auth");
     List<Movie> cartMovies = (List<Movie>) session.getAttribute("cart");
-
-    ODAO.insertOrder(customer,cartMovies);
+    double cartTotal = (double) session.getAttribute("cartTotal");
+    ODAO.insertOrder(customer,cartMovies, cartTotal);
     response.sendRedirect("home");
 
   }
@@ -281,18 +281,22 @@ public class AppServlet extends HttpServlet {
     if (session.getAttribute("cart") == null) {
       List<Movie> cartMovies = new ArrayList<>();
       cartMovies.add(MDAO.selectMovie(movieID));
-      AtomicReference<Double> cartTotal = new AtomicReference<>((double) 0);
-      cartMovies.stream().forEach((movie) -> {
-        cartTotal.updateAndGet(v -> new Double((double) (v + movie.getPrice())));
-      });
+//      AtomicReference<Double> cartTotal = new AtomicReference<>((double) 0);
+//      cartMovies.stream().forEach((movie) -> {
+//        cartTotal.updateAndGet(v -> new Double((double) (v + movie.getPrice())));
+//      });
+//      double cartTotal = cartMovies.stream().mapToDouble(Movie::getPrice).sum();
+      double cartTotal = (double) Math.round(cartMovies.stream().mapToDouble(Movie::getPrice).sum() * 100) / 100;
       session.setAttribute("cartTotal", cartTotal);
       session.setAttribute("cart", cartMovies);
     } else {
       List<Movie> cartMovies = (List<Movie>) session.getAttribute("cart");
-      cartMovies.add(MDAO.selectMovie(movieID));AtomicReference<Double> cartTotal = new AtomicReference<>((double) 0);
-      cartMovies.stream().forEach((movie) -> {
-        cartTotal.updateAndGet(v -> new Double((double) (v + movie.getPrice())));
-      });
+      cartMovies.add(MDAO.selectMovie(movieID));
+//      AtomicReference<Double> cartTotal = new AtomicReference<>((double) 0);
+//      cartMovies.stream().forEach((movie) -> {
+//        cartTotal.updateAndGet(v -> new Double((double) (v + movie.getPrice())));
+//      });
+      double cartTotal = (double) Math.round(cartMovies.stream().mapToDouble(Movie::getPrice).sum() * 100) / 100;
       session.setAttribute("cartTotal", cartTotal);
     }
     response.sendRedirect("cart");

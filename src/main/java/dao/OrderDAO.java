@@ -1,6 +1,5 @@
 package dao;
 
-import model.Category;
 import model.Customer;
 import model.Movie;
 import model.Order;
@@ -15,16 +14,16 @@ import java.util.UUID;
 public class OrderDAO {
   public OrderDAO() { }
   private static final String SELECT_ORDER_BY_ID = "select * from order_details where id=?;";
-  private static final String INSERT_ORDER = "insert into order_details (id,customer_id,total) values (?,?.?)";
+  private static final String INSERT_ORDER = "insert into order_details (id,customer_id,total) values (?,?,?)";
   private static final String INSERT_ORDER_ITEMS = "insert into order_item (order_id, movie_id) values (?,?);";
 
-  public void insertOrder(Customer customer, List<Movie> cart) {
+  public void insertOrder(Customer customer, List<Movie> cart, double cartTotal) {
     try (java.sql.Connection connection = dao.Connection.getConnection();
          PreparedStatement ps = connection.prepareStatement(INSERT_ORDER);) {
       UUID uuid = UUID.randomUUID();
       ps.setString(1, String.valueOf(uuid));
       ps.setInt(2, customer.getId());
-//      ps.setDouble(3,cartDetails);
+      ps.setDouble(3,cartTotal);
       ps.executeUpdate();
       Order order = selectOrder(String.valueOf(uuid));
       insertOrderItems(order, cart);

@@ -49,11 +49,11 @@
           </ul>
         </div>
         <div class="card col-6 p-3">
-          <form class="needs-validation" novalidate="">
+          <form action="placeorder" class="needs-validation" novalidate="">
             <div class="row">
               <div class="col-sm-6 py-3">
                 <label for="firstName" class="form-label">First name</label>
-                <input type="text" class="form-control" name="firstName" placeholder="<c:out value='${auth.firstName}'/>" value="" required="">
+                <input type="text" class="form-control" name="firstName" value="<c:out value='${auth.firstName}'/>" required="">
                 <div class="invalid-feedback">
                   Valid first name is required.
                 </div>
@@ -61,7 +61,7 @@
 
               <div class="col-sm-6 py-3">
                 <label for="lastName" class="form-label">Last name</label>
-                <input type="text" class="form-control" name="lastName" placeholder="<c:out value='${auth.lastName}'/>" value="" required="">
+                <input type="text" class="form-control" name="lastName" value="<c:out value='${auth.lastName}'/>" required="">
                 <div class="invalid-feedback">
                   Valid last name is required.
                 </div>
@@ -69,7 +69,7 @@
 
               <div class="col-sm-6 py-3">
                 <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" name="email" placeholder="<c:out value='${auth.email}'/>">
+                <input type="email" class="form-control" name="email" value="<c:out value='${auth.email}'/>">
                 <div class="invalid-feedback">
                   Please enter a valid email address for shipping updates.
                 </div>
@@ -77,7 +77,7 @@
 
                <div class="col-sm-6 py-3">
                 <label for="phone" class="form-label">Phone</label>
-                <input type="text" class="form-control" name="phone" placeholder="<c:out value='${auth.phone}'/>" value="" required="">
+                <input type="text" class="form-control" name="phone" value="<c:out value='${auth.phone}'/>" required="">
                 <div class="invalid-feedback">
                   Valid last name is required.
                 </div>
@@ -85,7 +85,7 @@
 
               <div class="col-12 py-3">
                 <label for="address" class="form-label">Address</label>
-                <input type="text" class="form-control" name="address" placeholder="<c:out value='${auth.address}'/>" required="">
+                <input type="text" class="form-control" name="address" value="<c:out value='${auth.address}'/>" required="">
                 <div class="invalid-feedback">
                   Please enter your shipping address.
                 </div>
@@ -93,7 +93,7 @@
 
               <div class="col-md-12 py-3">
                 <label for="cc-number" class="form-label">Credit Card Number</label>
-                <input type="text" class="form-control" id="cc-number" placeholder="" required="">
+                <input type="text" class="form-control" id="cc-number" placeholder="Enter Card Number" required>
                 <div class="invalid-feedback">
                   Credit card number is required
                 </div>
