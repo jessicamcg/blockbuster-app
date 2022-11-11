@@ -93,7 +93,7 @@
 
               <div class="col-md-12 py-3">
                 <label for="cc-number" class="form-label">Credit Card Number</label>
-                <input type="text" class="form-control" id="cc-number" placeholder="Enter Card Number" required>
+                <input type="text" class="form-control" name="cc-number" placeholder="Enter Card Number" required>
                 <div class="invalid-feedback">
                   Credit card number is required
                 </div>
