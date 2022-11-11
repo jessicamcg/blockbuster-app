@@ -18,6 +18,7 @@ import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 @WebServlet("/")
 public class AppServlet extends HttpServlet {
@@ -100,6 +101,9 @@ public class AppServlet extends HttpServlet {
         case "/adminmovies":
           renderAdminMovies(request, response);
           break;
+        case "/searchadminmovies":
+          searchAdminMovies(request, response);
+          break;
         case "/admininsertmovie":
           insertMovie(request, response);
           break;
@@ -117,6 +121,13 @@ public class AppServlet extends HttpServlet {
           break;
         case "/order" :
           renderOrderForm(request,response);
+          break;
+        case "/placeorder" :
+          placeOrder(request,response);
+          break;
+        case "/movie-details" :
+          renderMovieDetails(request,response);
+          break;
         default:
           renderHome(request, response);
           break;
@@ -126,8 +137,32 @@ public class AppServlet extends HttpServlet {
     }
   }
 
+  private void renderMovieDetails(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    HttpSession session = request.getSession();
+    int id = Integer.parseInt(request.getParameter("id"));
+    if (session.getAttribute("auth") == null) {
+      renderLogin(request, response);
+    } else {
+      Movie movies = MDAO.selectMovie(id);
+      request.setAttribute("movie", movies);
+      RequestDispatcher dispatcher = request.getRequestDispatcher("movie-details.jsp");
+      dispatcher.forward(request, response);
+    }
+  }
+
   private void renderOrderForm(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    System.out.println(request.getSession().getAttribute("cartTotal"));
     response.sendRedirect("order-form.jsp");
+  }
+
+  private void searchAdminMovies(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    String name = request.getParameter("title");
+    List<Movie> movies = MDAO.selectMovieByName(name);
+//    System.out.println(movies);
+//    System.out.println(name);
+    request.setAttribute("movies", movies);
+    RequestDispatcher dispatcher = request.getRequestDispatcher("admin-search.jsp");
+    dispatcher.forward(request, response);
   }
 
   private void removeFromCart(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -139,7 +174,21 @@ public class AppServlet extends HttpServlet {
     response.sendRedirect("cart");
   }
 
-  private void placeOrder(HttpServletRequest request, HttpServletResponse response) {
+  private void placeOrder(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    HttpSession session=request.getSession();
+    Customer customer = (Customer) session.getAttribute("auth");
+    List<Movie> cartMovies = (List<Movie>) session.getAttribute("cart");
+    double cartTotal = (double) session.getAttribute("cartTotal");
+    ODAO.insertOrder(customer,cartMovies, cartTotal);
+    cartMovies.forEach((movie) -> {
+      try {
+        MDAO.updateMovieStock(movie);
+      } catch (SQLException e) {
+        throw new RuntimeException(e);
+      }
+    });
+    response.sendRedirect("home");
+
   }
 
   private void renderAdminMovies(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -235,14 +284,17 @@ public class AppServlet extends HttpServlet {
   private void addToCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     int movieID = Integer.parseInt(request.getParameter("id"));
     HttpSession session=request.getSession();
-// add cart details to session
     if (session.getAttribute("cart") == null) {
       List<Movie> cartMovies = new ArrayList<>();
       cartMovies.add(MDAO.selectMovie(movieID));
+      double cartTotal = (double) Math.round(cartMovies.stream().mapToDouble(Movie::getPrice).sum() * 100) / 100;
+      session.setAttribute("cartTotal", cartTotal);
       session.setAttribute("cart", cartMovies);
     } else {
       List<Movie> cartMovies = (List<Movie>) session.getAttribute("cart");
       cartMovies.add(MDAO.selectMovie(movieID));
+      double cartTotal = (double) Math.round(cartMovies.stream().mapToDouble(Movie::getPrice).sum() * 100) / 100;
+      session.setAttribute("cartTotal", cartTotal);
     }
     response.sendRedirect("cart");
   }
