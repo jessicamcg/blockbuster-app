@@ -68,6 +68,9 @@ public class AppServlet extends HttpServlet {
         case "/movies" :
           renderMovies(request, response);
           break;
+        case "/searchmovies" :
+          searchMovies(request, response);
+          break;
         case "/addtocart" :
           addToCart(request,response);
           break;
@@ -164,7 +167,17 @@ public class AppServlet extends HttpServlet {
     RequestDispatcher dispatcher = request.getRequestDispatcher("admin-search.jsp");
     dispatcher.forward(request, response);
   }
-
+  
+  private void searchMovies(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    String name = request.getParameter("title");
+    List<Movie> movies = MDAO.selectMovieByName(name);
+    System.out.println(movies);
+    System.out.println(name);
+    request.setAttribute("movies", movies);
+    RequestDispatcher dispatcher = request.getRequestDispatcher("customer-search.jsp");
+    dispatcher.forward(request, response);
+  }
+  
   private void removeFromCart(HttpServletRequest request, HttpServletResponse response) throws IOException {
     int movieID = Integer.parseInt(request.getParameter("id"));
     Movie movie = MDAO.selectMovie(movieID);

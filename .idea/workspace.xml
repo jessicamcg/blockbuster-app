@@ -4,7 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="71b4e643-9915-4bc9-8693-d725cb289073" name="Changes" comment="" />
+
+    <list default="true" id="663f105d-480a-41c5-89b4-343beae90c6f" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controllers/AppServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controllers/AppServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dao/MovieDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/MovieDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/admin-search.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/admin-search.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/movies.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/movies.jsp" afterDir="false" />
+    </list>
+
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -46,6 +54,7 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
+
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
@@ -63,8 +72,10 @@
       <predefined_log_file id="Tomcat Catalina Log" />
       <predefined_log_file id="Tomcat Manager Log" />
       <predefined_log_file id="Tomcat Host Manager Log" />
+
       <option name="contextPath" value="/blockbuster-app" />
       <option name="docBase" value="C:\Users\jessica.guico\code-library\blockbuster-app\src\main\webapp" />
+
       <option name="tomcatInfo">
         <TomcatInfo>
           <option name="name" value="Apache Tomcat/9.0.68" />

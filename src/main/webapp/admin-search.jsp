@@ -39,7 +39,9 @@
             </div>
 
             <br>
+            <div class="justify-content-center">
             <div class="card-columns">
+            <c:if test="${movies != null}">
               <c:forEach var="movie" items="${movies}">
                 <div class="card p-0" style="">
                   <img class="card-img-top" src=<c:out value='${movie.imageURL}'/> alt=<c:out value='${movie.title}'/> />
@@ -55,7 +57,14 @@
                   </div>
                 </div>
               </c:forEach>
+              </c:if>
+              <c:if test="${movies.size() == 0}">
+                <b>Movie Not Found</b>
+              </c:if>
+
             </div>
+            </div>
+
         </div>
     </div>
 </body>
