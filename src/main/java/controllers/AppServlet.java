@@ -180,6 +180,13 @@ public class AppServlet extends HttpServlet {
     List<Movie> cartMovies = (List<Movie>) session.getAttribute("cart");
     double cartTotal = (double) session.getAttribute("cartTotal");
     ODAO.insertOrder(customer,cartMovies, cartTotal);
+    cartMovies.forEach((movie) -> {
+      try {
+        MDAO.updateMovieStock(movie);
+      } catch (SQLException e) {
+        throw new RuntimeException(e);
+      }
+    });
     response.sendRedirect("home");
 
   }
@@ -277,25 +284,15 @@ public class AppServlet extends HttpServlet {
   private void addToCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     int movieID = Integer.parseInt(request.getParameter("id"));
     HttpSession session=request.getSession();
-// add cart details to session
     if (session.getAttribute("cart") == null) {
       List<Movie> cartMovies = new ArrayList<>();
       cartMovies.add(MDAO.selectMovie(movieID));
-//      AtomicReference<Double> cartTotal = new AtomicReference<>((double) 0);
-//      cartMovies.stream().forEach((movie) -> {
-//        cartTotal.updateAndGet(v -> new Double((double) (v + movie.getPrice())));
-//      });
-//      double cartTotal = cartMovies.stream().mapToDouble(Movie::getPrice).sum();
       double cartTotal = (double) Math.round(cartMovies.stream().mapToDouble(Movie::getPrice).sum() * 100) / 100;
       session.setAttribute("cartTotal", cartTotal);
       session.setAttribute("cart", cartMovies);
     } else {
       List<Movie> cartMovies = (List<Movie>) session.getAttribute("cart");
       cartMovies.add(MDAO.selectMovie(movieID));
-//      AtomicReference<Double> cartTotal = new AtomicReference<>((double) 0);
-//      cartMovies.stream().forEach((movie) -> {
-//        cartTotal.updateAndGet(v -> new Double((double) (v + movie.getPrice())));
-//      });
       double cartTotal = (double) Math.round(cartMovies.stream().mapToDouble(Movie::getPrice).sum() * 100) / 100;
       session.setAttribute("cartTotal", cartTotal);
     }
