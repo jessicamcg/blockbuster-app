@@ -16,6 +16,8 @@ public class MovieDAO {
   private static final String DELETE_MOVIE = "delete from movie where id=?;";
   private static final String UPDATE_MOVIE_BY_ID = "update movie set title=?, summary=?, price=?, stock=?, image_url=?, category_id=? where id = ?;";
   private static final String SELECT_MOVIE_BY_NAME = "select * from movie where title=?";
+  private static final String UPDATE_MOVIE_STOCK = "update movie set stock=? where id=?";
+
   public void insertMovie(Movie movie) throws SQLException {
     try (java.sql.Connection connection = dao.Connection.getConnection();
          PreparedStatement ps = connection.prepareStatement(INSERT_MOVIE);) {
@@ -39,6 +41,18 @@ public class MovieDAO {
       rowDeleted = ps.executeUpdate() > 0;
     }
     return rowDeleted;
+  }
+
+  public void updateMovieStock(Movie movie) throws SQLException {
+    try (java.sql.Connection connection = dao.Connection.getConnection();
+         PreparedStatement ps = connection.prepareStatement(UPDATE_MOVIE_STOCK);) {
+      ps.setInt(1, movie.getStock()-1);
+      ps.setInt(2, movie.getId());
+
+      ps.executeUpdate();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
   }
 
   public void updateMovie(Movie movie) throws SQLException {
@@ -104,6 +118,7 @@ public class MovieDAO {
     }
     return movies;
   }
+
   public List<Movie> selectAllMovies() {
     List<Movie> movies = new ArrayList< >();
     try (java.sql.Connection connection = dao.Connection.getConnection();

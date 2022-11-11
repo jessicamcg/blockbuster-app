@@ -25,30 +25,26 @@
     </header>
     <br>
 
-     <div class="container col-9">
-                <h3 class="text-center">Movie Details</h3>
-                <hr>
-                <br>
-                <div class="row justify-content-center">
-                <div class="col-4">
-                    <div class="card" style="width: 200px, max-height: 200px">
-                      <img src=<c:out value='${movie.imageURL}'/> alt=<c:out value='${movie.title}'/> />
-
-                      </div>
-                      </div>
-                      <div class="col-5 card p-0">
-                      <div class="card-body">
-                        <h5 class="card-title"><c:out value="${movie.title}"/> - $<c:out value="${movie.price}" /></h5>
-                        <p class="card-text"><c:out value="${movie.summary}" /></p>
-
-                      </div>
-                      <div class="card-footer d-flex justify-content-center">
-                        <a href="addtocart?id=<c:out value='${movie.id}' />" class="btn btn-primary">Add to Cart</a>
-                      </div>
-                    </div>
-                    </div>
-
+    <div class="container col-9">
+      <h3 class="text-center">Movie Details</h3>
+      <hr>
+      <br>
+      <div class="row justify-content-center">
+        <div class="col-4">
+            <div class="card" style="width: 200px, max-height: 200px">
+              <img src=<c:out value='${movie.imageURL}'/> alt=<c:out value='${movie.title}'/> />
             </div>
-            </div>
+        </div>
+        <div class="col-5 card p-0">
+          <div class="card-body">
+            <h5 class="card-title"><c:out value="${movie.title}"/> - $<c:out value="${movie.price}" /></h5>
+            <p class="card-text"><c:out value="${movie.summary}" /></p>
+          </div>
+          <div class="card-footer d-flex justify-content-center">
+            <a href="addtocart?id=<c:out value='${movie.id}' />" class="btn btn-primary">Add to Cart</a>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
   </html>
