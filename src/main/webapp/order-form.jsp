@@ -44,7 +44,7 @@
             </li>
             <li class="list-group-item d-flex justify-content-between">
               <span>Total (USD)</span>
-              <strong><c:out value='${cartDetails.total}'/></strong>
+              <strong><c:out value='${cartTotal}'/></strong>
             </li>
           </ul>
         </div>

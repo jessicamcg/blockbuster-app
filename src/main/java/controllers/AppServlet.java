@@ -17,9 +17,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.concurrent.atomic.AtomicReference;
 
 @WebServlet("/")
 public class AppServlet extends HttpServlet {
@@ -152,6 +151,7 @@ public class AppServlet extends HttpServlet {
   }
 
   private void renderOrderForm(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    System.out.println(request.getSession().getAttribute("cartTotal"));
     response.sendRedirect("order-form.jsp");
   }
 
@@ -280,12 +280,20 @@ public class AppServlet extends HttpServlet {
 // add cart details to session
     if (session.getAttribute("cart") == null) {
       List<Movie> cartMovies = new ArrayList<>();
-      Set<Object> cartDetails = new HashSet<>();
       cartMovies.add(MDAO.selectMovie(movieID));
+      AtomicReference<Double> cartTotal = new AtomicReference<>((double) 0);
+      cartMovies.stream().forEach((movie) -> {
+        cartTotal.updateAndGet(v -> new Double((double) (v + movie.getPrice())));
+      });
+      session.setAttribute("cartTotal", cartTotal);
       session.setAttribute("cart", cartMovies);
     } else {
       List<Movie> cartMovies = (List<Movie>) session.getAttribute("cart");
-      cartMovies.add(MDAO.selectMovie(movieID));
+      cartMovies.add(MDAO.selectMovie(movieID));AtomicReference<Double> cartTotal = new AtomicReference<>((double) 0);
+      cartMovies.stream().forEach((movie) -> {
+        cartTotal.updateAndGet(v -> new Double((double) (v + movie.getPrice())));
+      });
+      session.setAttribute("cartTotal", cartTotal);
     }
     response.sendRedirect("cart");
   }

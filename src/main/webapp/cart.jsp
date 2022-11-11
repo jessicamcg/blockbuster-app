@@ -50,7 +50,7 @@
               <div class="col-6">
                 <h5>Cart Details</h5>
                 <p>Number of Items: </p>
-                <p>Total: </p>
+                <p>Total: $<c:out value='${cartTotal}' /></p>
                 <a href="order" class="btn btn-primary">Place Order</a>
               </div>
             </div>
