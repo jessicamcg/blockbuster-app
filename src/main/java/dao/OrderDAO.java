@@ -17,7 +17,7 @@ public class OrderDAO {
   private static final String SELECT_ORDER_BY_ID = "select * from order_details where id=?;";
   private static final String INSERT_ORDER = "insert into order_details (id,customer_id,total) values (?,?,?)";
   private static final String INSERT_ORDER_ITEMS = "insert into order_item (order_id, movie_id) values (?,?);";
-  private static final String SELECT_ALL_ORDERS = "select * from order_details;";
+  private static final String SELECT_ALL_ORDERS = "select * from order_details join payment on order_details.id=payment.order_id;";
 
   public void insertOrder(Customer customer, List<Movie> cart, double cartTotal, int cardNumber) {
     try (java.sql.Connection connection = dao.Connection.getConnection();
@@ -62,7 +62,6 @@ public class OrderDAO {
       ResultSet rs = ps.executeQuery();
 
       while (rs.next()) {
-//        int id = rs.getInt("id");
         int customerID = rs.getInt("customer_id");
         double total= rs.getDouble("total");
         order = new Order(id,customerID,total);
@@ -84,8 +83,9 @@ public class OrderDAO {
       while (rs.next()) {
         int customerID = rs.getInt("customer_id");
         String id = rs.getString("id");
-        double total = rs.getFloat("total");
-        orders.add(new Order(id,customerID,total));
+        double total = (double) Math.round(rs.getFloat("total") * 100) / 100;
+        String paymentStatus = rs.getString("payment_status");
+        orders.add(new Order(id,customerID,total,paymentStatus));
       }
     } catch (SQLException e) {
       e.printStackTrace();

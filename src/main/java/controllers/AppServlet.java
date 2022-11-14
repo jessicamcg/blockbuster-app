@@ -145,8 +145,9 @@ public class AppServlet extends HttpServlet {
     HttpSession session=request.getSession();
     if (session.getAttribute("auth") instanceof Admin) {
       List<Order> orders = ODAO.selectAllOrders();
+      System.out.println(orders);
       session.setAttribute("orders",orders);
-      response.sendRedirect("admin-order.jsp");
+      response.sendRedirect("admin-orders.jsp");
     } else {
       response.sendRedirect("index.jsp");
     }
@@ -177,8 +178,6 @@ public class AppServlet extends HttpServlet {
   private void searchAdminMovies(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
     String name = request.getParameter("title");
     List<Movie> movies = MDAO.selectMovieByName(name);
-//    System.out.println(movies);
-//    System.out.println(name);
     request.setAttribute("movies", movies);
     RequestDispatcher dispatcher = request.getRequestDispatcher("admin-search.jsp");
     dispatcher.forward(request, response);

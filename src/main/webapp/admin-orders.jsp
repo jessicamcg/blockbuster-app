@@ -16,9 +16,8 @@
 
           <ul class="navbar-nav">
             <li><a href="<%=request.getContextPath()%>/movies" class="nav-link">Movies</a></li>
-            <li><a href="<%=request.getContextPath()%>/cart" class="nav-link">Cart</a></li>
             <c:if test="${auth != null}">
-                <li><a href="<%=request.getContextPath()%>/vieworders" class="nav-link">Orders</a></li>
+                <li><a href="<%=request.getContextPath()%>/adminorders" class="nav-link">Orders</a></li>
                 <li><a href="<%=request.getContextPath()%>/logout" class="nav-link">Logout</a></li>
             </c:if>
           </ul>
@@ -28,17 +27,25 @@
 
     <div class="row">
         <div class="container col-10">
-            <h3 class="text-center">Your Orders</h3>
+            <h3 class="text-center">Orders</h3>
             <hr>
             <br>
             <div class="row">
               <div class="container col-12">
                 <c:forEach var="order" items="${orders}">
-                  <div class="card">
-                    <div class="card-body">
-                      <h5 class="card-title"><c:out value="${order.id}" /></h5>
-                      <p class="card-text"><c:out value="${order.total}" /></p>
-                      <p class="card-text font-weight-light">$<c:out value="${order.paymentStatus}" /></p>
+                  <div class="card my-1">
+                    <div class="card-body d-flex justify-content-between ">
+                      <div class="">
+                        <p class="font-weight-light m-0">Status:</p>
+                        <h4><c:out value='${order.paymentStatus}' /></h4>
+                      </div>
+                      <div>
+                        <h6 class="card-text"><c:out value="${order.id}" /></h6>
+                        <p class="card-text">$<c:out value="${order.total}" /></p>
+                      </div>
+                      <div class="d-flex align-items-center">
+                        <a href="orderdetails?id=<c:out value='${order.id}' />"class="btn btn-primary"> View Details</a>
+                      </div>
                     </div>
                   </div>
                 </c:forEach>
