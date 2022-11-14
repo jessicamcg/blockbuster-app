@@ -25,6 +25,15 @@ public class Customer {
     this.password = password;
   }
 
+  public Customer(int id, String firstName, String lastName, int phone, String address, String email) {
+    this.id = id;
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.phone = phone;
+    this.address = address;
+    this.email = email;
+  }
+
   public boolean validate(String inputName, String inputPassword) {
     if(inputName.equals(email)&& inputPassword.equals(password)) {
       return true;

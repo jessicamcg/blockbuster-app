@@ -84,6 +84,9 @@ public class AppServlet extends HttpServlet {
         case "/admineditcategoryform":
           renderEditCategoryForm(request, response);
           break;
+        case "/adminusers":
+          renderAdminUsers(request, response);
+          break;
         case "/adminnewcategoryform":
           renderNewCategoryForm(request, response);
           break;
@@ -156,11 +159,26 @@ public class AppServlet extends HttpServlet {
     response.sendRedirect("order-form.jsp");
   }
 
+  private void renderAdminUsers(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    HttpSession session = request.getSession();
+    if (session.getAttribute("auth") instanceof Admin) {
+      if (session.getAttribute("auth") == null) {
+        renderLogin(request, response);
+      } else {
+        List<Customer> customers = custDAO.selectAllCustomers();
+        request.setAttribute("customer", customers);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("admin-users.jsp");
+        dispatcher.forward(request, response);
+      }
+    } else {
+      response.sendRedirect("index.jsp");
+    }
+  }
+
+
   private void searchAdminMovies(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
     String name = request.getParameter("title");
     List<Movie> movies = MDAO.selectMovieByName(name);
-//    System.out.println(movies);
-//    System.out.println(name);
     request.setAttribute("movies", movies);
     RequestDispatcher dispatcher = request.getRequestDispatcher("admin-search.jsp");
     dispatcher.forward(request, response);
@@ -204,21 +222,30 @@ public class AppServlet extends HttpServlet {
   }
 
   private void renderAdminMovies(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-    List<Movie> movies = MDAO.selectAllMovies();
-    request.setAttribute("movies", movies);
-    RequestDispatcher dispatcher = request.getRequestDispatcher("admin-movies.jsp");
-    dispatcher.forward(request, response);
+    HttpSession session = request.getSession();
+    if (session.getAttribute("auth") instanceof Admin) {
+      List<Movie> movies = MDAO.selectAllMovies();
+      request.setAttribute("movies", movies);
+      RequestDispatcher dispatcher = request.getRequestDispatcher("admin-movies.jsp");
+      dispatcher.forward(request, response);
+    } else {
+      response.sendRedirect("index.jsp");
+    }
   }
 
   private void renderNewMovieForm(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
     HttpSession session=request.getSession();
-    if (session == null) {
-      renderLogin(request, response);
+    if (session.getAttribute("auth") instanceof Admin) {
+      if (session == null) {
+        renderLogin(request, response);
+      } else {
+        List<Category> cats = catDAO.selectAllCats();
+        request.setAttribute("categories", cats);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("movie-form.jsp");
+        dispatcher.forward(request, response);
+      }
     } else {
-      List<Category> cats = catDAO.selectAllCats();
-      request.setAttribute("categories", cats);
-      RequestDispatcher dispatcher = request.getRequestDispatcher("movie-form.jsp");
-      dispatcher.forward(request, response);
+      response.sendRedirect("index.jsp");
     }
   }
 
