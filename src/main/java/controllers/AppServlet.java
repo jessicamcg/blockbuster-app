@@ -132,6 +132,9 @@ public class AppServlet extends HttpServlet {
         case "/adminorderdetails" :
           renderAdminOrderDetails(request,response);
           break;
+        case "/orderdetails" :
+          renderOrderDetails(request,response);
+          break;
         case "/movie-details" :
           renderMovieDetails(request,response);
           break;
@@ -144,14 +147,25 @@ public class AppServlet extends HttpServlet {
     }
   }
 
+  private void renderOrderDetails(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    HttpSession session=request.getSession();
+    if (session.getAttribute("auth") instanceof Customer) {
+      String id = request.getParameter("id");
+      Order order = ODAO.selectOrderByID(id);
+      System.out.println(order);
+      session.setAttribute("order",order);
+      response.sendRedirect("order-details.jsp");
+    } else {
+      response.sendRedirect("index.jsp");
+    }}
+
   private void renderAdminOrderDetails(HttpServletRequest request, HttpServletResponse response) throws IOException {
     HttpSession session=request.getSession();
     if (session.getAttribute("auth") instanceof Admin) {
       String id = request.getParameter("id");
-      Order order = ODAO.selectOrder(id);
-      System.out.println(order);
+      Order order = ODAO.selectOrderByID(id);
       session.setAttribute("order",order);
-      response.sendRedirect("order-details.jsp");
+      response.sendRedirect("admin-admin-order-details.jsp");
     } else {
       response.sendRedirect("index.jsp");
     }
@@ -169,8 +183,15 @@ public class AppServlet extends HttpServlet {
   }
 
   private void renderOrders(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    response.sendRedirect("order-view.jsp");
-  }
+    HttpSession session=request.getSession();
+    if (session.getAttribute("auth") instanceof Customer) {
+      int customerID = ((Customer) session.getAttribute("auth")).getId();
+      List<Order> orders = ODAO.selectAllOrdersByCustomerID(customerID);
+      session.setAttribute("orders",orders);
+      response.sendRedirect("order-view.jsp");
+    } else {
+      response.sendRedirect("index.jsp");
+    }  }
 
   private void renderMovieDetails(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
     HttpSession session = request.getSession();

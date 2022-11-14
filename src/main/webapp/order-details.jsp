@@ -15,10 +15,10 @@
           </div>
 
           <ul class="navbar-nav">
-            <li><a href="<%=request.getContextPath()%>/admincategories" class="nav-link">Categories</a></li>
-            <li><a href="<%=request.getContextPath()%>/adminmovies" class="nav-link">Movies</a></li>
+            <li><a href="<%=request.getContextPath()%>/movies" class="nav-link">Movies</a></li>
+            <li><a href="<%=request.getContextPath()%>/cart" class="nav-link">Cart</a></li>
             <c:if test="${auth != null}">
-                <li><a href="<%=request.getContextPath()%>/adminorders" class="nav-link">Orders</a></li>
+                <li><a href="<%=request.getContextPath()%>/vieworders" class="nav-link">Orders</a></li>
                 <li><a href="<%=request.getContextPath()%>/logout" class="nav-link">Logout</a></li>
             </c:if>
           </ul>
@@ -37,55 +37,14 @@
                   <div class="card-body d-flex justify-content-between ">
                     <div class="">
                       <p class="font-weight-light m-0">Status:</p>
-                        <select type="text" class="form-control col-12" name="paymentStatus">
-                          <option
-                              value="New Order"
-                              <c:if test='${order.paymentStatus.equals("New Order")}'>
-                                  selected
-                              </c:if>
-                          >
-                            New Order
-                          </option>
-                          <option
-                              value="Order Received"
-                              <c:if test='${order.paymentStatus.equals("Order Received")}'>
-                                  selected
-                              </c:if>
-                          >
-                            Order Received
-                          </option>
-                          <option
-                              value="Shipped"
-                              <c:if test='${order.paymentStatus.equals("Shipped")}'>
-                                  selected
-                              </c:if>
-                          >
-                            Shipped
-                          </option>
-                          <option
-                              value="Out for Delivery"
-                              <c:if test='${order.paymentStatus.equals("Out for Delivery")}'>
-                                  selected
-                              </c:if>
-                          >
-                            Out for Delivery
-                          </option>
-                          <option
-                              value="Delivered"
-                              <c:if test='${order.paymentStatus.equals("Delivered")}'>
-                                  selected
-                              </c:if>
-                          >
-                            Delivered
-                          </option>
-                        </select>
+                      <h6 class="card-text"><c:out value="${order.paymentStatus}" /></h6>
                     </div>
                     <div>
                       <h6 class="card-text"><c:out value="${order.id}" /></h6>
                       <p class="card-text">$<c:out value="${order.total}" /></p>
                     </div>
                     <div class="d-flex align-items-center">
-                      <a href="adminupdateorder?id=<c:out value='${order.id}' />"class="btn btn-primary">Update</a>
+                      <p>something</p>
                     </div>
                   </div>
                 </div>

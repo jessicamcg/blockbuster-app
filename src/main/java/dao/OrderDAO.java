@@ -17,6 +17,7 @@ public class OrderDAO {
   private static final String INSERT_ORDER = "insert into order_details (id,customer_id,total) values (?,?,?)";
   private static final String INSERT_ORDER_ITEMS = "insert into order_item (order_id, movie_id) values (?,?);";
   private static final String SELECT_ALL_ORDERS = "select * from order_details join payment on order_details.id=payment.order_id;";
+  private static final String SELECT_ALL_ORDERS_BY_CUSTOMER_ID = "select * from order_details join payment on order_details.id=payment.order_id where customer_id=?;";
   private static final String SELECT_ORDER_BY_ID = "select * from order_details \n" +
           "join payment \n" +
           "on order_details.id=payment.order_id\n" +
@@ -149,6 +150,27 @@ public class OrderDAO {
       e.printStackTrace();
     }
     return order;
+  }
+
+  public List<Order> selectAllOrdersByCustomerID(int customerID) {
+    List<Order> orders = new ArrayList< >();
+    try (java.sql.Connection connection = dao.Connection.getConnection();
+         PreparedStatement ps = connection.prepareStatement(SELECT_ALL_ORDERS_BY_CUSTOMER_ID)) {
+      ps.setInt(1,customerID);
+
+      ResultSet rs = ps.executeQuery();
+
+      while (rs.next()) {
+        String orderID = rs.getString("order_id");
+        double total = (double) Math.round(rs.getFloat("total") * 100) / 100;
+        String paymentStatus = rs.getString("payment_status");
+        orders.add(new Order(orderID,customerID,total,paymentStatus));
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+    return orders;
   }
 
   public List<Order> selectAllOrders() {
