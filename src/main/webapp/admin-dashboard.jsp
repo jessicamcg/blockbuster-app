@@ -43,6 +43,13 @@
                       <a class="btn btn-primary" href="<%=request.getContextPath()%>/adminnewmovieform">Add a Movie</a>
                     </div>
                   </div>
+                  <hr>
+                  <div>
+                    <h4 class="text-center">Users</h4>
+                    <div class="text-center">
+                      <a class="btn btn-primary" href="<%=request.getContextPath()%>/adminusers">View Users</a>
+                    </div>
+                  </div>
                 </div>
             </div>
         </div>
