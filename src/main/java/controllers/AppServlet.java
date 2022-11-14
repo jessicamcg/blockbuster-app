@@ -294,11 +294,15 @@ public class AppServlet extends HttpServlet {
 
   private void renderNewCategoryForm(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
     HttpSession session=request.getSession();
-    if (session == null) {
-      renderLogin(request, response);
+    if (session.getAttribute("auth") instanceof Admin) {
+      if (session == null) {
+        renderLogin(request, response);
+      } else {
+        RequestDispatcher dispatcher = request.getRequestDispatcher("category-form.jsp");
+        dispatcher.forward(request, response);
+      }
     } else {
-      RequestDispatcher dispatcher = request.getRequestDispatcher("category-form.jsp");
-      dispatcher.forward(request, response);
+      response.sendRedirect("index.jsp");
     }
   }
 
