@@ -129,6 +129,9 @@ public class AppServlet extends HttpServlet {
         case "/vieworders" :
           renderOrders(request,response);
           break;
+        case "/adminorderdetails" :
+          renderAdminOrderDetails(request,response);
+          break;
         case "/movie-details" :
           renderMovieDetails(request,response);
           break;
@@ -141,11 +144,23 @@ public class AppServlet extends HttpServlet {
     }
   }
 
+  private void renderAdminOrderDetails(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    HttpSession session=request.getSession();
+    if (session.getAttribute("auth") instanceof Admin) {
+      String id = request.getParameter("id");
+      Order order = ODAO.selectOrder(id);
+      System.out.println(order);
+      session.setAttribute("order",order);
+      response.sendRedirect("order-details.jsp");
+    } else {
+      response.sendRedirect("index.jsp");
+    }
+  }
+
   private void renderAdminOrders(HttpServletRequest request, HttpServletResponse response) throws IOException {
     HttpSession session=request.getSession();
     if (session.getAttribute("auth") instanceof Admin) {
       List<Order> orders = ODAO.selectAllOrders();
-      System.out.println(orders);
       session.setAttribute("orders",orders);
       response.sendRedirect("admin-orders.jsp");
     } else {

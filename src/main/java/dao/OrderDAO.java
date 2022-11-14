@@ -14,7 +14,7 @@ import java.util.UUID;
 
 public class OrderDAO {
   public OrderDAO() { }
-  private static final String SELECT_ORDER_BY_ID = "select * from order_details where id=?;";
+  private static final String SELECT_ORDER_BY_ID = "select * from order_details join payment on order_details.id=payment.order_id where order_details.id=?;";
   private static final String INSERT_ORDER = "insert into order_details (id,customer_id,total) values (?,?,?)";
   private static final String INSERT_ORDER_ITEMS = "insert into order_item (order_id, movie_id) values (?,?);";
   private static final String SELECT_ALL_ORDERS = "select * from order_details join payment on order_details.id=payment.order_id;";
@@ -64,7 +64,8 @@ public class OrderDAO {
       while (rs.next()) {
         int customerID = rs.getInt("customer_id");
         double total= rs.getDouble("total");
-        order = new Order(id,customerID,total);
+        String paymentStatus = rs.getString("payment_status");
+        order = new Order(id,customerID,total,paymentStatus);
       }
     } catch (SQLException e) {
       e.printStackTrace();
@@ -72,7 +73,6 @@ public class OrderDAO {
     return order;
   }
 
-  // doesnt work yet
   public List<Order> selectAllOrders() {
 
     List<Order> orders = new ArrayList< >();

@@ -15,7 +15,8 @@
           </div>
 
           <ul class="navbar-nav">
-            <li><a href="<%=request.getContextPath()%>/movies" class="nav-link">Movies</a></li>
+            <li><a href="<%=request.getContextPath()%>/admincategories" class="nav-link">Categories</a></li>
+            <li><a href="<%=request.getContextPath()%>/adminmovies" class="nav-link">Movies</a></li>
             <c:if test="${auth != null}">
                 <li><a href="<%=request.getContextPath()%>/adminorders" class="nav-link">Orders</a></li>
                 <li><a href="<%=request.getContextPath()%>/logout" class="nav-link">Logout</a></li>
@@ -44,7 +45,7 @@
                         <p class="card-text">$<c:out value="${order.total}" /></p>
                       </div>
                       <div class="d-flex align-items-center">
-                        <a href="orderdetails?id=<c:out value='${order.id}' />"class="btn btn-primary"> View Details</a>
+                        <a href="adminorderdetails?id=<c:out value='${order.id}' />"class="btn btn-primary"> View Details</a>
                       </div>
                     </div>
                   </div>
