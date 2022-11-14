@@ -14,20 +14,39 @@ import java.util.UUID;
 
 public class OrderDAO {
   public OrderDAO() { }
-  private static final String SELECT_ORDER_BY_ID = "select * from order_details join payment on order_details.id=payment.order_id where order_details.id=?;";
   private static final String INSERT_ORDER = "insert into order_details (id,customer_id,total) values (?,?,?)";
   private static final String INSERT_ORDER_ITEMS = "insert into order_item (order_id, movie_id) values (?,?);";
   private static final String SELECT_ALL_ORDERS = "select * from order_details join payment on order_details.id=payment.order_id;";
+  private static final String SELECT_ORDER_BY_ID = "select * from order_details \n" +
+          "join payment \n" +
+          "on order_details.id=payment.order_id\n" +
+          "join customer\n" +
+          "on order_details.customer_id=customer.id\n" +
+          "join order_item\n" +
+          "on order_details.id=order_item.order_id\n" +
+          "join movie\n" +
+          "on order_item.movie_id=movie.id\n" +
+          "where order_details.id=?";
+  private static final String SELECT_ORDER_BY_CUSTOMER_ID = "select * from order_details \n" +
+          "join payment \n" +
+          "on order_details.id=payment.order_id\n" +
+          "join customer\n" +
+          "on order_details.customer_id=customer.id\n" +
+          "join order_item\n" +
+          "on order_details.id=order_item.order_id\n" +
+          "join movie\n" +
+          "on order_item.movie_id=movie.id\n" +
+          "where order_details.customer_id=?";
 
   public void insertOrder(Customer customer, List<Movie> cart, double cartTotal, int cardNumber) {
     try (java.sql.Connection connection = dao.Connection.getConnection();
-         PreparedStatement ps = connection.prepareStatement(INSERT_ORDER);) {
+         PreparedStatement ps = connection.prepareStatement(INSERT_ORDER)) {
       UUID uuid = UUID.randomUUID();
       ps.setString(1, String.valueOf(uuid));
       ps.setInt(2, customer.getId());
       ps.setDouble(3,cartTotal);
       ps.executeUpdate();
-      Order order = selectOrder(String.valueOf(uuid));
+      Order order = selectOrderByID(String.valueOf(uuid));
       insertOrderItems(order, cart);
       Payment payment = new Payment(String.valueOf(uuid),cartTotal, "New Order", cardNumber);
       PaymentDAO PDAO = new PaymentDAO();
@@ -39,7 +58,7 @@ public class OrderDAO {
 
   private void insertOrderItems(Order order, List<Movie> cart) {
     try (java.sql.Connection connection = dao.Connection.getConnection();
-         PreparedStatement ps = connection.prepareStatement(INSERT_ORDER_ITEMS);) {
+         PreparedStatement ps = connection.prepareStatement(INSERT_ORDER_ITEMS)) {
       cart.forEach((item) -> {
         try {
           ps.setString(1, order.getId());
@@ -54,19 +73,78 @@ public class OrderDAO {
     }
   }
 
-  public Order selectOrder(String id) {
+  public Order selectOrderByID(String id) {
     Order order = null;
     try (java.sql.Connection connection = dao.Connection.getConnection();
-         PreparedStatement ps = connection.prepareStatement(SELECT_ORDER_BY_ID);) {
+         PreparedStatement ps = connection.prepareStatement(SELECT_ORDER_BY_ID)) {
       ps.setString(1,id);
       ResultSet rs = ps.executeQuery();
-
+      int customerID = 0;
+      double total = 0;
+      String paymentStatus = null;
+      int cardNumber = 0;
+      String firstName = null;
+      String lastName = null;
+      int phone = 0;
+      String address = null;
+      String email = null;
+      List<Movie> orderItems = new ArrayList<>();
       while (rs.next()) {
-        int customerID = rs.getInt("customer_id");
-        double total= rs.getDouble("total");
-        String paymentStatus = rs.getString("payment_status");
-        order = new Order(id,customerID,total,paymentStatus);
+        customerID = rs.getInt("customer_id");
+        total= rs.getDouble("total");
+        paymentStatus = rs.getString("payment_status");
+        cardNumber = rs.getInt("card_number");
+        firstName = rs.getString("first_name");
+        lastName = rs.getString("last_name");
+        phone = rs.getInt("phone");
+        address = rs.getString("address");
+        email = rs.getString("email");
+        MovieDAO MDAO = new MovieDAO();
+        int movieID = rs.getInt("movie_id");
+        Movie movie = MDAO.selectMovie(movieID);
+        orderItems.add(movie);
       }
+      int quantity = orderItems.size();
+      order = new Order(id,customerID,total,paymentStatus,cardNumber,firstName,lastName,phone,address,email,quantity,orderItems);
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return order;
+  }
+
+  public Order selectOrderByCustomerID(int customerID) {
+    Order order = null;
+    try (java.sql.Connection connection = dao.Connection.getConnection();
+         PreparedStatement ps = connection.prepareStatement(SELECT_ORDER_BY_CUSTOMER_ID)) {
+      ps.setInt(1,customerID);
+      ResultSet rs = ps.executeQuery();
+      String orderID = null;
+      double total = 0;
+      String paymentStatus = null;
+      int cardNumber = 0;
+      String firstName = null;
+      String lastName = null;
+      int phone = 0;
+      String address = null;
+      String email = null;
+      List<Movie> orderItems = new ArrayList<>();
+      while (rs.next()) {
+        orderID = rs.getString("order_id");
+        total= rs.getDouble("total");
+        paymentStatus = rs.getString("payment_status");
+        cardNumber = rs.getInt("card_number");
+        firstName = rs.getString("first_name");
+        lastName = rs.getString("last_name");
+        phone = rs.getInt("phone");
+        address = rs.getString("address");
+        email = rs.getString("email");
+        MovieDAO MDAO = new MovieDAO();
+        int movieID = rs.getInt("movie_id");
+        Movie movie = MDAO.selectMovie(movieID);
+        orderItems.add(movie);
+      }
+      int quantity = orderItems.size();
+      order = new Order(orderID,customerID,total,paymentStatus,cardNumber,firstName,lastName,phone,address,email,quantity,orderItems);
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -74,10 +152,9 @@ public class OrderDAO {
   }
 
   public List<Order> selectAllOrders() {
-
     List<Order> orders = new ArrayList< >();
     try (java.sql.Connection connection = dao.Connection.getConnection();
-         PreparedStatement ps = connection.prepareStatement(SELECT_ALL_ORDERS);) {
+         PreparedStatement ps = connection.prepareStatement(SELECT_ALL_ORDERS)) {
       ResultSet rs = ps.executeQuery();
 
       while (rs.next()) {

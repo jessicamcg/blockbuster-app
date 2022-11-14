@@ -14,6 +14,13 @@ public class Order {
   private int customerID;
   private double total = 0;
   private String paymentStatus;
+  private int cardNumber;
+  private String firstName;
+  private String lastName;
+  private int phone;
+  private String address;
+  private String email;
+  private int quantity;
   private List<Movie> orderItems;
 
   public Order(String id, int customerID, double total) {
