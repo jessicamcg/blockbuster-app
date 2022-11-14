@@ -28,31 +28,28 @@
 
     <div class="row">
         <div class="container col-10">
-            <h3 class="text-center">Your Cart</h3>
+            <h3 class="text-center">Your Orders</h3>
             <hr>
             <br>
             <div class="row">
-              <div class="container col-3">
-                <c:forEach var="movie" items="${cart}">
-                  <div class="card" style="width: 200px, max-height: 200px">
-                    <img class="" src=<c:out value='${movie.imageURL}'/> alt=<c:out value='${movie.title}'/> />
-                    <div class="">
-                      <div class="card-body">
-                        <h5 class="card-title"><c:out value="${movie.title}" /></h5>
-                        <p class="card-text font-weight-light">$<c:out value="${movie.price}" /></p>
+              <div class="container col-12">
+                <c:forEach var="order" items="${orders}">
+                  <div class="card my-1">
+                    <div class="card-body d-flex justify-content-between ">
+                      <div class="">
+                        <p class="font-weight-light m-0">Status:</p>
+                        <h4><c:out value='${order.paymentStatus}' /></h4>
                       </div>
-                      <div class="card-footer d-flex justify-content-center">
-                        <a href="removefromcart?id=<c:out value='${movie.id}' />" class="btn btn-alert">Remove</a>
+                      <div>
+                        <h6 class="card-text"><c:out value="${order.id}" /></h6>
+                        <p class="card-text">$<c:out value="${order.total}" /></p>
+                      </div>
+                      <div class="d-flex align-items-center">
+                        <a href="orderdetails?id=<c:out value='${order.id}' />"class="btn btn-primary"> View Details</a>
                       </div>
                     </div>
                   </div>
                 </c:forEach>
-              </div>
-              <div class="col-6">
-                <h5>Cart Details</h5>
-                <p>Number of Items: </p>
-                <p>Total: $<c:out value='${cartTotal}' /></p>
-                <a href="order" class="btn btn-primary">Place Order</a>
               </div>
             </div>
         </div>

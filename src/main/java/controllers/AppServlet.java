@@ -123,11 +123,23 @@ public class AppServlet extends HttpServlet {
         case "/admindeletemovie":
           deleteMovie(request, response);
           break;
+        case "/adminorders":
+          renderAdminOrders(request, response);
+          break;
         case "/order" :
           renderOrderForm(request,response);
           break;
         case "/placeorder" :
           placeOrder(request,response);
+          break;
+        case "/vieworders" :
+          renderOrders(request,response);
+          break;
+        case "/adminorderdetails" :
+          renderAdminOrderDetails(request,response);
+          break;
+        case "/orderdetails" :
+          renderOrderDetails(request,response);
           break;
         case "/movie-details" :
           renderMovieDetails(request,response);
@@ -140,6 +152,52 @@ public class AppServlet extends HttpServlet {
       ex.printStackTrace();
     }
   }
+
+  private void renderOrderDetails(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    HttpSession session=request.getSession();
+    if (session.getAttribute("auth") instanceof Customer) {
+      String id = request.getParameter("id");
+      Order order = ODAO.selectOrderByID(id);
+      System.out.println(order);
+      session.setAttribute("order",order);
+      response.sendRedirect("order-details.jsp");
+    } else {
+      response.sendRedirect("index.jsp");
+    }}
+
+  private void renderAdminOrderDetails(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    HttpSession session=request.getSession();
+    if (session.getAttribute("auth") instanceof Admin) {
+      String id = request.getParameter("id");
+      Order order = ODAO.selectOrderByID(id);
+      session.setAttribute("order",order);
+      response.sendRedirect("admin-admin-order-details.jsp");
+    } else {
+      response.sendRedirect("index.jsp");
+    }
+  }
+
+  private void renderAdminOrders(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    HttpSession session=request.getSession();
+    if (session.getAttribute("auth") instanceof Admin) {
+      List<Order> orders = ODAO.selectAllOrders();
+      session.setAttribute("orders",orders);
+      response.sendRedirect("admin-orders.jsp");
+    } else {
+      response.sendRedirect("index.jsp");
+    }
+  }
+
+  private void renderOrders(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    HttpSession session=request.getSession();
+    if (session.getAttribute("auth") instanceof Customer) {
+      int customerID = ((Customer) session.getAttribute("auth")).getId();
+      List<Order> orders = ODAO.selectAllOrdersByCustomerID(customerID);
+      session.setAttribute("orders",orders);
+      response.sendRedirect("order-view.jsp");
+    } else {
+      response.sendRedirect("index.jsp");
+    }  }
 
   private void renderMovieDetails(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
     HttpSession session = request.getSession();
@@ -155,7 +213,7 @@ public class AppServlet extends HttpServlet {
   }
 
   private void renderOrderForm(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    System.out.println(request.getSession().getAttribute("cartTotal"));
+//    System.out.println(request.getSession().getAttribute("cartTotal"));
     response.sendRedirect("order-form.jsp");
   }
 

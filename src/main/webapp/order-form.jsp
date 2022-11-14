@@ -17,6 +17,7 @@
               <li><a href="<%=request.getContextPath()%>/movies" class="nav-link">Movies</a></li>
               <li><a href="<%=request.getContextPath()%>/cart" class="nav-link">Cart</a></li>
               <c:if test="${auth != null}">
+                <li><a href="<%=request.getContextPath()%>/vieworders" class="nav-link">Orders</a></li>
                 <li><a href="<%=request.getContextPath()%>/logout" class="nav-link">Logout</a></li>
               </c:if>
             </ul>

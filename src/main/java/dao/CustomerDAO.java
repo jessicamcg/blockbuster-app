@@ -16,6 +16,7 @@ public class CustomerDAO {
   private static final String SELECT_ALL_CUSTOMERS = "select * from customer";
   private static final String SELECT_CUSTOMER_BY_EMAIL = "select * from customer where email=?;";
   private static final String INSERT_NEW_CUSTOMER = "insert into customer (first_name, last_name, phone, address, email, password) values (?,?,?,?,?,?)";
+
   public Customer getCustomer(String help) {
 
     Customer customer = null;
