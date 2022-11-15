@@ -29,6 +29,7 @@
                 </div>
             </div>
         </div>
+        <p style="text-align:center;"><img src="http://bit.ly/3EBjHJe" alt="Logo"></p>
     </div>
 </body>
 
