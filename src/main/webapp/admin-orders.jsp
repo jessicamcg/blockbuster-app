@@ -41,6 +41,10 @@
                         <h4><c:out value='${order.paymentStatus}' /></h4>
                       </div>
                       <div>
+                        <h6 class="card-text">Customer ID</h6>
+                        <p class="card-text"><c:out value="${order.customerID}"/></p>
+                      </div>
+                      <div>
                         <h6 class="card-text"><c:out value="${order.id}" /></h6>
                         <p class="card-text">$<c:out value="${order.total}" /></p>
                       </div>
