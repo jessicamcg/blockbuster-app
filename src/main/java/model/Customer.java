@@ -24,6 +24,9 @@ public class Customer {
     this.email = email;
     this.password = password;
   }
+  public int getId() {
+    return id;
+  }
 
   public boolean validate(String inputName, String inputPassword) {
     if(inputName.equals(email)&& inputPassword.equals(password)) {

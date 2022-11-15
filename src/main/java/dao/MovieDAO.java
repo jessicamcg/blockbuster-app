@@ -101,7 +101,7 @@ public class MovieDAO {
          PreparedStatement ps = connection.prepareStatement(SELECT_MOVIE_BY_NAME);) {
       ps.setString(1, "%" + title + "%");
       ResultSet rs = ps.executeQuery();
-      System.out.println("testing" + ps);
+      System.out.println("test" + ps);
       while (rs.next()) {
         int id = rs.getInt("id");
         String movieTitle = rs.getString("title");
@@ -110,7 +110,6 @@ public class MovieDAO {
         int stock = rs.getInt("stock");
         String imageURL = rs.getString("image_url");
         int categoryID = rs.getInt("category_id");
-
         movies.add(new Movie(id,movieTitle, summary, price, stock, imageURL,categoryID));
       }
     } catch (SQLException e) {

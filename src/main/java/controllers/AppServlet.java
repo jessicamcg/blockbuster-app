@@ -39,7 +39,7 @@ public class AppServlet extends HttpServlet {
     doGet(request, response);
   }
 
-  protected void doGet(HttpServletRequest request, HttpServletResponse response)
+  public void doGet(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
     String action = request.getServletPath();
     System.out.println(action);
@@ -335,7 +335,7 @@ public class AppServlet extends HttpServlet {
     response.sendRedirect("index.jsp");
   }
 
-  private void auth (HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
+  public void auth(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
 
     String email=request.getParameter("email");
     String password=request.getParameter("password");
@@ -363,10 +363,9 @@ public class AppServlet extends HttpServlet {
     }
   }
 
-  private void logout(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+  public void logout(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
     response.setContentType("text/html");
     PrintWriter pw=response.getWriter();
-
     HttpSession session=request.getSession();
     session.invalidate();
     pw.print("<div class=\"alert alert-success\" role=\"alert\">\n" +
@@ -388,7 +387,7 @@ public class AppServlet extends HttpServlet {
     rd.include(request, response);
   }
 
-  private void insertNewCustomer(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+  public void insertNewCustomer(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
     String firstName = request.getParameter("firstname");
     String lastName = request.getParameter("lastname");
     int phone = Integer.parseInt(request.getParameter("phone"));
