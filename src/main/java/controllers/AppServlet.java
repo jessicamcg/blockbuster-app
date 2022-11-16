@@ -45,9 +45,6 @@ public class AppServlet extends HttpServlet {
     System.out.println(action);
     try {
       switch (action) {
-        case "/":
-          renderHome(request, response);
-          break;
         case "/login":
           renderLogin(request, response);
           break;
@@ -77,9 +74,6 @@ public class AppServlet extends HttpServlet {
           break;
         case "/removefromcart" :
           removeFromCart(request,response);
-          break;
-        case "/admin":
-          renderDashboard(request, response);
           break;
         case "/admineditcategoryform":
           renderEditCategoryForm(request, response);
@@ -418,7 +412,13 @@ public class AppServlet extends HttpServlet {
   }
 
   private void renderHome(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    response.sendRedirect("index.jsp");
+    HttpSession session=request.getSession();
+    System.out.println("home");
+    if (session.getAttribute("auth") instanceof Admin) {
+      response.sendRedirect("admin-dashboard.jsp");
+    } else {
+      response.sendRedirect("index.jsp");
+    }
   }
 
   private void auth (HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
@@ -523,12 +523,13 @@ public class AppServlet extends HttpServlet {
     response.sendRedirect("adminmovies");
   }
 
-  private void renderDashboard(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    HttpSession session=request.getSession();
-    if (session.getAttribute("auth") instanceof Admin) {
-      response.sendRedirect("admin-dashboard.jsp");
-    } else {
-      response.sendRedirect("index.jsp");
-    }
-  }
+//  private void renderDashboard(HttpServletRequest request, HttpServletResponse response) throws IOException {
+//    HttpSession session=request.getSession();
+//    System.out.println("dahs");
+//    if (session.getAttribute("auth") instanceof Admin) {
+//      response.sendRedirect("admin-dashboard.jsp");
+//    } else {
+//      response.sendRedirect("index.jsp");
+//    }
+//  }
 }
