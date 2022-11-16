@@ -28,7 +28,7 @@ create table customer (
 	id int not null auto_increment primary key,
 	first_name varchar(20) not null,
     last_name varchar(20) not null,
-    phone int,
+    phone varchar(20),
     address varchar(50),
     email varchar(40) not null,
     password varchar(20) not null
