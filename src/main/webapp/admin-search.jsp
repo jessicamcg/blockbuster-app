@@ -15,15 +15,14 @@
             </div>
 
             <ul class="navbar-nav">
-              <li><a href="<%=request.getContextPath()%>/movies" class="nav-link">Movies</a></li>
-              <li><a href="<%=request.getContextPath()%>/cart" class="nav-link">Cart</a></li>
+              <li><a href="<%=request.getContextPath()%>/admincategories" class="nav-link">Categories</a></li>
+              <li><a href="<%=request.getContextPath()%>/adminmovies" class="nav-link">Movies</a></li>
               <c:if test="${auth != null}">
                 <li><a href="<%=request.getContextPath()%>/logout" class="nav-link">Logout</a></li>
               </c:if>
             </ul>
         </nav>
     </header>
-
     <br>
 
     <div class="row">
@@ -31,33 +30,43 @@
         <div class="container col-9">
             <h3 class="text-center">Available Movies</h3>
             <hr>
+
             <div class="d-flex justify-content-around">
-                                <form action="searchmovies" method="GET">
-                                    Search By Title: <input type="text" name="title">
-                                    <input type="submit" value="Search"></form>
-                                    <% String title = (String)session.getAttribute("title"); %>
-                            </div>
+                <form action="searchadminmovies" method="GET">
+                    Search By Title: <input type="text" name="title">
+                    <input type="submit" value="Search"></form>
+                    <% String title = (String)session.getAttribute("title"); %>
+            </div>
+
             <br>
+            <div class="justify-content-center">
             <div class="card-columns">
+            <c:if test="${movies != null}">
               <c:forEach var="movie" items="${movies}">
-                <div class="card" style="width: 200px, max-height: 200px">
+                <div class="card p-0" style="">
                   <img class="card-img-top" src=<c:out value='${movie.imageURL}'/> alt=<c:out value='${movie.title}'/> />
                   <div class="card-body">
                     <h5 class="card-title"><c:out value="${movie.title}" /></h5>
                     <p class="card-text"><c:out value="${movie.summary}" /></p>
+                    <p class="card-text font-weight-light">In Stock: <c:out value="${movie.stock}" /></p>
                     <p class="card-text font-weight-light">$<c:out value="${movie.price}" /></p>
                   </div>
-                  <div class="card-footer d-flex justify-content-center">
-                    <a href="addtocart?id=<c:out value='${movie.id}' />" class="btn btn-primary">Add to Cart</a>
-                    <a href="movie-details?id=<c:out value='${movie.id}' />"class="btn btn-primary" style="margin-left: 20px"> View Details</a>
+                  <div class="card-footer d-flex justify-content-around">
+                    <a href="admineditmovieform?id=<c:out value='${movie.id}' />" class="btn btn-primary">Edit</a>
+                    <a href="admindeletemovie?id=<c:out value='${movie.id}' />" class="btn btn-warning">Delete</a>
                   </div>
                 </div>
               </c:forEach>
+              </c:if>
+              <c:if test="${movies.size() == 0}">
+                <b>Movie Not Found</b>
+              </c:if>
+
             </div>
+            </div>
+
         </div>
     </div>
 </body>
 
 </html>
-
-

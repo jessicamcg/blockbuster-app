@@ -33,6 +33,13 @@
               <div class="d-flex justify-content-around">
                 <a class="btn btn-primary" href="<%=request.getContextPath()%>/adminnewmovieform">Add a Movie</a>
               </div>
+
+              <div class="d-flex justify-content-around">
+                                        <form action="searchadminmovies" method="GET">
+                                        Search By Name: <input type="text" name="title">
+                                          <input type="submit" value="Search">
+                                          </form>
+                            </div>
             <br>
             <div class="card-columns">
               <c:forEach var="movie" items="${movies}">
