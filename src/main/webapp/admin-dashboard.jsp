@@ -16,6 +16,7 @@
               <li><a href="<%=request.getContextPath()%>/admincategories" class="nav-link">Categories</a></li>
               <li><a href="<%=request.getContextPath()%>/adminmovies" class="nav-link">Movies</a></li>
               <c:if test="${auth != null}">
+                <li><a href="<%=request.getContextPath()%>/adminorders" class="nav-link">Orders</a></li>
                 <li><a href="<%=request.getContextPath()%>/logout" class="nav-link">Logout</a></li>
               </c:if>
             </ul>
@@ -41,6 +42,13 @@
                     <div class="text-center">
                       <a class="btn btn-primary" href="<%=request.getContextPath()%>/adminmovies">View Movies</a>
                       <a class="btn btn-primary" href="<%=request.getContextPath()%>/adminnewmovieform">Add a Movie</a>
+                    </div>
+                  </div>
+                  <hr>
+                  <div>
+                    <h4 class="text-center">Users</h4>
+                    <div class="text-center">
+                      <a class="btn btn-primary" href="<%=request.getContextPath()%>/adminusers">View Users</a>
                     </div>
                   </div>
                 </div>
