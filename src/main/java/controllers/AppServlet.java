@@ -214,7 +214,6 @@ public class AppServlet extends HttpServlet {
   }
 
   private void renderOrderForm(HttpServletRequest request, HttpServletResponse response) throws IOException {
-//    System.out.println(request.getSession().getAttribute("cartTotal"));
     response.sendRedirect("order-form.jsp");
   }
 
@@ -233,7 +232,6 @@ public class AppServlet extends HttpServlet {
       response.sendRedirect("index.jsp");
     }
   }
-
 
   private void searchAdminMovies(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
     String name = request.getParameter("title");
@@ -276,8 +274,9 @@ public class AppServlet extends HttpServlet {
         throw new RuntimeException(e);
       }
     });
+    session.setAttribute("cart",null);
+    session.setAttribute("cartTotal",null);
     response.sendRedirect("home");
-
   }
 
   private void renderAdminMovies(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
