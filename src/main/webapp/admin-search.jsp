@@ -32,11 +32,12 @@
             <h3 class="text-center">Available Movies</h3>
             <hr>
 
-            <div class="d-flex justify-content-around">
-                <form action="searchadminmovies" method="GET">
-                    Search By Title: <input type="text" name="title">
-                    <input type="submit" value="Search"></form>
-                    <% String title = (String)session.getAttribute("title"); %>
+            <div class="">
+                <form class="d-flex justify-content-center align-items-center my-2" action="searchmovies" method="GET">
+                  <label class="m-0 p-0" for="title">Search By Title: </label>
+                  <input class="mx-2 col-4 form-control" type="text" name="title"/>
+                  <input class="btn btn-primary btn-sm" type="submit" value="Search"/>
+                </form>
             </div>
 
             <br>
