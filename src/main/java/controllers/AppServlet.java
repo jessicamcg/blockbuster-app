@@ -320,7 +320,7 @@ public class AppServlet extends HttpServlet {
   private void deleteMovie(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
     int id = Integer.parseInt(request.getParameter("id"));
     MDAO.deleteMovie(id);
-    response.sendRedirect("admincategories");
+    response.sendRedirect("adminmovies");
   }
 
   private void renderEditMovieForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
