@@ -257,6 +257,10 @@ public class AppServlet extends HttpServlet {
     HttpSession session=request.getSession();
     List<Movie> cartMovies = (List<Movie>) session.getAttribute("cart");
     cartMovies.remove(movie);
+    double cartTotal = (double) Math.round((double) session.getAttribute("cartTotal") * 100) / 100;
+    double moviePrice = (double) Math.round(movie.getPrice() * 100) / 100;
+    double newCartTotal = cartTotal - moviePrice;
+    session.setAttribute("cartTotal", newCartTotal);
     response.sendRedirect("cart");
   }
 
