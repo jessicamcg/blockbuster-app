@@ -523,13 +523,4 @@ public class AppServlet extends HttpServlet {
     response.sendRedirect("adminmovies");
   }
 
-//  private void renderDashboard(HttpServletRequest request, HttpServletResponse response) throws IOException {
-//    HttpSession session=request.getSession();
-//    System.out.println("dahs");
-//    if (session.getAttribute("auth") instanceof Admin) {
-//      response.sendRedirect("admin-dashboard.jsp");
-//    } else {
-//      response.sendRedirect("index.jsp");
-//    }
-//  }
 }
