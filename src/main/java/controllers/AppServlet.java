@@ -171,7 +171,7 @@ public class AppServlet extends HttpServlet {
       String id = request.getParameter("id");
       Order order = ODAO.selectOrderByID(id);
       session.setAttribute("order",order);
-      response.sendRedirect("admin-admin-order-details.jsp");
+      response.sendRedirect("admin-order-details.jsp");
     } else {
       response.sendRedirect("index.jsp");
     }
@@ -181,6 +181,7 @@ public class AppServlet extends HttpServlet {
     HttpSession session=request.getSession();
     if (session.getAttribute("auth") instanceof Admin) {
       List<Order> orders = ODAO.selectAllOrders();
+      System.out.println(orders);
       session.setAttribute("orders",orders);
       response.sendRedirect("admin-orders.jsp");
     } else {
