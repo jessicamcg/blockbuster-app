@@ -484,7 +484,7 @@ public class AppServlet extends HttpServlet {
   private void insertNewCustomer(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
     String firstName = request.getParameter("firstname");
     String lastName = request.getParameter("lastname");
-    int phone = Integer.parseInt(request.getParameter("phone"));
+    String phone = request.getParameter("phone");
     String address = request.getParameter("address");
     String email = request.getParameter("email");
     String password = request.getParameter("password");

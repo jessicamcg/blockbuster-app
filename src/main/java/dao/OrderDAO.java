@@ -86,7 +86,7 @@ public class OrderDAO {
       int cardNumber = 0;
       String firstName = null;
       String lastName = null;
-      int phone = 0;
+      String phone = null;
       String address = null;
       String email = null;
       List<Movie> orderItems = new ArrayList<>();
@@ -97,7 +97,7 @@ public class OrderDAO {
         cardNumber = rs.getInt("card_number");
         firstName = rs.getString("first_name");
         lastName = rs.getString("last_name");
-        phone = rs.getInt("phone");
+        phone = rs.getString("phone");
         address = rs.getString("address");
         email = rs.getString("email");
         MovieDAO MDAO = new MovieDAO();
@@ -125,7 +125,7 @@ public class OrderDAO {
       int cardNumber = 0;
       String firstName = null;
       String lastName = null;
-      int phone = 0;
+      String phone = null;
       String address = null;
       String email = null;
       List<Movie> orderItems = new ArrayList<>();
@@ -136,7 +136,7 @@ public class OrderDAO {
         cardNumber = rs.getInt("card_number");
         firstName = rs.getString("first_name");
         lastName = rs.getString("last_name");
-        phone = rs.getInt("phone");
+        phone = rs.getString("phone");
         address = rs.getString("address");
         email = rs.getString("email");
         MovieDAO MDAO = new MovieDAO();
