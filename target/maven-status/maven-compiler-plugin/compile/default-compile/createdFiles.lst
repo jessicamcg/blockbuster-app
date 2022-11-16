@@ -6,7 +6,8 @@ dao\CustomerDAO.class
 dao\CategoryDAO.class
 dao\MovieDAO.class
 dao\AdminDAO.class
-model\Customer.class
 model\Movie.class
 model\Order.class
+dao\MovieDAO.class
+model\Customer.class
 model\Admin.class
