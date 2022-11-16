@@ -3,17 +3,11 @@ dao\Connection.class
 dao\OrderDAO.class
 model\Category.class
 dao\CustomerDAO.class
-<<<<<<< HEAD
 dao\CategoryDAO.class
 dao\MovieDAO.class
-=======
->>>>>>> main
 dao\AdminDAO.class
 model\Movie.class
-<<<<<<< HEAD
 model\Order.class
-=======
 dao\MovieDAO.class
 model\Customer.class
->>>>>>> main
 model\Admin.class
