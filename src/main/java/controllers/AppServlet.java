@@ -132,6 +132,9 @@ public class AppServlet extends HttpServlet {
         case "/adminorderdetails" :
           renderAdminOrderDetails(request,response);
           break;
+        case "/adminupdateorder" :
+          updateOrder(request,response);
+          break;
         case "/orderdetails" :
           renderOrderDetails(request,response);
           break;
@@ -144,6 +147,20 @@ public class AppServlet extends HttpServlet {
       }
     } catch (Exception ex) {
       ex.printStackTrace();
+    }
+  }
+
+  private void updateOrder(HttpServletRequest request, HttpServletResponse response) {
+    HttpSession session=request.getSession();
+    String paymentStatus = request.getParameter("paymentStatus");
+    String orderID = request.getParameter("id");
+    try {
+      paymentDAO.updatePaymentStatusById(paymentStatus,orderID);
+      Order order = orderDAO.selectOrderByID(orderID);
+      session.setAttribute("order",order);
+      response.sendRedirect("admin-order-details.jsp");
+    } catch (Exception e) {
+      e.printStackTrace();
     }
   }
 
@@ -175,7 +192,6 @@ public class AppServlet extends HttpServlet {
     HttpSession session=request.getSession();
     if (session.getAttribute("auth") instanceof Admin) {
       List<Order> orders = orderDAO.selectAllOrders();
-      System.out.println(orders);
       session.setAttribute("orders",orders);
       response.sendRedirect("admin-orders.jsp");
     } else {

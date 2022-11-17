@@ -57,7 +57,7 @@ public class OrderDAO {
     }
   }
 
-  private void insertOrderItems(Order order, List<Movie> cart) {
+  public void insertOrderItems(Order order, List<Movie> cart) {
     try (java.sql.Connection connection = dao.Connection.getConnection();
          PreparedStatement ps = connection.prepareStatement(INSERT_ORDER_ITEMS)) {
       cart.forEach((item) -> {
