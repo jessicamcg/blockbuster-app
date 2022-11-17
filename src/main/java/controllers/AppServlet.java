@@ -20,25 +20,28 @@ import java.util.List;
 public class AppServlet extends HttpServlet {
   private CustomerDAO custDAO;
   private CategoryDAO catDAO;
-  private AdminDAO ADAO;
-  private MovieDAO MDAO;
-  private OrderDAO ODAO;
-  private PaymentDAO PDAO;
+  private AdminDAO adminDAO;
+  private MovieDAO movieDAO;
+  private OrderDAO orderDAO;
+  private PaymentDAO paymentDAO;
 
+  @Override
   public void init() {
     custDAO = new CustomerDAO();
     catDAO = new CategoryDAO();
-    ADAO = new AdminDAO();
-    MDAO = new MovieDAO();
-    ODAO = new OrderDAO();
-    PDAO = new PaymentDAO();
+    adminDAO = new AdminDAO();
+    movieDAO = new MovieDAO();
+    orderDAO = new OrderDAO();
+    paymentDAO = new PaymentDAO();
   }
 
+  @Override
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
     doGet(request, response);
   }
 
+  @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
     String action = request.getServletPath();
@@ -148,7 +151,7 @@ public class AppServlet extends HttpServlet {
     HttpSession session=request.getSession();
     if (session.getAttribute("auth") instanceof Customer) {
       String id = request.getParameter("id");
-      Order order = ODAO.selectOrderByID(id);
+      Order order = orderDAO.selectOrderByID(id);
       System.out.println(order);
       session.setAttribute("order",order);
       response.sendRedirect("order-details.jsp");
@@ -160,7 +163,7 @@ public class AppServlet extends HttpServlet {
     HttpSession session=request.getSession();
     if (session.getAttribute("auth") instanceof Admin) {
       String id = request.getParameter("id");
-      Order order = ODAO.selectOrderByID(id);
+      Order order = orderDAO.selectOrderByID(id);
       session.setAttribute("order",order);
       response.sendRedirect("admin-order-details.jsp");
     } else {
@@ -171,7 +174,7 @@ public class AppServlet extends HttpServlet {
   private void renderAdminOrders(HttpServletRequest request, HttpServletResponse response) throws IOException {
     HttpSession session=request.getSession();
     if (session.getAttribute("auth") instanceof Admin) {
-      List<Order> orders = ODAO.selectAllOrders();
+      List<Order> orders = orderDAO.selectAllOrders();
       System.out.println(orders);
       session.setAttribute("orders",orders);
       response.sendRedirect("admin-orders.jsp");
@@ -184,7 +187,7 @@ public class AppServlet extends HttpServlet {
     HttpSession session=request.getSession();
     if (session.getAttribute("auth") instanceof Customer) {
       int customerID = ((Customer) session.getAttribute("auth")).getId();
-      List<Order> orders = ODAO.selectAllOrdersByCustomerID(customerID);
+      List<Order> orders = orderDAO.selectAllOrdersByCustomerID(customerID);
       session.setAttribute("orders",orders);
       response.sendRedirect("order-view.jsp");
     } else {
@@ -197,7 +200,7 @@ public class AppServlet extends HttpServlet {
     if (session.getAttribute("auth") == null) {
       renderLogin(request, response);
     } else {
-      Movie movies = MDAO.selectMovie(id);
+      Movie movies = movieDAO.selectMovie(id);
       request.setAttribute("movie", movies);
       RequestDispatcher dispatcher = request.getRequestDispatcher("movie-details.jsp");
       dispatcher.forward(request, response);
@@ -227,7 +230,7 @@ public class AppServlet extends HttpServlet {
   private void searchMovies(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
     HttpSession session=request.getSession();
     String name = request.getParameter("title");
-    List<Movie> movies = MDAO.selectMovieByName(name);
+    List<Movie> movies = movieDAO.selectMovieByName(name);
     request.setAttribute("movies", movies);
     RequestDispatcher dispatcher;
     if (session.getAttribute("auth") instanceof Admin) {
@@ -240,7 +243,7 @@ public class AppServlet extends HttpServlet {
   
   private void removeFromCart(HttpServletRequest request, HttpServletResponse response) throws IOException {
     int movieID = Integer.parseInt(request.getParameter("id"));
-    Movie movie = MDAO.selectMovie(movieID);
+    Movie movie = movieDAO.selectMovie(movieID);
     HttpSession session=request.getSession();
     List<Movie> cartMovies = (List<Movie>) session.getAttribute("cart");
     cartMovies.remove(movie);
@@ -257,10 +260,10 @@ public class AppServlet extends HttpServlet {
     Customer customer = (Customer) session.getAttribute("auth");
     List<Movie> cartMovies = (List<Movie>) session.getAttribute("cart");
     double cartTotal = (double) session.getAttribute("cartTotal");
-    ODAO.insertOrder(customer,cartMovies, cartTotal,cardNumber);
+    orderDAO.insertOrder(customer,cartMovies, cartTotal,cardNumber);
     cartMovies.forEach((movie) -> {
       try {
-        MDAO.updateMovieStock(movie);
+        movieDAO.updateMovieStock(movie);
       } catch (SQLException e) {
         throw new RuntimeException(e);
       }
@@ -273,7 +276,7 @@ public class AppServlet extends HttpServlet {
   private void renderAdminMovies(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
     HttpSession session = request.getSession();
     if (session.getAttribute("auth") instanceof Admin) {
-      List<Movie> movies = MDAO.selectAllMovies();
+      List<Movie> movies = movieDAO.selectAllMovies();
       request.setAttribute("movies", movies);
       RequestDispatcher dispatcher = request.getRequestDispatcher("admin-movies.jsp");
       dispatcher.forward(request, response);
@@ -285,15 +288,12 @@ public class AppServlet extends HttpServlet {
   private void renderNewMovieForm(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
     HttpSession session=request.getSession();
     if (session.getAttribute("auth") instanceof Admin) {
-      if (session == null) {
-        renderLogin(request, response);
-      } else {
         List<Category> cats = catDAO.selectAllCats();
         request.setAttribute("categories", cats);
         RequestDispatcher dispatcher = request.getRequestDispatcher("movie-form.jsp");
         dispatcher.forward(request, response);
       }
-    } else {
+    else {
       response.sendRedirect("index.jsp");
     }
   }
@@ -307,19 +307,19 @@ public class AppServlet extends HttpServlet {
     String imageURL = request.getParameter("imageURL");
     int categoryID = Integer.parseInt(request.getParameter("categoryID")) ;
     Movie movie = new Movie(id,title,summary,price,stock,imageURL,categoryID);
-    MDAO.updateMovie(movie);
+    movieDAO.updateMovie(movie);
     response.sendRedirect("adminmovies");
   }
 
   private void deleteMovie(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
     int id = Integer.parseInt(request.getParameter("id"));
-    MDAO.deleteMovie(id);
+    movieDAO.deleteMovie(id);
     response.sendRedirect("adminmovies");
   }
 
   private void renderEditMovieForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     int id = Integer.parseInt(request.getParameter("id"));
-    Movie existingMovie = MDAO.selectMovie(id);
+    Movie existingMovie = movieDAO.selectMovie(id);
     request.setAttribute("movie", existingMovie);
     List<Category> cats = catDAO.selectAllCats();
     request.setAttribute("categories", cats);
@@ -344,12 +344,8 @@ public class AppServlet extends HttpServlet {
   private void renderNewCategoryForm(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
     HttpSession session=request.getSession();
     if (session.getAttribute("auth") instanceof Admin) {
-      if (session == null) {
-        renderLogin(request, response);
-      } else {
         RequestDispatcher dispatcher = request.getRequestDispatcher("category-form.jsp");
         dispatcher.forward(request, response);
-      }
     } else {
       response.sendRedirect("index.jsp");
     }
@@ -378,13 +374,13 @@ public class AppServlet extends HttpServlet {
     HttpSession session=request.getSession();
     if (session.getAttribute("cart") == null) {
       List<Movie> cartMovies = new ArrayList<>();
-      cartMovies.add(MDAO.selectMovie(movieID));
+      cartMovies.add(movieDAO.selectMovie(movieID));
       double cartTotal = (double) Math.round(cartMovies.stream().mapToDouble(Movie::getPrice).sum() * 100) / 100;
       session.setAttribute("cartTotal", cartTotal);
       session.setAttribute("cart", cartMovies);
     } else {
       List<Movie> cartMovies = (List<Movie>) session.getAttribute("cart");
-      cartMovies.add(MDAO.selectMovie(movieID));
+      cartMovies.add(movieDAO.selectMovie(movieID));
       double cartTotal = (double) Math.round(cartMovies.stream().mapToDouble(Movie::getPrice).sum() * 100) / 100;
       session.setAttribute("cartTotal", cartTotal);
     }
@@ -396,7 +392,7 @@ public class AppServlet extends HttpServlet {
     if (session.getAttribute("auth") == null) {
       renderLogin(request, response);
     } else {
-      List<Movie> movies = MDAO.selectAllMovies();
+      List<Movie> movies = movieDAO.selectAllMovies();
       request.setAttribute("movies", movies);
       RequestDispatcher dispatcher = request.getRequestDispatcher("movies.jsp");
       dispatcher.forward(request, response);
@@ -426,8 +422,8 @@ public class AppServlet extends HttpServlet {
     String email=request.getParameter("email");
     String password=request.getParameter("password");
 
-    if (ADAO.getAdmin(email) != null) {
-      Admin admin = ADAO.getAdmin(email);
+    if (adminDAO.getAdmin(email) != null) {
+      Admin admin = adminDAO.getAdmin(email);
       if(email.equals(admin.getEmail())&& password.equals(admin.getPassword())) {
         HttpSession session=request.getSession();
         session.setAttribute("auth", admin);
@@ -519,7 +515,7 @@ public class AppServlet extends HttpServlet {
     String imageURL = request.getParameter("imageURL");
     int categoryID = Integer.parseInt(request.getParameter("categoryID")) ;
     Movie movie = new Movie(title,summary,price,stock,imageURL,categoryID);
-    MDAO.insertMovie(movie);
+    movieDAO.insertMovie(movie);
     response.sendRedirect("adminmovies");
   }
 
