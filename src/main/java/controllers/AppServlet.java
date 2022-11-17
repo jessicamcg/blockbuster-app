@@ -283,12 +283,13 @@ public class AppServlet extends HttpServlet {
     int cardNumber = Integer.parseInt(request.getParameter("cc-number"));
     HttpSession session=request.getSession();
     Customer customer = (Customer) session.getAttribute("auth");
-    List<Movie> cartMovies = (List<Movie>) session.getAttribute("cart");
+//    List<Movie> cartMovies = (List<Movie>) session.getAttribute("cart");
+    Map<Movie,Integer> cartItems = (Map<Movie, Integer>) session.getAttribute("cart");
     double cartTotal = (double) session.getAttribute("cartTotal");
-    orderDAO.insertOrder(customer,cartMovies, cartTotal,cardNumber);
-    cartMovies.forEach((movie) -> {
+    orderDAO.insertOrder(customer, cartItems, cartTotal,cardNumber);
+    cartItems.forEach((movie,quantity) -> {
       try {
-        movieDAO.updateMovieStock(movie);
+        movieDAO.updateMovieStock(movie,quantity);
       } catch (SQLException e) {
         throw new RuntimeException(e);
       }

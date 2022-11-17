@@ -10,12 +10,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class OrderDAO {
   public OrderDAO() { }
   private static final String INSERT_ORDER = "insert into order_details (id,customer_id,total) values (?,?,?)";
-  private static final String INSERT_ORDER_ITEMS = "insert into order_item (order_id, movie_id) values (?,?);";
+  private static final String INSERT_ORDER_ITEMS = "insert into order_item (order_id, movie_id, quantity) values (?,?,?);";
   private static final String SELECT_ALL_ORDERS = "select * from order_details join payment on order_details.id=payment.order_id;";
   private static final String SELECT_ALL_ORDERS_BY_CUSTOMER_ID = "select * from order_details join payment on order_details.id=payment.order_id where customer_id=?;";
   private static final String SELECT_ORDER_BY_ID = "select * from order_details \n" +
@@ -39,7 +40,7 @@ public class OrderDAO {
           "on order_item.movie_id=movie.id\n" +
           "where order_details.customer_id=?";
 
-  public void insertOrder(Customer customer, List<Movie> cart, double cartTotal, int cardNumber) {
+  public void insertOrder(Customer customer, Map<Movie,Integer> cart, double cartTotal, int cardNumber) {
     try (java.sql.Connection connection = dao.Connection.getConnection();
          PreparedStatement ps = connection.prepareStatement(INSERT_ORDER)) {
       UUID uuid = UUID.randomUUID();
@@ -57,13 +58,14 @@ public class OrderDAO {
     }
   }
 
-  public void insertOrderItems(Order order, List<Movie> cart) {
+  public void insertOrderItems(Order order, Map<Movie,Integer> cart) {
     try (java.sql.Connection connection = dao.Connection.getConnection();
          PreparedStatement ps = connection.prepareStatement(INSERT_ORDER_ITEMS)) {
-      cart.forEach((item) -> {
+      cart.forEach((movie,quantity) -> {
         try {
           ps.setString(1, order.getId());
-          ps.setInt(2, item.getId());
+          ps.setInt(2, movie.getId());
+          ps.setInt(3,quantity);
           ps.executeUpdate();
         } catch (SQLException e) {
           throw new RuntimeException(e);

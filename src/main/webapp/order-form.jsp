@@ -33,7 +33,7 @@
             <span class="badge bg-primary rounded-pill"><c:out value='${cart.size()}' /></span>
           </h3>
           <ul class="list-group mb-3">
-          <c:forEach var="movie" items="${cart}">
+          <c:forEach var="movie" items="${cart.keySet()}">
             <li class="list-group-item d-flex justify-content-between lh-sm">
               <div>
                 <h6 class="my-0"><c:out value='${movie.title}'/></h6>

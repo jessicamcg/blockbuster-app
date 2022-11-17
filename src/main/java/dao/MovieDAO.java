@@ -43,10 +43,10 @@ public class MovieDAO {
     return rowDeleted;
   }
 
-  public void updateMovieStock(Movie movie) throws SQLException {
+  public void updateMovieStock(Movie movie, Integer quantity) throws SQLException {
     try (java.sql.Connection connection = dao.Connection.getConnection();
          PreparedStatement ps = connection.prepareStatement(UPDATE_MOVIE_STOCK);) {
-      ps.setInt(1, movie.getStock()-1);
+      ps.setInt(1, movie.getStock()-quantity);
       ps.setInt(2, movie.getId());
 
       ps.executeUpdate();
