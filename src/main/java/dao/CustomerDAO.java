@@ -31,7 +31,7 @@ public class CustomerDAO {
 
         String firstName = rs.getString("first_name");
         String lastName = rs.getString("last_name");
-        int phone = rs.getInt("phone");
+        String phone = rs.getString("phone");
         String address = rs.getString("address");
         String email = rs.getString("email");
         String password = rs.getString("password");
@@ -50,7 +50,7 @@ public class CustomerDAO {
          PreparedStatement ps = connection.prepareStatement(INSERT_NEW_CUSTOMER);) {
       ps.setString(1, customer.getFirstName());
       ps.setString(2, customer.getLastName());
-      ps.setInt(3, customer.getPhone());
+      ps.setString(3, customer.getPhone());
       ps.setString(4, customer.getAddress());
       ps.setString(5, customer.getEmail());
       ps.setString(6, customer.getPassword());
@@ -70,7 +70,7 @@ public class CustomerDAO {
         int id = rs.getInt("id");
         String firstName = rs.getString("first_name");
         String lastName = rs.getString("last_name");
-        int phone = rs.getInt("phone");
+        String phone = rs.getString("phone");
         String address = rs.getString("address");
         String email = rs.getString("email");
         customers.add(new Customer(id, firstName, lastName, phone, address, email));
