@@ -261,13 +261,20 @@ public class AppServlet extends HttpServlet {
   
   private void removeFromCart(HttpServletRequest request, HttpServletResponse response) throws IOException {
     int movieID = Integer.parseInt(request.getParameter("id"));
-    Movie movie = movieDAO.selectMovie(movieID);
+    Movie movieToRemove = movieDAO.selectMovie(movieID);
     HttpSession session=request.getSession();
-    List<Movie> cartMovies = (List<Movie>) session.getAttribute("cart");
-    cartMovies.remove(movie);
+    Map<Movie,Integer> cartItems = (Map<Movie, Integer>) session.getAttribute("cart");
+    double moviePrice = (double) Math.round(((movieToRemove.getPrice()*((double) cartItems.get(movieToRemove))) * 100)) / 100;
+    cartItems.remove(movieToRemove);
     double cartTotal = (double) Math.round((double) session.getAttribute("cartTotal") * 100) / 100;
-    double moviePrice = (double) Math.round(movie.getPrice() * 100) / 100;
     double newCartTotal = cartTotal - moviePrice;
+    List<Movie> cartMovies = new ArrayList<>();
+    final int[] cartQuantity = {0};
+    cartItems.forEach( (movie,quantity) -> {
+      cartMovies.add(movie);
+      cartQuantity[0] += quantity;
+    });
+    session.setAttribute("cartQuantity", cartQuantity[0]);
     session.setAttribute("cartTotal", newCartTotal);
     response.sendRedirect("cart");
   }
@@ -383,7 +390,6 @@ public class AppServlet extends HttpServlet {
       renderLogin(request, response);
     } else {
       Map<Movie,Integer> cart = (Map<Movie, Integer>) session.getAttribute("cart");
-      System.out.println(cart);
       RequestDispatcher dispatcher = request.getRequestDispatcher("cart.jsp");
       dispatcher.forward(request, response);
     }
@@ -393,15 +399,6 @@ public class AppServlet extends HttpServlet {
     int movieID = Integer.parseInt(request.getParameter("id"));
     Movie movieToAdd = movieDAO.selectMovie(movieID);
     HttpSession session=request.getSession();
-//    if (session.getAttribute("cart") == null) {
-//      Map<Movie,Integer> cartItems = new HashMap<>();
-//      cartItems.put(movieToAdd, 1);
-//      List<Movie> cartMovies = new ArrayList<>();
-//      cartMovies.add(movieToAdd);
-//      double cartTotal = (double) Math.round(cartMovies.stream().mapToDouble(Movie::getPrice).sum() * 100) / 100;
-//      session.setAttribute("cartTotal", cartTotal);
-//      session.setAttribute("cart", cartItems);
-//    }
     if (session.getAttribute("cart") == null) {
       List<Movie> cartMovies = new ArrayList<>();
       cartMovies.add(movieToAdd);
@@ -424,7 +421,6 @@ public class AppServlet extends HttpServlet {
         cartMovies.add(movie);
         cartQuantity[0] += quantity;
       });
-      cartMovies.add(movieToAdd);
       double cartTotal = (double) Math.round(cartMovies.stream().mapToDouble(Movie::getPrice).sum() * 100) / 100;
       session.setAttribute("cartQuantity", cartQuantity[0]);
       session.setAttribute("cartTotal", cartTotal);
