@@ -417,7 +417,7 @@ public class AppServlet extends HttpServlet {
           System.out.println(movieToAdd.getStock());
           PrintWriter pw=response.getWriter();
           pw.print("<div class=\"alert alert-danger\" role=\"alert\">\n" +
-                  "  Error adding movie to cart\n" +
+                  "  Error adding movie to cart: Not enough in stock\n" +
                   "</div>");
           RequestDispatcher rd =request.getRequestDispatcher("index.jsp");
           rd.include(request, response);

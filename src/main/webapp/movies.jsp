@@ -51,7 +51,7 @@
                   </div>
                   <div class="card-footer d-flex justify-content-center">
                   <c:if test="${movie.stock == 0}">
-                    <button href="" class="btn btn-primary" disabled>Add to Cart</button>
+                    <button href="" class="btn btn-primary" disabled>Not Available</button>
                   </c:if>
                   <c:if test="${movie.stock != 0}">
                     <a href="addtocart?id=<c:out value='${movie.id}' />" class="btn btn-primary">Add to Cart</a>
