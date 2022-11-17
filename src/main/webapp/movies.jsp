@@ -46,7 +46,7 @@
                   <img class="card-img-top" src=<c:out value='${movie.imageURL}'/> alt=<c:out value='${movie.title}'/> />
                   <div class="card-body">
                     <h5 class="card-title"><c:out value="${movie.title}" /></h5>
-                    <p class="card-text"><c:out value="${movie.summary}" /></p>
+                    <p class="card-text text-truncate"><c:out value="${movie.summary}" /></p>
                     <p class="card-text font-weight-light">$<c:out value="${movie.price}" /></p>
                   </div>
                   <div class="card-footer d-flex justify-content-center">
