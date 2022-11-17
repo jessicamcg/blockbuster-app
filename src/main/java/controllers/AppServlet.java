@@ -411,11 +411,24 @@ public class AppServlet extends HttpServlet {
       session.setAttribute("cart", cartItems);
     } else {
       Map<Movie, Integer> cartItems = (Map<Movie, Integer>) session.getAttribute("cart");
+
       if (cartItems.containsKey(movieToAdd)) {
+        if (movieToAdd.getStock() <= cartItems.get(movieToAdd)+1) {
+          System.out.println(movieToAdd.getStock());
+          PrintWriter pw=response.getWriter();
+          pw.print("<div class=\"alert alert-danger\" role=\"alert\">\n" +
+                  "  Error adding movie to cart\n" +
+                  "</div>");
+          RequestDispatcher rd =request.getRequestDispatcher("index.jsp");
+          rd.include(request, response);
+          return;
+        }
         cartItems.put(movieToAdd, cartItems.get(movieToAdd)+1);
       } else {
         cartItems.put(movieToAdd, 1);
       }
+
+
       List<Movie> cartMovies = new ArrayList<>();
       final int[] cartQuantity = {0};
       cartItems.forEach( (movie,quantity) -> {
