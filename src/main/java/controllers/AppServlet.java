@@ -14,7 +14,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @WebServlet("/")
 public class AppServlet extends HttpServlet {
@@ -380,6 +382,8 @@ public class AppServlet extends HttpServlet {
     if (session.getAttribute("auth") == null) {
       renderLogin(request, response);
     } else {
+      Map<Movie,Integer> cart = (Map<Movie, Integer>) session.getAttribute("cart");
+      System.out.println(cart);
       RequestDispatcher dispatcher = request.getRequestDispatcher("cart.jsp");
       dispatcher.forward(request, response);
     }
@@ -387,18 +391,44 @@ public class AppServlet extends HttpServlet {
 
   private void addToCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     int movieID = Integer.parseInt(request.getParameter("id"));
+    Movie movieToAdd = movieDAO.selectMovie(movieID);
     HttpSession session=request.getSession();
+//    if (session.getAttribute("cart") == null) {
+//      Map<Movie,Integer> cartItems = new HashMap<>();
+//      cartItems.put(movieToAdd, 1);
+//      List<Movie> cartMovies = new ArrayList<>();
+//      cartMovies.add(movieToAdd);
+//      double cartTotal = (double) Math.round(cartMovies.stream().mapToDouble(Movie::getPrice).sum() * 100) / 100;
+//      session.setAttribute("cartTotal", cartTotal);
+//      session.setAttribute("cart", cartItems);
+//    }
     if (session.getAttribute("cart") == null) {
       List<Movie> cartMovies = new ArrayList<>();
-      cartMovies.add(movieDAO.selectMovie(movieID));
+      cartMovies.add(movieToAdd);
       double cartTotal = (double) Math.round(cartMovies.stream().mapToDouble(Movie::getPrice).sum() * 100) / 100;
+      Map<Movie, Integer> cartItems = new HashMap<>();
+      cartItems.put(movieToAdd, 1);
+      session.setAttribute("cartQuantity",1);
       session.setAttribute("cartTotal", cartTotal);
-      session.setAttribute("cart", cartMovies);
+      session.setAttribute("cart", cartItems);
     } else {
-      List<Movie> cartMovies = (List<Movie>) session.getAttribute("cart");
-      cartMovies.add(movieDAO.selectMovie(movieID));
+      Map<Movie, Integer> cartItems = (Map<Movie, Integer>) session.getAttribute("cart");
+      if (cartItems.containsKey(movieToAdd)) {
+        cartItems.put(movieToAdd, cartItems.get(movieToAdd)+1);
+      } else {
+        cartItems.put(movieToAdd, 1);
+      }
+      List<Movie> cartMovies = new ArrayList<>();
+      final int[] cartQuantity = {0};
+      cartItems.forEach( (movie,quantity) -> {
+        cartMovies.add(movie);
+        cartQuantity[0] += quantity;
+      });
+      cartMovies.add(movieToAdd);
       double cartTotal = (double) Math.round(cartMovies.stream().mapToDouble(Movie::getPrice).sum() * 100) / 100;
+      session.setAttribute("cartQuantity", cartQuantity[0]);
       session.setAttribute("cartTotal", cartTotal);
+      session.setAttribute("cart", cartItems);
     }
     response.sendRedirect("cart");
   }
