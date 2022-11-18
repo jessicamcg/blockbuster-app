@@ -472,7 +472,6 @@ public class AppServlet extends HttpServlet {
 
   private void renderHome(HttpServletRequest request, HttpServletResponse response) throws IOException {
     HttpSession session=request.getSession();
-    System.out.println("home");
     if (session.getAttribute("auth") instanceof Admin) {
       response.sendRedirect("admin-dashboard.jsp");
     } else {
@@ -560,7 +559,6 @@ public class AppServlet extends HttpServlet {
     } else {
       response.sendRedirect("login");
     }
-
   }
 
   private void insertCategory(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
