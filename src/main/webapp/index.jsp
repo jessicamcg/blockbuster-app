@@ -52,7 +52,15 @@
             </ul>
         </nav>
     </header>
-
+<div class="row">
+        <div class="container">
+            <div class="card"
+                <div class="card-body p-2">
+                  <a href="<%=request.getContextPath()%>/login">Click here to login</a>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="jumbotron jumbotron-fluid hero vh-100">
       <div class="container text-right hero-text">
         <h1 class="">Your favorite titles</h1>
@@ -64,8 +72,8 @@
         <div class="card shadow">
           <img src="https://ventsmagazine.com/wp-content/uploads/2019/12/best-strains-high-movie-watching.jpg" class="card-img-top" alt="...">
           <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+            <h5 class="card-title">New Content Added Daily</h5>
+            <p class="card-text">Dropping every day, find your next obsession among our vast collection of series, movies, docs, and more.</p>
           </div>
           <div class="card-footer">
             <small class="text-muted">Last updated 3 mins ago</small>
@@ -74,8 +82,8 @@
         <div class="card shadow">
           <img src="https://img.buzzfeed.com/buzzfeed-static/static/2015-09/4/19/campaign_images/webdr07/watching-movies-at-home-poll-2-23462-1441407636-3_dblbig.jpg" class="card-img-top" alt="...">
           <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
+            <h5 class="card-title">Entertainment for All Ages</h5>
+            <p class="card-text">Search through various movie categories to find your favorite cartoon, TV show, or movie.</p>
           </div>
           <div class="card-footer">
             <small class="text-muted">Last updated 3 mins ago</small>
@@ -84,8 +92,8 @@
         <div class="card shadow">
           <img src="https://images.indianexpress.com/2020/04/binge-watching.jpg" class="card-img-top" alt="...">
           <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
+            <h5 class="card-title">Order on the Go!</h5>
+            <p class="card-text">No waiting lines necessary, enjoy unlimited access to your entertainment with just the click of a button.</p>
           </div>
           <div class="card-footer">
             <small class="text-muted">Last updated 3 mins ago</small>
@@ -94,15 +102,6 @@
       </div>
     </div>
     <br>
-    <div class="row">
-        <div class="container">
-            <div class="card"
-                <div class="card-body p-2">
-                  <a href="<%=request.getContextPath()%>/login">Click here to login</a>
-                </div>
-            </div>
-        </div>
-    </div>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
 </body>
