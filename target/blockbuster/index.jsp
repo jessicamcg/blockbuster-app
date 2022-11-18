@@ -15,6 +15,7 @@
             <ul class="navbar-nav">
               <li><a href="<%=request.getContextPath()%>/movies" class="nav-link">Movies</a></li>
               <c:if test="${auth != null}">
+                <li><a href="<%=request.getContextPath()%>/vieworders" class="nav-link">Orders</a></li>
                 <li><a href="<%=request.getContextPath()%>/logout" class="nav-link">Logout</a></li>
               </c:if>
             </ul>
@@ -29,6 +30,7 @@
                 </div>
             </div>
         </div>
+        <p style="text-align:center;"><img src="http://bit.ly/3EBjHJe" alt="Logo"></p>
     </div>
 </body>
 

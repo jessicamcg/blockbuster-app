@@ -1,18 +1,21 @@
 controllers\AppServlet.class
 dao\Connection.class
 dao\OrderDAO.class
-model\Category.class
 dao\CustomerDAO.class
 dao\CategoryDAO.class
-dao\MovieDAO.class
 dao\AdminDAO.class
+model\Payment.class
+dao\EmailService$1.class
 model\Movie.class
 <<<<<<< HEAD
 model\Customer.class
 model\Order.class
 =======
 model\Order.class
+model\Category.class
+dao\PaymentDAO.class
 dao\MovieDAO.class
+dao\EmailService.class
 model\Customer.class
 >>>>>>> 1df39be866c77e008171118c6097921aaa2a4158
 model\Admin.class
