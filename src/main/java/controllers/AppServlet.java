@@ -166,48 +166,53 @@ public class AppServlet extends HttpServlet {
     }
   }
 
-  private void renderOrderDetails(HttpServletRequest request, HttpServletResponse response) throws IOException {
+  private void renderOrderDetails(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
     HttpSession session=request.getSession();
     if (session.getAttribute("auth") instanceof Customer) {
       String id = request.getParameter("id");
       Order order = orderDAO.selectOrderByID(id);
-      System.out.println(order);
-      session.setAttribute("order",order);
-      response.sendRedirect("order-details.jsp");
+      request.setAttribute("order", order);
+      RequestDispatcher dispatcher = request.getRequestDispatcher("order-details.jsp");
+      dispatcher.forward(request, response);
+
     } else {
       response.sendRedirect("index.jsp");
     }}
 
-  private void renderAdminOrderDetails(HttpServletRequest request, HttpServletResponse response) throws IOException {
+  private void renderAdminOrderDetails(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
     HttpSession session=request.getSession();
     if (session.getAttribute("auth") instanceof Admin) {
       String id = request.getParameter("id");
       Order order = orderDAO.selectOrderByID(id);
-      session.setAttribute("order",order);
-      response.sendRedirect("admin-order-details.jsp");
+      request.setAttribute("order", order);
+      RequestDispatcher dispatcher = request.getRequestDispatcher("admin-order-details.jsp");
+      dispatcher.forward(request, response);
     } else {
       response.sendRedirect("index.jsp");
     }
   }
 
-  private void renderAdminOrders(HttpServletRequest request, HttpServletResponse response) throws IOException {
+  private void renderAdminOrders(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
     HttpSession session=request.getSession();
     if (session.getAttribute("auth") instanceof Admin) {
       List<Order> orders = orderDAO.selectAllOrders();
-      session.setAttribute("orders",orders);
-      response.sendRedirect("admin-orders.jsp");
+      request.setAttribute("orders", orders);
+      RequestDispatcher dispatcher = request.getRequestDispatcher("admin-orders.jsp");
+      dispatcher.forward(request, response);
     } else {
       response.sendRedirect("index.jsp");
     }
   }
 
-  private void renderOrders(HttpServletRequest request, HttpServletResponse response) throws IOException {
+  private void renderOrders(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
     HttpSession session=request.getSession();
     if (session.getAttribute("auth") instanceof Customer) {
       int customerID = ((Customer) session.getAttribute("auth")).getId();
       List<Order> orders = orderDAO.selectAllOrdersByCustomerID(customerID);
-      session.setAttribute("orders",orders);
-      response.sendRedirect("order-view.jsp");
+      request.setAttribute("orders", orders);
+      RequestDispatcher dispatcher = request.getRequestDispatcher("order-view.jsp");
+      dispatcher.forward(request, response);
+
     } else {
       response.sendRedirect("index.jsp");
     }  }
@@ -283,7 +288,6 @@ public class AppServlet extends HttpServlet {
     int cardNumber = Integer.parseInt(request.getParameter("cc-number"));
     HttpSession session=request.getSession();
     Customer customer = (Customer) session.getAttribute("auth");
-//    List<Movie> cartMovies = (List<Movie>) session.getAttribute("cart");
     Map<Movie,Integer> cartItems = (Map<Movie, Integer>) session.getAttribute("cart");
     double cartTotal = (double) session.getAttribute("cartTotal");
     orderDAO.insertOrder(customer, cartItems, cartTotal,cardNumber);
@@ -427,7 +431,6 @@ public class AppServlet extends HttpServlet {
       } else {
         cartItems.put(movieToAdd, 1);
       }
-
 
       List<Movie> cartMovies = new ArrayList<>();
       final int[] cartQuantity = {0};

@@ -39,10 +39,8 @@ public class CustomerDAO {
       }
     } catch (SQLException e) {
       e.printStackTrace();
-    } finally {
-      return customer;
     }
-
+    return customer;
   }
 
   public void insertCustomer(Customer customer) throws SQLException {
