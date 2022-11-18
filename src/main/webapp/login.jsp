@@ -24,16 +24,16 @@
                 <div class="card-body p-2">
                 <h3 class="mx-auto mt-3">Login</h3>
                     <form class="p-3" action="auth" method="post">
-                       <fieldset class="form-group">
-                           <label>Email</label> <input type="text" class="form-control" name="email">
-                       </fieldset>
 
-                       <fieldset class="form-group">
-                           <label>Password</label> <input type="password" class="form-control" name="password">
-                       </fieldset>
+                      <label>Email</label>
+                      <input type="text" class="form-control" name="email" required>
 
+                      <label>Password</label>
+                      <input type="password" class="form-control" name="password" required>
+
+                      <br>
                        <input class="btn btn-primary" type="submit" value="Login">
-                       <a href="<%=request.getContextPath()%>/signup">New User? Sign up instead</a>
+                       <a href="<%=request.getContextPath()%>/signup" class="float-right">New User? Sign up instead</a>
                     </form>
                 </div>
             </div>
