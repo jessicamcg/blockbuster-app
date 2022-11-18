@@ -18,7 +18,6 @@
               <li><a href="<%=request.getContextPath()%>/admincategories" class="nav-link">Categories</a></li>
               <li><a href="<%=request.getContextPath()%>/adminmovies" class="nav-link">Movies</a></li>
               <c:if test="${auth != null}">
-                <li><a href="<%=request.getContextPath()%>/adminorders" class="nav-link">Orders</a></li>
                 <li><a href="<%=request.getContextPath()%>/logout" class="nav-link">Logout</a></li>
               </c:if>
             </ul>
@@ -31,19 +30,18 @@
         <div class="container col-9">
             <h3 class="text-center">Available Movies</h3>
             <hr>
-              <div class="d-flex justify-content-around">
-                <a class="btn btn-primary" href="<%=request.getContextPath()%>/adminnewmovieform">Add a Movie</a>
-              </div>
 
-              <div class="">
-                  <form class="d-flex justify-content-center align-items-center my-2" action="searchmovies" method="GET">
-                    <label class="m-0 p-0" for="title">Search By Title: </label>
-                    <input class="mx-2 col-4 form-control" type="text" name="title"/>
-                    <input class="btn btn-primary btn-sm" type="submit" value="Search"/>
-                  </form>
-              </div>
+            <div class="d-flex justify-content-around">
+                <form action="searchadminmovies" method="GET">
+                    Search By Title: <input type="text" name="title">
+                    <input type="submit" value="Search"></form>
+                    <% String title = (String)session.getAttribute("title"); %>
+            </div>
+
             <br>
+            <div class="justify-content-center">
             <div class="card-columns">
+            <c:if test="${movies != null}">
               <c:forEach var="movie" items="${movies}">
                 <div class="card p-0" style="">
                   <img class="card-img-top" src=<c:out value='${movie.imageURL}'/> alt=<c:out value='${movie.title}'/> />
@@ -59,11 +57,16 @@
                   </div>
                 </div>
               </c:forEach>
+              </c:if>
+              <c:if test="${movies.size() == 0}">
+                <b>Movie Not Found</b>
+              </c:if>
+
             </div>
+            </div>
+
         </div>
     </div>
 </body>
 
 </html>
-
-

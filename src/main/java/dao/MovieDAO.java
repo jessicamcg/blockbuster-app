@@ -15,7 +15,7 @@ public class MovieDAO {
   private static final String INSERT_MOVIE = "insert into movie (title,summary,price,stock,image_url,category_id) values (?,?,?,?,?,?);";
   private static final String DELETE_MOVIE = "delete from movie where id=?;";
   private static final String UPDATE_MOVIE_BY_ID = "update movie set title=?, summary=?, price=?, stock=?, image_url=?, category_id=? where id = ?;";
-  private static final String SELECT_MOVIE_BY_NAME = "select * from movie where title=?";
+  private static final String SELECT_MOVIE_BY_NAME = "select * from movie where title LIKE ?" ;
   private static final String UPDATE_MOVIE_STOCK = "update movie set stock=? where id=?";
 
   public void insertMovie(Movie movie) throws SQLException {
@@ -43,10 +43,10 @@ public class MovieDAO {
     return rowDeleted;
   }
 
-  public void updateMovieStock(Movie movie) throws SQLException {
+  public void updateMovieStock(Movie movie, Integer quantity) throws SQLException {
     try (java.sql.Connection connection = dao.Connection.getConnection();
          PreparedStatement ps = connection.prepareStatement(UPDATE_MOVIE_STOCK);) {
-      ps.setInt(1, movie.getStock()-1);
+      ps.setInt(1, movie.getStock()-quantity);
       ps.setInt(2, movie.getId());
 
       ps.executeUpdate();
@@ -99,9 +99,9 @@ public class MovieDAO {
     List<Movie> movies = new ArrayList< >();
     try (java.sql.Connection connection = dao.Connection.getConnection();
          PreparedStatement ps = connection.prepareStatement(SELECT_MOVIE_BY_NAME);) {
-      ps.setString(1, title);
+      ps.setString(1, "%" + title + "%");
       ResultSet rs = ps.executeQuery();
-
+      System.out.println("testing" + ps);
       while (rs.next()) {
         int id = rs.getInt("id");
         String movieTitle = rs.getString("title");
@@ -111,11 +111,12 @@ public class MovieDAO {
         String imageURL = rs.getString("image_url");
         int categoryID = rs.getInt("category_id");
 
-        movies.add(new Movie(id,title, summary, price, stock, imageURL,categoryID));
+        movies.add(new Movie(id,movieTitle, summary, price, stock, imageURL,categoryID));
       }
     } catch (SQLException e) {
       e.printStackTrace();
     }
+    System.out.println("console text" + movies);
     return movies;
   }
 

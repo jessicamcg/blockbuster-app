@@ -28,31 +28,21 @@
     <div class="row">
 
         <div class="container col-9">
-            <h3 class="text-center">Available Movies</h3>
+            <h3 class="text-center">Users</h3>
             <hr>
-
-            <div class="d-flex justify-content-around">
-                <form action="searchadminmovies" method="GET">
-                    Search By Title: <input type="text" name="title">
-                    <input type="submit" value="Search"></form>
-                    <% String title = (String)session.getAttribute("title"); %>
-            </div>
 
             <br>
             <div class="card-columns">
-              <c:forEach var="movie" items="${movies}">
+              <c:forEach var="cust" items="${customer}">
                 <div class="card p-0" style="">
-                  <img class="card-img-top" src=<c:out value='${movie.imageURL}'/> alt=<c:out value='${movie.title}'/> />
                   <div class="card-body">
-                    <h5 class="card-title"><c:out value="${movie.title}" /></h5>
-                    <p class="card-text"><c:out value="${movie.summary}" /></p>
-                    <p class="card-text font-weight-light">In Stock: <c:out value="${movie.stock}" /></p>
-                    <p class="card-text font-weight-light">$<c:out value="${movie.price}" /></p>
+                    <p class="card-title"><c:out value="${cust.firstName}" /> <c:out value="${cust.lastName}" /></p>
+
+                    <p class="card-text font-weight-light"> Address: <c:out value="${cust.address}" /></p>
+                    <p class="card-text font-weight-light"> Phone: <c:out value="${cust.phone}" /></p>
+                    <p class="card-text font-weight-light"> Email: <c:out value="${cust.email}" /></p>
                   </div>
-                  <div class="card-footer d-flex justify-content-around">
-                    <a href="admineditmovieform?id=<c:out value='${movie.id}' />" class="btn btn-primary">Edit</a>
-                    <a href="admindeletemovie?id=<c:out value='${movie.id}' />" class="btn btn-warning">Delete</a>
-                  </div>
+
                 </div>
               </c:forEach>
             </div>

@@ -18,7 +18,6 @@
               <li><a href="<%=request.getContextPath()%>/admincategories" class="nav-link">Categories</a></li>
               <li><a href="<%=request.getContextPath()%>/adminmovies" class="nav-link">Movies</a></li>
               <c:if test="${auth != null}">
-                <li><a href="<%=request.getContextPath()%>/adminorders" class="nav-link">Orders</a></li>
                 <li><a href="<%=request.getContextPath()%>/logout" class="nav-link">Logout</a></li>
               </c:if>
             </ul>
@@ -26,23 +25,24 @@
     </header>
     <br>
 
-    <div class="row text-center">
+    <div class="row">
 
         <div class="container col-9">
-            <h3 class="text-center">Categories</h3>
+            <h3 class="text-center">Users</h3>
             <hr>
-            <a class="btn btn-primary" href="adminnewcategoryform">Add New Category</a>
+
             <br>
-            <div class="row justify-content-center">
-              <c:forEach var="category" items="${categories}">
-                <div class="card col-sm-12 col-md-4 col-lg-3 p-0 m-2" style="width: 200px, max-height: 200px">
+            <div class="card-columns">
+              <c:forEach var="cust" items="${customer}">
+                <div class="card p-0" style="">
                   <div class="card-body">
-                    <h5 class="card-title"><c:out value="${category.name}" /></h5>
+                    <p class="card-title"><c:out value="${cust.firstName}" /> <c:out value="${cust.lastName}" /></p>
+
+                    <p class="card-text font-weight-light"> Address: <c:out value="${cust.address}" /></p>
+                    <p class="card-text font-weight-light"> Phone: <c:out value="${cust.phone}" /></p>
+                    <p class="card-text font-weight-light"> Email: <c:out value="${cust.email}" /></p>
                   </div>
-                  <div class="card-footer d-flex justify-content-around">
-                    <a href="admineditcategoryform?id=<c:out value='${category.id}' />" class="btn btn-primary">Edit</a>
-                    <a href="admindeletecategory?id=<c:out value='${category.id}' />" class="btn btn-warning">Delete</a>
-                  </div>
+
                 </div>
               </c:forEach>
             </div>
@@ -51,5 +51,3 @@
 </body>
 
 </html>
-
-
