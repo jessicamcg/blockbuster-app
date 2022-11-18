@@ -39,33 +39,33 @@
                 <div class="card my-1">
                   <p class="card-header">Order Summary</p>
                   <div class="p-2">
-                  <h6 class="font-weight-light m-0">Status:
-                    <c:out value="${order.paymentStatus}" />
-                  </h6>
-                  <h6 class="font-weight-light m-0">Order ID:
-                    <c:out value="${order.id}" />
-                  </h6>
-                  <h6 class="font-weight-light m-0">Order Total: $
-                    <c:out value="${order.total}" />
-                  </h6>
+                    <h6 class="font-weight-light m-0">Status:
+                      <c:out value="${order.paymentStatus}" />
+                    </h6>
+                    <h6 class="font-weight-light m-0">Order ID:
+                      <c:out value="${order.id}" />
+                    </h6>
+                    <h6 class="font-weight-light m-0">Order Total: $
+                      <c:out value="${order.total}" />
+                    </h6>
                   </div>
                 </div>
                 <div class="card my-1">
                   <p class="card-header">Shipping Address:</p>
                   <div class="p-2">
-                  <h6 class="font-weight-light m-0">Name:
-                    <c:out value="${order.firstName}" />
-                    <c:out value="${order.lastName}" />
-                  </h6>
-                  <h6 class="font-weight-light m-0">Address:
-                    <c:out value="${order.address}" />
-                  </h6>
-                  <h6 class="font-weight-light m-0">Email:
-                    <c:out value="${order.email}" />
-                  </h6>
-                  <h6 class="font-weight-light m-0">Phone:
-                    <c:out value="${order.phone}" />
-                  </h6>
+                    <h6 class="font-weight-light m-0">Name:
+                      <c:out value="${order.firstName}" />
+                      <c:out value="${order.lastName}" />
+                    </h6>
+                    <h6 class="font-weight-light m-0">Address:
+                      <c:out value="${order.address}" />
+                    </h6>
+                    <h6 class="font-weight-light m-0">Email:
+                      <c:out value="${order.email}" />
+                    </h6>
+                    <h6 class="font-weight-light m-0">Phone:
+                      <c:out value="${order.phone}" />
+                    </h6>
                   </div>
                 </div>
               </div>
@@ -73,23 +73,24 @@
           </div>
           <br>
 
-            <div class="card text-center">
-              <div class="card-header">
-                Ordered Movies
+          <div class="card text-center">
+            <div class="card-header">
+              Ordered Movies
+            </div>
+            <div class="card-body">
+              <div class="container col-12 d-flex flex-wrap justify-content-center">
+                <c:forEach var="movie" items="${order.orderItems}">
+                  <div class="card" style="width: 10rem;">
+                    <img src=<c:out value='${movie.imageURL}' /> alt=<c:out value='${movie.title}' /> />
+                    <div class="card-body">
+                      <h5 class="card-title"><c:out value="${movie.title}" /></h5>
+                      <p class="card-text">$<c:out value="${movie.price}" /></p>
+                    </div>
+                  </div>
+                </c:forEach>
               </div>
-              <div class="card-body">
-                <div class="container col-12 d-flex flex-wrap justify-content-center">
-                  <c:forEach var="movie" items="${order.orderItems}">
-                        <div class="card" style="width: 16rem;">
-                          <img src=<c:out value='${movie.imageURL}' /> alt=<c:out value='${movie.title}' /> />
-                          <div class="card-body">
-                            <h5 class="card-title"><c:out value="${movie.title}" /></h5>
-                            <p class="card-text"><c:out value="${movie.price}" /></p>
-                          </div>
-                        </div>
-                  </c:forEach>
-                </div>
-              </div>
+            </div>
           </div>
+        </div>
     </body>
     </html>

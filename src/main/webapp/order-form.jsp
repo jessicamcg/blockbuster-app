@@ -30,15 +30,18 @@
         <div class="col-md-5 col-lg-4 order-md-last">
           <h3 class="d-flex justify-content-between align-items-center mb-3">
             <span class="text-primary">Your cart</span>
-            <span class="badge bg-primary rounded-pill"><c:out value='${cart.size()}' /></span>
+            <span class="badge bg-primary rounded-pill"><c:out value="${cartQuantity}"/></span>
           </h3>
           <ul class="list-group mb-3">
-          <c:forEach var="movie" items="${cart}">
+          <c:forEach var="movie" items="${cart.keySet()}">
             <li class="list-group-item d-flex justify-content-between lh-sm">
               <div>
                 <h6 class="my-0"><c:out value='${movie.title}'/></h6>
               </div>
-              <span class="text-muted"><c:out value='${movie.price}'/></span>
+              <div>
+                <span class="text-muted"><c:out value='${movie.price}'/></span>
+                <span class="badge bg-primary rounded-pill"><c:out value="${cart.get(movie)}" /></span>
+              </div>
             </li>
           </c:forEach>
             <li class="list-group-item d-flex justify-content-between bg-light">
