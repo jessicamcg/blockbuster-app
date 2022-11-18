@@ -18,20 +18,20 @@ import java.util.List;
 
 @WebServlet("/")
 public class AppServlet extends HttpServlet {
-  private CustomerDAO custDAO;
-  private CategoryDAO catDAO;
-  private AdminDAO ADAO;
-  private MovieDAO MDAO;
-  private OrderDAO ODAO;
-  private PaymentDAO PDAO;
+  private CustomerDAO custDAO = new CustomerDAO() ;
+  private CategoryDAO catDAO = new CategoryDAO();
+  private AdminDAO ADAO = new AdminDAO();
+  private MovieDAO MDAO = new MovieDAO();
+  private OrderDAO ODAO = new OrderDAO();
+  private PaymentDAO PDAO = new PaymentDAO();
 
   public void init() {
-    custDAO = new CustomerDAO();
-    catDAO = new CategoryDAO();
-    ADAO = new AdminDAO();
-    MDAO = new MovieDAO();
-    ODAO = new OrderDAO();
-    PDAO = new PaymentDAO();
+    this.custDAO = custDAO;
+    this.catDAO = catDAO;
+    this.ADAO = ADAO;
+    this.MDAO = MDAO;
+    this.ODAO = ODAO;
+    this.PDAO = PDAO;
   }
 
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -364,15 +364,19 @@ public class AppServlet extends HttpServlet {
   }
 
   public void logout(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-    response.setContentType("text/html");
-    PrintWriter pw=response.getWriter();
-    HttpSession session=request.getSession();
-    session.invalidate();
-    pw.print("<div class=\"alert alert-success\" role=\"alert\">\n" +
-            "  You are successfully logged out\n" +
-            "</div>");
-    RequestDispatcher rd=request.getRequestDispatcher("/index.jsp");
-    rd.include(request, response);
+    response.setContentType("text/html;charset=UTF-8");
+    try (PrintWriter out = response.getWriter()) {
+      if (request.getSession().getAttribute("auth") != null) { //we are getting auth from the first session in login servlet
+        request.getSession().removeAttribute("auth");
+        request.getSession().invalidate();
+        HttpSession session = request.getSession();
+        System.out.println(session.getId());
+        response.sendRedirect("login.jsp");
+        System.out.println("user has logged out ");
+      } else {
+        response.sendRedirect("index.jsp");
+      }
+    }
   }
 
   private void loginError(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {

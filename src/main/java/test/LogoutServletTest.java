@@ -49,7 +49,7 @@ public class LogoutServletTest extends TestCase {
 
         @Test
         public void testLogoutServletTrue() throws ServletException, IOException {
-            when(session.getAttribute("logout")).thenReturn("dummyUser");
+            when(session.getAttribute("auth")).thenReturn("true");
 
             AppServlet = new AppServlet();
             AppServlet.logout(request, response);
@@ -59,7 +59,7 @@ public class LogoutServletTest extends TestCase {
 
         @Test
         public void testLogoutServletFalse() throws ServletException, IOException {
-            when(session.getAttribute("logout")).thenReturn(null);
+            when(session.getAttribute("auth")).thenReturn(false);
 
             AppServlet = new AppServlet();
             AppServlet.logout(request, response);

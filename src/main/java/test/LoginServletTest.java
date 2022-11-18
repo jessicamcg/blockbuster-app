@@ -1,8 +1,9 @@
 package test;
 
 import controllers.AppServlet;
+import dao.AdminDAO;
 import dao.CustomerDAO;
-import model.Customer;
+import model.Admin;
 import junit.framework.TestCase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,9 +27,9 @@ class LoginServletTest extends TestCase {
     @InjectMocks
     AppServlet AppServlet;
     @Mock
-    CustomerDAO CustomerDAO;
+    AdminDAO AdminDAO;
     @Mock
-    Customer Customer;
+    Admin admin;
     @Mock
     HttpServletRequest request;
     @Mock
@@ -44,28 +45,29 @@ class LoginServletTest extends TestCase {
         response = mock(HttpServletResponse.class);
         dispatcher = mock(RequestDispatcher.class);
         session = mock(HttpSession.class);
-        CustomerDAO = mock(CustomerDAO.class);
+        AdminDAO = mock(dao.AdminDAO.class);
 
-        when(request.getSession(true)).thenReturn(session);
         when(request.getSession()).thenReturn(session);
     }
 
     @Test
     void testLoginServletTrue() throws IOException, ServletException, SQLException {
-        when(request.getParameter("email")).thenReturn("dsikes313@gmail.com");
-        when(request.getParameter("password")).thenReturn("BeastMode");
+
+        when(request.getParameter("email")).thenReturn("jessica@admin.com");
+        when(request.getParameter("password")).thenReturn("jessica");
 
         AppServlet = new AppServlet();
         AppServlet.auth(request,response);
 
-        verify(response,atLeast(1)).sendRedirect("Customer-search.jsp");
+
+        verify(response,atLeast(1)).sendRedirect("admin");
     }
 
 //    @Test
 //    void testLoginServletTrueClient() throws IOException, ServletException, SQLException {
-//        when(request.getParameter("email")).thenReturn("jasonjohn333@yahoo.com");
-//        when(request.getParameter("password")).thenReturn("jasonjj33");
-//        when(Customer.getId()).thenReturn(Customer.getId());
+//        when(request.getParameter("email")).thenReturn("jessica@admin.com");
+//        when(request.getParameter("password")).thenReturn("jessica");
+//
 //
 //        AppServlet = new AppServlet();
 //        AppServlet.auth(request,response);
@@ -77,7 +79,7 @@ class LoginServletTest extends TestCase {
 //    void testLoginServletFalse() throws IOException, ServletException, SQLException {
 //        when(request.getParameter("email")).thenReturn("asf");
 //        when(request.getParameter("password")).thenReturn("asfs");
-//        when(Customer.getId()).thenReturn(Customer.getId());;
+//
 //
 //        AppServlet = new AppServlet();
 //        AppServlet.auth(request,response);

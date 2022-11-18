@@ -28,6 +28,7 @@ public class AdminDAO {
         String email =rs.getString("email");
         String password = rs.getString("password");
         admin = new Admin(id, firstName, lastName, email, password);
+        System.out.println(admin);
       }
     } catch (SQLException e) {
       e.printStackTrace();

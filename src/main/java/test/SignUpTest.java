@@ -78,7 +78,7 @@ class SignUpTest extends TestCase {
         AppServlet.init(servletConfig);
         AppServlet.insertNewCustomer(request,response);
 
-        verify(dispatcher,atLeast(1)).forward(request,response);
+        verify(response,atLeast(1)).sendRedirect("movies");
     }
 
 
