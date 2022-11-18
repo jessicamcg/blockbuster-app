@@ -27,21 +27,22 @@ import java.util.Map;
 
 @WebServlet("/")
 public class AppServlet extends HttpServlet {
-  private CustomerDAO custDAO;
-  private CategoryDAO catDAO;
-  private AdminDAO adminDAO;
-  private MovieDAO movieDAO;
-  private OrderDAO orderDAO;
-  private PaymentDAO paymentDAO;
+  private CustomerDAO custDAO = new CustomerDAO() ;
+  private CategoryDAO catDAO = new CategoryDAO();
+  private AdminDAO adminDAO = new AdminDAO();
+  private MovieDAO movieDAO = new MovieDAO();
+  private OrderDAO orderDAO = new OrderDAO();
+  private PaymentDAO paymentDAO = new PaymentDAO();
+
 
   @Override
   public void init() {
-    custDAO = new CustomerDAO();
-    catDAO = new CategoryDAO();
-    adminDAO = new AdminDAO();
-    movieDAO = new MovieDAO();
-    orderDAO = new OrderDAO();
-    paymentDAO = new PaymentDAO();
+    this.custDAO = custDAO;
+    this.catDAO = catDAO;
+    this.adminDAO = adminDAO;
+    this.movieDAO = movieDAO;
+    this.orderDAO = orderDAO;
+    this.paymentDAO = paymentDAO;
   }
 
   @Override
@@ -51,7 +52,7 @@ public class AppServlet extends HttpServlet {
   }
 
   @Override
-  protected void doGet(HttpServletRequest request, HttpServletResponse response)
+  public void doGet(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
     String action = request.getServletPath();
     System.out.println(action);
@@ -555,7 +556,7 @@ public class AppServlet extends HttpServlet {
     }
   }
 
-  private void auth (HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
+  public void auth(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
 
     String email=request.getParameter("email");
     String password=request.getParameter("password");
@@ -583,17 +584,20 @@ public class AppServlet extends HttpServlet {
     }
   }
 
-  private void logout(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-    response.setContentType("text/html");
-    PrintWriter pw=response.getWriter();
-
-    HttpSession session=request.getSession();
-    session.invalidate();
-    pw.print("<div class=\"alert alert-success\" role=\"alert\">\n" +
-            "  You are successfully logged out\n" +
-            "</div>");
-    RequestDispatcher rd=request.getRequestDispatcher("/index.jsp");
-    rd.include(request, response);
+  public void logout(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    response.setContentType("text/html;charset=UTF-8");
+    try (PrintWriter out = response.getWriter()) {
+      if (request.getSession().getAttribute("auth") != null) { //we are getting auth from the first session in login servlet
+        request.getSession().removeAttribute("auth");
+        request.getSession().invalidate();
+        HttpSession session = request.getSession();
+        System.out.println(session.getId());
+        response.sendRedirect("login.jsp");
+        System.out.println("user has logged out ");
+      } else {
+        response.sendRedirect("index.jsp");
+      }
+    }
   }
 
   private void loginError(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -608,7 +612,7 @@ public class AppServlet extends HttpServlet {
     rd.include(request, response);
   }
 
-  private void insertNewCustomer(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+  public void insertNewCustomer(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
     String firstName = request.getParameter("firstname");
     String lastName = request.getParameter("lastname");
     String phone = request.getParameter("phone");
