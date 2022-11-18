@@ -18,6 +18,7 @@
               <li><a href="<%=request.getContextPath()%>/admincategories" class="nav-link">Categories</a></li>
               <li><a href="<%=request.getContextPath()%>/adminmovies" class="nav-link">Movies</a></li>
               <c:if test="${auth != null}">
+                <li><a href="<%=request.getContextPath()%>/adminorders" class="nav-link">Orders</a></li>
                 <li><a href="<%=request.getContextPath()%>/logout" class="nav-link">Logout</a></li>
               </c:if>
             </ul>
@@ -32,6 +33,14 @@
             <hr>
               <div class="d-flex justify-content-around">
                 <a class="btn btn-primary" href="<%=request.getContextPath()%>/adminnewmovieform">Add a Movie</a>
+              </div>
+
+              <div class="">
+                  <form class="d-flex justify-content-center align-items-center my-2" action="searchmovies" method="GET">
+                    <label class="m-0 p-0" for="title">Search By Title: </label>
+                    <input class="mx-2 col-4 form-control" type="text" name="title"/>
+                    <input class="btn btn-primary btn-sm" type="submit" value="Search"/>
+                  </form>
               </div>
             <br>
             <div class="card-columns">

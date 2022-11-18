@@ -40,7 +40,7 @@ public class OrderDAO {
           "on order_item.movie_id=movie.id\n" +
           "where order_details.customer_id=?";
 
-  public void insertOrder(Customer customer, Map<Movie,Integer> cart, double cartTotal, int cardNumber) {
+  public void insertOrder(Customer customer, Map<Movie,Integer> cart, double cartTotal, String cardNumber) {
     try (java.sql.Connection connection = dao.Connection.getConnection();
          PreparedStatement ps = connection.prepareStatement(INSERT_ORDER)) {
       UUID uuid = UUID.randomUUID();
@@ -85,7 +85,7 @@ public class OrderDAO {
       int customerID = 0;
       double total = 0;
       String paymentStatus = null;
-      int cardNumber = 0;
+      String cardNumber = null;
       String firstName = null;
       String lastName = null;
       String phone = null;
@@ -96,7 +96,7 @@ public class OrderDAO {
         customerID = rs.getInt("customer_id");
         total= rs.getDouble("total");
         paymentStatus = rs.getString("payment_status");
-        cardNumber = rs.getInt("card_number");
+        cardNumber = rs.getString("card_number");
         firstName = rs.getString("first_name");
         lastName = rs.getString("last_name");
         phone = rs.getString("phone");
@@ -124,7 +124,7 @@ public class OrderDAO {
       String orderID = null;
       double total = 0;
       String paymentStatus = null;
-      int cardNumber = 0;
+      String cardNumber = null;
       String firstName = null;
       String lastName = null;
       String phone = null;
@@ -135,7 +135,7 @@ public class OrderDAO {
         orderID = rs.getString("order_id");
         total= rs.getDouble("total");
         paymentStatus = rs.getString("payment_status");
-        cardNumber = rs.getInt("card_number");
+        cardNumber = rs.getString("card_number");
         firstName = rs.getString("first_name");
         lastName = rs.getString("last_name");
         phone = rs.getString("phone");

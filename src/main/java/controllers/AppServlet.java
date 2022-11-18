@@ -3,6 +3,11 @@ package controllers;
 import dao.*;
 import model.*;
 
+import javax.mail.*;
+import javax.mail.Transport;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,7 +21,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Properties;
 import java.util.Map;
+
 
 @WebServlet("/")
 public class AppServlet extends HttpServlet {
@@ -286,7 +293,7 @@ public class AppServlet extends HttpServlet {
   }
 
   private void placeOrder(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    int cardNumber = Integer.parseInt(request.getParameter("cc-number"));
+    String cardNumber = request.getParameter("cc-number");
     HttpSession session=request.getSession();
     Customer customer = (Customer) session.getAttribute("auth");
     Map<Movie,Integer> cartItems = (Map<Movie, Integer>) session.getAttribute("cart");
@@ -294,13 +301,82 @@ public class AppServlet extends HttpServlet {
     orderDAO.insertOrder(customer, cartItems, cartTotal,cardNumber);
     cartItems.forEach((movie,quantity) -> {
       try {
-        movieDAO.updateMovieStock(movie,quantity);
+
+        movieDAO.updateMovieStock(movie, quantity);
+        if (movie.getStock() < 5){
+          String to = "jessica@admin.com";
+          String from = "order@blockbuster.com";
+          final String username = "ae00cd271c09de";
+          final String pass = "72dcf21228e5fa";
+          String host = "smtp.mailtrap.io";
+          Properties props = new Properties();
+          props.put("mail.smtp.auth", "true");
+          props.put("mail.smtp.starttls.enable", "true");
+          props.put("mail.smtp.host", host);
+          props.put("mail.smtp.port", "2525");
+          props.put("mail.smtp.connectiontimeout", "t1");
+          props.put("mail.smtp.timeout", "t2");
+          props.put("mail.smtp.ssl.protocols", "TLSv1.2");
+
+          Session ses = Session.getInstance(props,
+                  new Authenticator() {
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                      return new PasswordAuthentication(username, pass);
+                    }
+                  });
+          Message message = null;
+          try {
+            message = new MimeMessage(ses);
+            message.setFrom(new InternetAddress(from));
+            message.setRecipients(Message.RecipientType.TO,
+                    InternetAddress.parse(to));
+            message.setSubject("Low Stock " + movie.getTitle());
+            message.setContent("We are low in " + movie.getTitle(), "text/html");
+            Transport.send(message);
+          } catch (MessagingException e) {
+            throw new RuntimeException(e);
+          }
+        }
+
       } catch (SQLException e) {
         throw new RuntimeException(e);
       }
     });
     session.setAttribute("cart",null);
     session.setAttribute("cartTotal",null);
+
+    String to = customer.getEmail();
+    String from = "order@blockbuster.com";
+    final String username = "ae00cd271c09de";
+    final String pass = "72dcf21228e5fa";
+    String host = "smtp.mailtrap.io";
+    Properties props = new Properties();
+    props.put("mail.smtp.auth", "true");
+    props.put("mail.smtp.starttls.enable", "true");
+    props.put("mail.smtp.host", host);
+    props.put("mail.smtp.port", "2525");
+    props.put("mail.smtp.connectiontimeout", "t1");
+    props.put("mail.smtp.timeout", "t2");
+    props.put("mail.smtp.ssl.protocols", "TLSv1.2");
+
+    Session ses = Session.getInstance(props,
+            new Authenticator() {
+              protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, pass);
+              }
+            });
+    Message message = null;
+    try {
+      message = new MimeMessage(ses);
+      message.setFrom(new InternetAddress(from));
+      message.setRecipients(Message.RecipientType.TO,
+              InternetAddress.parse(to));
+      message.setSubject("Thank You For your order!!");
+      message.setContent("We got your order.", "text/html");
+      Transport.send(message);
+    } catch (MessagingException e) {
+      throw new RuntimeException(e);
+    }
     response.sendRedirect("home");
   }
 
@@ -545,6 +621,40 @@ public class AppServlet extends HttpServlet {
     String password = request.getParameter("password");
     Customer newCustomer = new Customer(firstName,lastName,phone,address,email,password);
     custDAO.insertCustomer(newCustomer);
+
+    String to = newCustomer.getEmail();
+    String from = "welcome@blockbuster.com";
+    final String username = "ae00cd271c09de";
+    final String pass = "72dcf21228e5fa";
+    String host = "smtp.mailtrap.io";
+    Properties props = new Properties();
+    props.put("mail.smtp.auth", "true");
+    props.put("mail.smtp.starttls.enable", "true");
+    props.put("mail.smtp.host", host);
+    props.put("mail.smtp.port", "2525");
+    props.put("mail.smtp.connectiontimeout", "t1");
+    props.put("mail.smtp.timeout", "t2");
+    props.put("mail.smtp.ssl.protocols", "TLSv1.2");
+
+    Session ses = Session.getInstance(props,
+            new Authenticator() {
+              protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, pass);
+              }
+            });
+
+    Message message = null;
+    try {
+      message = new MimeMessage(ses);
+      message.setFrom(new InternetAddress(from));
+      message.setRecipients(Message.RecipientType.TO,
+              InternetAddress.parse(to));
+      message.setSubject("Welcome to Blockbuster");
+      message.setContent("Thank you for registering. Now you can enjoy your movies.", "text/html");
+      Transport.send(message);
+    } catch (MessagingException e) {
+      throw new RuntimeException(e);
+    }
 
     Customer customer = custDAO.getCustomer(email);
     HttpSession session=request.getSession();
