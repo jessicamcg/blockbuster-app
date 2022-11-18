@@ -35,20 +35,20 @@
               <div class="container col-12">
                 <c:forEach var="order" items="${orders}">
                   <div class="card my-1">
-                    <div class="card-body d-flex justify-content-between ">
-                      <div class="">
+                    <div class="card-body d-flex justify-content-between p-3">
+                      <div class="col-4">
                         <p class="font-weight-light m-0">Status:</p>
                         <h4><c:out value='${order.paymentStatus}' /></h4>
                       </div>
-                      <div>
+                      <div class="col-2">
                         <h6 class="card-text">Customer ID</h6>
                         <p class="card-text"><c:out value="${order.customerID}"/></p>
                       </div>
-                      <div>
+                      <div class="col-4">
                         <h6 class="card-text"><c:out value="${order.id}" /></h6>
                         <p class="card-text">$<c:out value="${order.total}" /></p>
                       </div>
-                      <div class="d-flex align-items-center">
+                      <div class="col-2 d-flex align-items-center">
                         <a href="adminorderdetails?id=<c:out value='${order.id}' />"class="btn btn-primary"> View Details</a>
                       </div>
                     </div>

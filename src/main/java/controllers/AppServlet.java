@@ -14,7 +14,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @WebServlet("/")
 public class AppServlet extends HttpServlet {
@@ -132,6 +134,9 @@ public class AppServlet extends HttpServlet {
         case "/adminorderdetails" :
           renderAdminOrderDetails(request,response);
           break;
+        case "/adminupdateorder" :
+          updateOrder(request,response);
+          break;
         case "/orderdetails" :
           renderOrderDetails(request,response);
           break;
@@ -147,49 +152,67 @@ public class AppServlet extends HttpServlet {
     }
   }
 
-  private void renderOrderDetails(HttpServletRequest request, HttpServletResponse response) throws IOException {
+  private void updateOrder(HttpServletRequest request, HttpServletResponse response) {
+    HttpSession session=request.getSession();
+    String paymentStatus = request.getParameter("paymentStatus");
+    String orderID = request.getParameter("id");
+    try {
+      paymentDAO.updatePaymentStatusById(paymentStatus,orderID);
+      Order order = orderDAO.selectOrderByID(orderID);
+      session.setAttribute("order",order);
+      response.sendRedirect("admin-order-details.jsp");
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  private void renderOrderDetails(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
     HttpSession session=request.getSession();
     if (session.getAttribute("auth") instanceof Customer) {
       String id = request.getParameter("id");
       Order order = orderDAO.selectOrderByID(id);
-      System.out.println(order);
-      session.setAttribute("order",order);
-      response.sendRedirect("order-details.jsp");
+      request.setAttribute("order", order);
+      RequestDispatcher dispatcher = request.getRequestDispatcher("order-details.jsp");
+      dispatcher.forward(request, response);
+
     } else {
       response.sendRedirect("index.jsp");
     }}
 
-  private void renderAdminOrderDetails(HttpServletRequest request, HttpServletResponse response) throws IOException {
+  private void renderAdminOrderDetails(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
     HttpSession session=request.getSession();
     if (session.getAttribute("auth") instanceof Admin) {
       String id = request.getParameter("id");
       Order order = orderDAO.selectOrderByID(id);
-      session.setAttribute("order",order);
-      response.sendRedirect("admin-order-details.jsp");
+      request.setAttribute("order", order);
+      RequestDispatcher dispatcher = request.getRequestDispatcher("admin-order-details.jsp");
+      dispatcher.forward(request, response);
     } else {
       response.sendRedirect("index.jsp");
     }
   }
 
-  private void renderAdminOrders(HttpServletRequest request, HttpServletResponse response) throws IOException {
+  private void renderAdminOrders(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
     HttpSession session=request.getSession();
     if (session.getAttribute("auth") instanceof Admin) {
       List<Order> orders = orderDAO.selectAllOrders();
-      System.out.println(orders);
-      session.setAttribute("orders",orders);
-      response.sendRedirect("admin-orders.jsp");
+      request.setAttribute("orders", orders);
+      RequestDispatcher dispatcher = request.getRequestDispatcher("admin-orders.jsp");
+      dispatcher.forward(request, response);
     } else {
       response.sendRedirect("index.jsp");
     }
   }
 
-  private void renderOrders(HttpServletRequest request, HttpServletResponse response) throws IOException {
+  private void renderOrders(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
     HttpSession session=request.getSession();
     if (session.getAttribute("auth") instanceof Customer) {
       int customerID = ((Customer) session.getAttribute("auth")).getId();
       List<Order> orders = orderDAO.selectAllOrdersByCustomerID(customerID);
-      session.setAttribute("orders",orders);
-      response.sendRedirect("order-view.jsp");
+      request.setAttribute("orders", orders);
+      RequestDispatcher dispatcher = request.getRequestDispatcher("order-view.jsp");
+      dispatcher.forward(request, response);
+
     } else {
       response.sendRedirect("index.jsp");
     }  }
@@ -243,13 +266,20 @@ public class AppServlet extends HttpServlet {
   
   private void removeFromCart(HttpServletRequest request, HttpServletResponse response) throws IOException {
     int movieID = Integer.parseInt(request.getParameter("id"));
-    Movie movie = movieDAO.selectMovie(movieID);
+    Movie movieToRemove = movieDAO.selectMovie(movieID);
     HttpSession session=request.getSession();
-    List<Movie> cartMovies = (List<Movie>) session.getAttribute("cart");
-    cartMovies.remove(movie);
+    Map<Movie,Integer> cartItems = (Map<Movie, Integer>) session.getAttribute("cart");
+    double moviePrice = (double) Math.round(((movieToRemove.getPrice()*((double) cartItems.get(movieToRemove))) * 100)) / 100;
+    cartItems.remove(movieToRemove);
     double cartTotal = (double) Math.round((double) session.getAttribute("cartTotal") * 100) / 100;
-    double moviePrice = (double) Math.round(movie.getPrice() * 100) / 100;
     double newCartTotal = cartTotal - moviePrice;
+    List<Movie> cartMovies = new ArrayList<>();
+    final int[] cartQuantity = {0};
+    cartItems.forEach( (movie,quantity) -> {
+      cartMovies.add(movie);
+      cartQuantity[0] += quantity;
+    });
+    session.setAttribute("cartQuantity", cartQuantity[0]);
     session.setAttribute("cartTotal", newCartTotal);
     response.sendRedirect("cart");
   }
@@ -258,12 +288,12 @@ public class AppServlet extends HttpServlet {
     int cardNumber = Integer.parseInt(request.getParameter("cc-number"));
     HttpSession session=request.getSession();
     Customer customer = (Customer) session.getAttribute("auth");
-    List<Movie> cartMovies = (List<Movie>) session.getAttribute("cart");
+    Map<Movie,Integer> cartItems = (Map<Movie, Integer>) session.getAttribute("cart");
     double cartTotal = (double) session.getAttribute("cartTotal");
-    orderDAO.insertOrder(customer,cartMovies, cartTotal,cardNumber);
-    cartMovies.forEach((movie) -> {
+    orderDAO.insertOrder(customer, cartItems, cartTotal,cardNumber);
+    cartItems.forEach((movie,quantity) -> {
       try {
-        movieDAO.updateMovieStock(movie);
+        movieDAO.updateMovieStock(movie,quantity);
       } catch (SQLException e) {
         throw new RuntimeException(e);
       }
@@ -364,6 +394,7 @@ public class AppServlet extends HttpServlet {
     if (session.getAttribute("auth") == null) {
       renderLogin(request, response);
     } else {
+      Map<Movie,Integer> cart = (Map<Movie, Integer>) session.getAttribute("cart");
       RequestDispatcher dispatcher = request.getRequestDispatcher("cart.jsp");
       dispatcher.forward(request, response);
     }
@@ -371,18 +402,50 @@ public class AppServlet extends HttpServlet {
 
   private void addToCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     int movieID = Integer.parseInt(request.getParameter("id"));
+    Movie movieToAdd = movieDAO.selectMovie(movieID);
     HttpSession session=request.getSession();
     if (session.getAttribute("cart") == null) {
       List<Movie> cartMovies = new ArrayList<>();
-      cartMovies.add(movieDAO.selectMovie(movieID));
+      cartMovies.add(movieToAdd);
       double cartTotal = (double) Math.round(cartMovies.stream().mapToDouble(Movie::getPrice).sum() * 100) / 100;
+      Map<Movie, Integer> cartItems = new HashMap<>();
+      cartItems.put(movieToAdd, 1);
+      session.setAttribute("cartQuantity",1);
       session.setAttribute("cartTotal", cartTotal);
-      session.setAttribute("cart", cartMovies);
+      session.setAttribute("cart", cartItems);
     } else {
-      List<Movie> cartMovies = (List<Movie>) session.getAttribute("cart");
-      cartMovies.add(movieDAO.selectMovie(movieID));
-      double cartTotal = (double) Math.round(cartMovies.stream().mapToDouble(Movie::getPrice).sum() * 100) / 100;
-      session.setAttribute("cartTotal", cartTotal);
+      Map<Movie, Integer> cartItems = (Map<Movie, Integer>) session.getAttribute("cart");
+
+      if (cartItems.containsKey(movieToAdd)) {
+        if (movieToAdd.getStock() <= cartItems.get(movieToAdd)+1) {
+          System.out.println(movieToAdd.getStock());
+          PrintWriter pw=response.getWriter();
+          pw.print("<div class=\"alert alert-danger\" role=\"alert\">\n" +
+                  "  Error adding movie to cart: Not enough in stock\n" +
+                  "</div>");
+          RequestDispatcher rd =request.getRequestDispatcher("index.jsp");
+          rd.include(request, response);
+          return;
+        }
+        cartItems.put(movieToAdd, cartItems.get(movieToAdd)+1);
+      } else {
+        cartItems.put(movieToAdd, 1);
+      }
+
+      List<Movie> cartMovies = new ArrayList<>();
+      final int[] cartQuantity = {0};
+      cartItems.forEach( (movie,quantity) -> {
+        cartMovies.add(movie);
+        cartQuantity[0] += quantity;
+      });
+      final double[] cartTotal = {0.00};
+      cartItems.forEach((movie, quantity) -> {
+        cartTotal[0] += movie.getPrice()*quantity;
+      });
+      double cartTotalAdjusted = (double) Math.round(cartTotal[0] * 100) / 100;
+      session.setAttribute("cartQuantity", cartQuantity[0]);
+      session.setAttribute("cartTotal", cartTotalAdjusted);
+      session.setAttribute("cart", cartItems);
     }
     response.sendRedirect("cart");
   }
@@ -409,7 +472,6 @@ public class AppServlet extends HttpServlet {
 
   private void renderHome(HttpServletRequest request, HttpServletResponse response) throws IOException {
     HttpSession session=request.getSession();
-    System.out.println("home");
     if (session.getAttribute("auth") instanceof Admin) {
       response.sendRedirect("admin-dashboard.jsp");
     } else {
@@ -497,7 +559,6 @@ public class AppServlet extends HttpServlet {
     } else {
       response.sendRedirect("login");
     }
-
   }
 
   private void insertCategory(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
