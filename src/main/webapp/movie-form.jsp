@@ -52,30 +52,30 @@
           </c:if>
           <fieldset class="input-group row mb-2 mr-sm-2">
               <label class="col-sm-3 col-form-label">Title: </label>
-              <input type="text" value="<c:out value='${movie.title}' />" class="form-control col-sm-9" name="title">
+              <input type="text" value="<c:out value='${movie.title}' />" class="form-control col-sm-9" name="title" required>
           </fieldset>
           <fieldset class="input-group row mb-2 mr-sm-2">
               <label class="col-sm-3 col-form-label">Summary: </label>
-              <input type="text" value="<c:out value='${movie.summary}' />" class="form-control col-sm-9" name="summary">
+              <input type="text" value="<c:out value='${movie.summary}' />" class="form-control col-sm-9" name="summary" required>
           </fieldset>
           <fieldset class="input-group row mb-2 mr-sm-2">
               <label class="col-sm-3 col-form-label">Price: </label>
               <div class="input-group-prepend">
                 <div class="input-group-text">$</div>
               </div>
-              <input type="text" value="<c:out value='${movie.price}' />" class="form-control col-sm-9" name="price">
+              <input type="text" value="<c:out value='${movie.price}' />" class="form-control col-sm-9" name="price" required>
           </fieldset>
           <fieldset class="input-group row mb-2 mr-sm-2">
               <label class="col-sm-3 col-form-label">In Stock: </label>
-              <input type="text" value="<c:out value='${movie.stock}' />" class="form-control col-sm-9" name="stock">
+              <input type="text" value="<c:out value='${movie.stock}' />" class="form-control col-sm-9" name="stock" required>
           </fieldset>
           <fieldset class="input-group row mb-2 mr-sm-2">
               <label class="col-sm-3 col-form-label">Image URL: </label>
-              <input type="text" value="<c:out value='${movie.imageURL}' />" class="form-control col-sm-9" name="imageURL">
+              <input type="text" value="<c:out value='${movie.imageURL}' />" class="form-control col-sm-9" name="imageURL" required>
           </fieldset>
           <fieldset class="input-group row mb-2 mr-sm-2">
               <label class="col-sm-3 col-form-label">Category: </label>
-              <select type="text" value="<c:out value='${movie.categoryID}' />" class="form-control col-sm-9" name="categoryID">
+              <select type="text" value="<c:out value='${movie.categoryID}' />" class="form-control col-sm-9" name="categoryID" required>
                 <c:forEach var="category" items="${categories}">
                   <option
                       value="<c:out value='${category.id}'/>"
