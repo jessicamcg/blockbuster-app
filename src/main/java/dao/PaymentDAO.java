@@ -17,7 +17,7 @@ public class PaymentDAO {
       ps.setString(1, payment.getOrderID());
       ps.setDouble(2, payment.getAmount());
       ps.setString(3, payment.getPaymentStatus());
-      ps.setInt(4, payment.getCardNumber());
+      ps.setString(4, payment.getCardNumber());
       ps.executeUpdate();
     } catch (SQLException e) {
       e.printStackTrace();

@@ -24,6 +24,9 @@ public class Customer {
     this.email = email;
     this.password = password;
   }
+  public int getId() {
+    return id;
+  }
 
   public Customer(int id, String firstName, String lastName, String phone, String address, String email) {
     this.id = id;

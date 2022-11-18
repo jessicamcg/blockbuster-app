@@ -12,9 +12,9 @@ public class Payment {
   private String orderID;
   private double amount;
   private String paymentStatus;
-  private int cardNumber;
+  private String cardNumber;
 
-  public Payment(String orderID, double cartTotal, String paymentStatus, int cardNumber) {
+  public Payment(String orderID, double cartTotal, String paymentStatus, String cardNumber) {
     this.orderID = orderID;
     this.amount = cartTotal;
     this.paymentStatus = paymentStatus;

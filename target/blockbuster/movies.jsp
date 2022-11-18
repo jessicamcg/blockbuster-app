@@ -18,11 +18,13 @@
               <li><a href="<%=request.getContextPath()%>/movies" class="nav-link">Movies</a></li>
               <li><a href="<%=request.getContextPath()%>/cart" class="nav-link">Cart</a></li>
               <c:if test="${auth != null}">
+                <li><a href="<%=request.getContextPath()%>/vieworders" class="nav-link">Orders</a></li>
                 <li><a href="<%=request.getContextPath()%>/logout" class="nav-link">Logout</a></li>
               </c:if>
             </ul>
         </nav>
     </header>
+
     <br>
 
     <div class="row">
@@ -30,6 +32,13 @@
         <div class="container col-9">
             <h3 class="text-center">Available Movies</h3>
             <hr>
+            <div class="">
+                <form class="d-flex justify-content-center align-items-center my-2" action="searchmovies" method="GET">
+                  <label class="m-0 p-0" for="title">Search By Title: </label>
+                  <input class="mx-2 col-4 form-control" type="text" name="title"/>
+                  <input class="btn btn-primary btn-sm" type="submit" value="Search"/>
+                </form>
+            </div>
             <br>
             <div class="card-columns">
               <c:forEach var="movie" items="${movies}">
@@ -42,6 +51,7 @@
                   </div>
                   <div class="card-footer d-flex justify-content-center">
                     <a href="addtocart?id=<c:out value='${movie.id}' />" class="btn btn-primary">Add to Cart</a>
+                    <a href="movie-details?id=<c:out value='${movie.id}' />"class="btn btn-primary" style="margin-left: 20px"> View Details</a>
                   </div>
                 </div>
               </c:forEach>

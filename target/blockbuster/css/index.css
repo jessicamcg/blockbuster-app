@@ -1,0 +1,10 @@
+
+.bgimg {
+  background-image: url('https://ei.marketwatch.com/Multimedia/2020/05/21/Photos/ZH/MW-IG985_Movies_20200521113911_ZH.jpg?uuid=378c769c-9b79-11ea-bd9d-9c8e992d421e');
+  background-size: cover;
+  opacity: 0.6;
+}
+
+.jtext {
+  opacity: 1 !important;
+}
