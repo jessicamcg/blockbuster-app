@@ -40,7 +40,8 @@
           </div>
           <br>
           <div class="row">
-            <div class="container col-5 d-flex flex-wrap justify-content-center">
+            <form action="adminupdateorder" method="post" class="container col-5 d-flex flex-wrap justify-content-center">
+              <input type="hidden" name="id" value="<c:out value='${order.id}' />" />
               <h4 class="font-weight-light m-0">Status:</h4>
               <select type="text" class="form-control col-12" name="paymentStatus">
                 <option value="New Order" <c:if test='${order.paymentStatus.equals("New Order")}'>
@@ -76,10 +77,9 @@
               </select>
               <div class="justify-content-between">
                 <br>
-                <a href="adminupdateorder?id=<c:out value='${order.id}' />" class="btn btn-primary"
-                  type="submit">Update</a>
+                <button type="submit" class="btn btn-success">Update</button>
               </div>
-            </div>
+            </form>
 
             <div class="container col-12 d-flex flex-wrap justify-content-center">
               <div class="row">
