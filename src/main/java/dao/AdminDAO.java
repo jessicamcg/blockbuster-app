@@ -32,9 +32,8 @@ public class AdminDAO {
       }
     } catch (SQLException e) {
       e.printStackTrace();
-    } finally {
-      return admin;
     }
+    return admin;
   }
 
 

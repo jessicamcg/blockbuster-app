@@ -7,9 +7,9 @@ import java.sql.SQLException;
 
 @NoArgsConstructor
 public class Connection {
-  private static String jdbcURL = "jdbc:mysql://localhost:3306/blockbuster?useSSL=false";
-  private static String jdbcUsername = "root";
-  private static String jdbcPassword = "";
+  private static String jdbcURL = "jdbc:mysql://blockbuster-app-server.mysql.database.azure.com:3306/blockbuster?useSSL=true";
+  private static String jdbcUsername = "jessica";
+  private static String jdbcPassword = "Capstone!";
 
   protected static java.sql.Connection getConnection() {
     java.sql.Connection connection = null;
