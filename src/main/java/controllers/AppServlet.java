@@ -435,9 +435,13 @@ public class AppServlet extends HttpServlet {
         cartMovies.add(movie);
         cartQuantity[0] += quantity;
       });
-      double cartTotal = (double) Math.round(cartMovies.stream().mapToDouble(Movie::getPrice).sum() * 100) / 100;
+      final double[] cartTotal = {0.00};
+      cartItems.forEach((movie, quantity) -> {
+        cartTotal[0] += movie.getPrice()*quantity;
+      });
+      double cartTotalAdjusted = (double) Math.round(cartTotal[0] * 100) / 100;
       session.setAttribute("cartQuantity", cartQuantity[0]);
-      session.setAttribute("cartTotal", cartTotal);
+      session.setAttribute("cartTotal", cartTotalAdjusted);
       session.setAttribute("cart", cartItems);
     }
     response.sendRedirect("cart");
