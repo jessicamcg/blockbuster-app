@@ -301,7 +301,7 @@ public class AppServlet extends HttpServlet {
     cartItems.forEach((movie,quantity) -> {
       try {
 
-        movieDAO.updateMovieStock(movie);
+        movieDAO.updateMovieStock(movie, quantity);
         if (movie.getStock() < 5){
           String to = "jessica@admin.com";
           String from = "order@blockbuster.com";
