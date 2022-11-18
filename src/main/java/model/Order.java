@@ -14,7 +14,7 @@ public class Order {
   private int customerID;
   private double total = 0;
   private String paymentStatus;
-  private int cardNumber;
+  private String cardNumber;
   private String firstName;
   private String lastName;
   private String phone;

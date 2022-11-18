@@ -292,7 +292,7 @@ public class AppServlet extends HttpServlet {
   }
 
   private void placeOrder(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    int cardNumber = Integer.parseInt(request.getParameter("cc-number"));
+    String cardNumber = request.getParameter("cc-number");
     HttpSession session=request.getSession();
     Customer customer = (Customer) session.getAttribute("auth");
     Map<Movie,Integer> cartItems = (Map<Movie, Integer>) session.getAttribute("cart");
