@@ -52,7 +52,8 @@
           </c:if>
 
           <fieldset class="form-group">
-              <label>Category</label> <input type="text" value="<c:out value='${category.name}' />" class="form-control" name="name">
+              <label>Category</label>
+              <input type="text" value="<c:out value='${category.name}' />" class="form-control" name="name" required>
           </fieldset>
 
           <button type="submit" class="btn btn-success">Save</button>
