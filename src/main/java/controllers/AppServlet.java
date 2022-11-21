@@ -289,8 +289,8 @@ public class AppServlet extends HttpServlet {
         if (movie.getStock() < 5){
           emailService.sendEmail(
                   "jessica@admin.com",
-                  "Low stock: " + movie,
-                  movie + " is low in stock. Restock soon",
+                  "Low stock: " + movie.getTitle(),
+                  movie.getTitle() + " is low in stock: "+ movie.getStock() +". Restock soon",
                   "welcome@blockbuster.com"
           );
         }
