@@ -75,9 +75,6 @@
             <h5 class="card-title">New Content Added Daily</h5>
             <p class="card-text">Dropping every day, find your next obsession among our vast collection of series, movies, docs, and more.</p>
           </div>
-          <div class="card-footer">
-            <small class="text-muted">Last updated 3 mins ago</small>
-          </div>
         </div>
         <div class="card shadow">
           <img src="https://img.buzzfeed.com/buzzfeed-static/static/2015-09/4/19/campaign_images/webdr07/watching-movies-at-home-poll-2-23462-1441407636-3_dblbig.jpg" class="card-img-top" alt="...">
@@ -85,18 +82,12 @@
             <h5 class="card-title">Entertainment for All Ages</h5>
             <p class="card-text">Search through various movie categories to find your favorite cartoon, TV show, or movie.</p>
           </div>
-          <div class="card-footer">
-            <small class="text-muted">Last updated 3 mins ago</small>
-          </div>
         </div>
         <div class="card shadow">
           <img src="https://images.indianexpress.com/2020/04/binge-watching.jpg" class="card-img-top" alt="...">
           <div class="card-body">
             <h5 class="card-title">Order on the Go!</h5>
             <p class="card-text">No waiting lines necessary, enjoy unlimited access to your entertainment with just the click of a button.</p>
-          </div>
-          <div class="card-footer">
-            <small class="text-muted">Last updated 3 mins ago</small>
           </div>
         </div>
       </div>

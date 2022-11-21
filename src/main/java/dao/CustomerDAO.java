@@ -1,8 +1,6 @@
 package dao;
 
-import model.Admin;
 import model.Customer;
-import model.Movie;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

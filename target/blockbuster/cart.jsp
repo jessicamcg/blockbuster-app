@@ -35,15 +35,16 @@
               <c:if test="${cart.size() > 0}">
                 <div class="container col-6">
                   <ul>
-                    <c:forEach var="movie" items="${cart}">
+                    <c:forEach var="movie" items="${cart.keySet()}">
                       <li class="list-group-item d-flex justify-content-between p-0 my-2">
                         <img class="float-left col-4 p-0" src=<c:out value='${movie.imageURL}'/> alt=<c:out value='${movie.title}'/> />
                         <div class="col-8 p-0 d-flex flex-column align-items-between">
                           <div class="card-body">
                             <h5 class="card-title"><c:out value="${movie.title}" /></h5>
                             <p class="card-text font-weight-light">$<c:out value="${movie.price}" /></p>
+                            <p class="card-text">Quantity: <c:out value="${cart.get(movie)}" /></p>
                           </div>
-                          <div class="card-footer d-flex justify-content-center">
+                          <div class="card-footer p-1 d-flex justify-content-center">
                             <a href="removefromcart?id=<c:out value='${movie.id}' />" class="btn btn-alert">Remove</a>
                           </div>
                         </div>
@@ -53,7 +54,7 @@
                 </div>
                 <div class="col-4">
                   <h5>Cart Details</h5>
-                  <p>Number of Items: <c:out value='${cart.size()}' /></p>
+                  <p>Number of Items: <c:out value="${cartQuantity}" /></p>
                   <p>Total: $<c:out value='${cartTotal}' /></p>
                   <a href="order" class="btn btn-primary">Place Order</a>
                 </div>
