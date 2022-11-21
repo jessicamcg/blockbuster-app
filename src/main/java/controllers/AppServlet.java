@@ -377,7 +377,7 @@ public class AppServlet extends HttpServlet {
     } catch (MessagingException e) {
       throw new RuntimeException(e);
     }
-    response.sendRedirect("home");
+    response.sendRedirect("movies");
   }
 
   private void renderAdminMovies(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {

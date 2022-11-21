@@ -89,11 +89,25 @@
               </div>
 
               <div class="col-12 d-flex justify-content-center pt-3">
-                  <input class="btn btn-primary" type="submit" value="Confirm Order">
+                 <button class="btn btn-primary" onclick="openPopup()"> Confirm Order</button>
+
+
+                  </div>
               </div>
           </form>
+              <div class="confirmation" id="popup" style="width:400px; border-style:solid; border-color:blue; border-radius: 15px; position:absolute; top:15%; left:50%;
+                            text-align:center; padding: 30px; color:blue; background:white; visibility:hidden ">
+                              <img src="https://bit.ly/3GB8sBW" style="width: 25%; height:auto;">
+                              <h2> Thank you!</h2>
+                              <h4>Check your inbox for the details of your order!</h4>
+                              <input class="btn btn-primary" type="submit" value="Home" >
         </div>
       </div>
     </div>
+    <script>
+        function openPopup(){
+        document.getElementById("popup").style.visibility = "visible";
+        }
+    </script>
     </body>
     </html>
