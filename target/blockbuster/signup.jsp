@@ -13,7 +13,7 @@
                 <a href="<%=request.getContextPath()%>/" class="navbar-brand text-warning font-weight-bold"> Blockbuster </a>
             </div>
             <ul class="navbar-nav">
-                <li><a href="<%=request.getContextPath()%>/movies" class="nav-link">movies</a></li>
+                <li><a href="<%=request.getContextPath()%>/movies" class="nav-link">Movies</a></li>
             </ul>
         </nav>
     </header>
@@ -24,28 +24,27 @@
                 <div class="card-body p-2">
                 <h3 class="mx-auto mt-3">Sign up</h3>
                     <form class="p-3" action="newcustomer" method="post">
-                       <fieldset class="form-group">
-                           <label>First Name: </label> <input type="text" class="form-control" name="firstname">
-                       </fieldset>
-                       <fieldset class="form-group">
-                           <label>Last Name: </label> <input type="text" class="form-control" name="lastname">
-                       </fieldset>
-                       <fieldset class="form-group">
-                           <label>Phone: </label> <input type="text" class="form-control" name="phone">
-                       </fieldset>
-                       <fieldset class="form-group">
-                           <label>Address: </label> <input type="text" class="form-control" name="address">
-                       </fieldset>
-                       <fieldset class="form-group">
-                           <label>Email</label> <input type="text" class="form-control" name="email">
-                       </fieldset>
 
-                       <fieldset class="form-group">
-                           <label>Password</label> <input type="password" class="form-control" name="password">
-                       </fieldset>
+                    <label>First Name: </label>
+                    <input type="text" class="form-control" name="firstname" required>
 
-                       <input class="btn btn-primary" type="submit" value="Sign Up">
-                       <a href="<%=request.getContextPath()%>/login">Already have an account? Login instead</a>
+                    <label>Last Name: </label>
+                    <input type="text" class="form-control" name="lastname" required>
+
+                    <label>Phone: </label>
+                    <input type="text" class="form-control" name="phone" required>
+
+                    <label>Address: </label>
+                    <input type="text" class="form-control" name="address" required>
+
+                    <label>Email: </label>
+                    <input type="text" class="form-control" name="email" required>
+
+                    <label>Password: </label>
+                    <input type="password" class="form-control" name="password" required>
+                    <br>
+                    <input class="btn btn-primary" type="submit" value="Sign Up">
+                    <a href="<%=request.getContextPath()%>/login" class="float-right">Already have an account? Login instead</a>
                     </form>
                 </div>
             </div>

@@ -46,12 +46,22 @@
                   <img class="card-img-top" src=<c:out value='${movie.imageURL}'/> alt=<c:out value='${movie.title}'/> />
                   <div class="card-body">
                     <h5 class="card-title"><c:out value="${movie.title}" /></h5>
-                    <p class="card-text"><c:out value="${movie.summary}" /></p>
+                    <p class="card-text text-truncate"><c:out value="${movie.summary}" /></p>
                     <p class="card-text font-weight-light">$<c:out value="${movie.price}" /></p>
                   </div>
-                  <div class="card-footer d-flex justify-content-center">
-                    <a href="addtocart?id=<c:out value='${movie.id}' />" class="btn btn-primary">Add to Cart</a>
-                    <a href="movie-details?id=<c:out value='${movie.id}' />"class="btn btn-primary" style="margin-left: 20px"> View Details</a>
+                  <div class="card-footer">
+                    <c:if test="${movie.stock <= 5 && movie.stock > 0}">
+                      <div class="card text-white bg-warning text-center">Low in stock! Order soon</div>
+                    </c:if>
+                    <div class="d-flex justify-content-center">
+                      <c:if test="${movie.stock == 0}">
+                        <button href="" class="btn btn-primary" disabled>Not Available</button>
+                      </c:if>
+                      <c:if test="${movie.stock != 0}">
+                        <a href="addtocart?id=<c:out value='${movie.id}' />" class="btn btn-primary">Add to Cart</a>
+                      </c:if>
+                      <a href="movie-details?id=<c:out value='${movie.id}' />"class="btn btn-primary" style="margin-left: 20px"> View Details</a>
+                    </div>
                   </div>
                 </div>
               </c:forEach>

@@ -20,7 +20,7 @@ public class PaymentDAO {
       ps.setString(4, payment.getCardNumber());
       ps.executeUpdate();
     } catch (SQLException e) {
-      e.printStackTrace();
+      throw new RuntimeException(e);
     }
   }
 
@@ -31,7 +31,7 @@ public class PaymentDAO {
       ps.setString(2, orderID);
       ps.executeUpdate();
     } catch (SQLException e) {
-      e.printStackTrace();
+      throw new RuntimeException(e);
     }
 
   }
