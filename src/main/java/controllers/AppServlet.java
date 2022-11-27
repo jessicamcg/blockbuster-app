@@ -308,7 +308,8 @@ public class AppServlet extends HttpServlet {
             "Your order is being processed",
             "orders@blockbuster.com"
     );
-    response.sendRedirect("home");
+    response.sendRedirect("movies");
+
   }
 
   private void renderAdminMovies(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
