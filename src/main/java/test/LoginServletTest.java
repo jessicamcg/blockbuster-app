@@ -2,7 +2,6 @@ package test;
 
 import controllers.AppServlet;
 import dao.AdminDAO;
-import dao.CustomerDAO;
 import model.Admin;
 import junit.framework.TestCase;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,14 +19,13 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class LoginServletTest extends TestCase {
     @InjectMocks
     AppServlet AppServlet;
     @Mock
-    AdminDAO AdminDAO;
+    AdminDAO adminDAO;
     @Mock
     Admin admin;
     @Mock
@@ -45,7 +43,7 @@ class LoginServletTest extends TestCase {
         response = mock(HttpServletResponse.class);
         dispatcher = mock(RequestDispatcher.class);
         session = mock(HttpSession.class);
-        AdminDAO = mock(dao.AdminDAO.class);
+        adminDAO = mock(dao.AdminDAO.class);
 
         when(request.getSession()).thenReturn(session);
     }

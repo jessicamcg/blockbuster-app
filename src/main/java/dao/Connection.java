@@ -7,18 +7,16 @@ import java.sql.SQLException;
 
 @NoArgsConstructor
 public class Connection {
-  private static String jdbcURL = "jdbc:mysql://blockbuster-app-server.mysql.database.azure.com:3306/blockbuster?useSSL=true";
-  private static String jdbcUsername = "jessica";
-  private static String jdbcPassword = "Capstone!";
+  private static final String URL = "jdbc:mysql://blockbuster-app-server.mysql.database.azure.com:3306/blockbuster?useSSL=true";
+  private static final String USER = "jessica";
+  private static final String PW = "Capstone!";
 
   protected static java.sql.Connection getConnection() {
     java.sql.Connection connection = null;
     try {
       Class.forName("com.mysql.cj.jdbc.Driver");//MySQL database version 8.0
-      connection = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
-    } catch (SQLException e) {
-      e.printStackTrace();
-    } catch (ClassNotFoundException e) {
+      connection = DriverManager.getConnection(URL, USER, PW);
+    } catch (SQLException | ClassNotFoundException e) {
       e.printStackTrace();
     }
     return connection;

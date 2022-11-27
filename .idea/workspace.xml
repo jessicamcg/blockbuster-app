@@ -145,9 +145,6 @@
       <predefined_log_file id="Tomcat Host Manager Log" />
       <option name="contextPath" value="" />
       <option name="docBase" value="C:\Users\jessica.guico\code-library\blockbuster-app\src\main\webapp" />
-      <option name="envOptions">
-        <map />
-      </option>
       <option name="tomcatInfo">
         <TomcatInfo>
           <option name="name" value="Apache Tomcat/9.0.68" />
