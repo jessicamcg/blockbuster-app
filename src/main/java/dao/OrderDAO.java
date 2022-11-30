@@ -51,8 +51,8 @@ public class OrderDAO {
       Order order = selectOrderByID(String.valueOf(uuid));
       insertOrderItems(order, cart);
       Payment payment = new Payment(String.valueOf(uuid),cartTotal, "New Order", cardNumber);
-      PaymentDAO PDAO = new PaymentDAO();
-      PDAO.insertPayment(payment);
+      PaymentDAO paymentDAO = new PaymentDAO();
+      paymentDAO.insertPayment(payment);
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -102,9 +102,9 @@ public class OrderDAO {
         phone = rs.getString("phone");
         address = rs.getString("address");
         email = rs.getString("email");
-        MovieDAO MDAO = new MovieDAO();
+        MovieDAO movieDAO = new MovieDAO();
         int movieID = rs.getInt("movie_id");
-        Movie movie = MDAO.selectMovie(movieID);
+        Movie movie = movieDAO.selectMovie(movieID);
         orderItems.add(movie);
       }
       int quantity = orderItems.size();

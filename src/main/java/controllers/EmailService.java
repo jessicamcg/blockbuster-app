@@ -7,7 +7,9 @@ import java.util.Properties;
 
 public class EmailService {
 
-  public EmailService() { }
+  private EmailService() {
+    throw new IllegalStateException("Utility class");
+  }
 
   static final String USERNAME = "ae00cd271c09de";
   static final String PASSWORD = "72dcf21228e5fa";

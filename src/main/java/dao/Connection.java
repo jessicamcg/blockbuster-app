@@ -5,8 +5,11 @@ import lombok.NoArgsConstructor;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-@NoArgsConstructor
 public class Connection {
+  private Connection() {
+    throw new IllegalStateException("Utility class");
+  }
+
   private static final String URL = "jdbc:mysql://blockbuster-app-server.mysql.database.azure.com:3306/blockbuster?useSSL=true";
   private static final String USER = "jessica";
   private static final String PW = "Capstone!";

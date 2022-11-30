@@ -23,7 +23,7 @@ import static org.mockito.Mockito.*;
 
 class LoginServletTest extends TestCase {
     @InjectMocks
-    AppServlet AppServlet;
+    AppServlet appServlet;
     @Mock
     AdminDAO adminDAO;
     @Mock
@@ -54,8 +54,8 @@ class LoginServletTest extends TestCase {
         when(request.getParameter("email")).thenReturn("jessica@admin.com");
         when(request.getParameter("password")).thenReturn("jessica");
 
-        AppServlet = new AppServlet();
-        AppServlet.auth(request,response);
+        appServlet = new AppServlet();
+        appServlet.auth(request,response);
 
 
         verify(response,atLeast(1)).sendRedirect("admin");
