@@ -1,5 +1,8 @@
 # Blockbuster E-Commerce
 
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=jessicamcg_blockbuster-app&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=jessicamcg_blockbuster-app)
+[![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-white.svg)](https://sonarcloud.io/summary/new_code?id=jessicamcg_blockbuster-app)
+
 Our eCommerce store is a website where consumers can directly purchase products without any intermediary service over the internet. The goal was to develop an easy to use web-based interface where customers can search for products, view a complete description of the product and order the product. Along with an easy to access administrative interface, where an administrative team can view all user accounts, manage products by adding, editing, or deleting them, and manage customer orders as well.
 
 ### Prerequisites
@@ -41,4 +44,3 @@ Requirements for the software and other tools to build, test and push
   - [Thomas Mcgarry](https://github.com/4xg3ok7g31es)
 
 
-[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=jessicamcg_blockbuster-app&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=jessicamcg_blockbuster-app)
