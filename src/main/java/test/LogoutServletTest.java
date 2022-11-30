@@ -2,7 +2,6 @@ package test;
 
 import controllers.AppServlet;
 import dao.CustomerDAO;
-import model.Customer;
 import junit.framework.TestCase;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,11 +20,9 @@ import static org.mockito.Mockito.*;
 
 public class LogoutServletTest extends TestCase {
         @InjectMocks
-        AppServlet AppServlet;
+        AppServlet appServlet;
         @Mock
-        CustomerDAO CustomerDAO;
-        @Mock
-        Customer Customer;
+        CustomerDAO customerDAO;
         @Mock
         HttpServletRequest request;
         @Mock
@@ -41,7 +38,7 @@ public class LogoutServletTest extends TestCase {
             response = mock(HttpServletResponse.class);
             dispatcher = mock(RequestDispatcher.class);
             session = mock(HttpSession.class);
-            CustomerDAO = mock(dao.CustomerDAO.class);
+            customerDAO = mock(dao.CustomerDAO.class);
 
             when(request.getSession()).thenReturn(session);
             when(session.getId()).thenReturn("123");
@@ -51,8 +48,8 @@ public class LogoutServletTest extends TestCase {
         public void testLogoutServletTrue() throws ServletException, IOException {
             when(session.getAttribute("auth")).thenReturn("true");
 
-            AppServlet = new AppServlet();
-            AppServlet.logout(request, response);
+            appServlet = new AppServlet();
+            appServlet.logout(request, response);
 
             verify(response,atLeast(1)).sendRedirect("login.jsp");
         }
@@ -61,8 +58,8 @@ public class LogoutServletTest extends TestCase {
         public void testLogoutServletFalse() throws ServletException, IOException {
             when(session.getAttribute("auth")).thenReturn(false);
 
-            AppServlet = new AppServlet();
-            AppServlet.logout(request, response);
+            appServlet = new AppServlet();
+            appServlet.logout(request, response);
 
             verify(response,atLeast(1)).sendRedirect("index.jsp");
         }

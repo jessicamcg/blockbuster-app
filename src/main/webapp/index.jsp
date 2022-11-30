@@ -31,6 +31,12 @@
   .hero-text {
     position: relative;
   }
+
+  .login-panel {
+    background-image: url('https://www.tws-partners.com/wp-content/uploads/2021/09/blog-popcorn.jpg');
+    background-size: cover;
+    min-height: 80vh;
+  }
 </style>
 
 <body>
@@ -52,47 +58,57 @@
             </ul>
         </nav>
     </header>
-<div class="row">
-        <div class="container">
-            <div class="card"
-                <div class="card-body p-2">
-                  <a href="<%=request.getContextPath()%>/login">Click here to login</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="jumbotron jumbotron-fluid hero vh-100">
+  <div class="row">
+    <div class="jumbotron jumbotron-fluid hero">
       <div class="container text-right hero-text">
         <h1 class="">Your favorite titles</h1>
         <p class="">just a click away</p>
       </div>
     </div>
-    <div class="row justify-content-center mb-3">
-      <div class="card-deck col-10">
-        <div class="card shadow">
-          <img src="https://ventsmagazine.com/wp-content/uploads/2019/12/best-strains-high-movie-watching.jpg" class="card-img-top" alt="...">
-          <div class="card-body">
-            <h5 class="card-title">New Content Added Daily</h5>
-            <p class="card-text">Dropping every day, find your next obsession among our vast collection of series, movies, docs, and more.</p>
-          </div>
+  </div>
+  <div class="row justify-content-center mb-3">
+    <div class="card-deck col-10">
+      <div class="card shadow">
+        <img src="https://ventsmagazine.com/wp-content/uploads/2019/12/best-strains-high-movie-watching.jpg" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">New Content Added Daily</h5>
+          <p class="card-text">Dropping every day, find your next obsession among our vast collection of series, movies, docs, and more.</p>
         </div>
-        <div class="card shadow">
-          <img src="https://img.buzzfeed.com/buzzfeed-static/static/2015-09/4/19/campaign_images/webdr07/watching-movies-at-home-poll-2-23462-1441407636-3_dblbig.jpg" class="card-img-top" alt="...">
-          <div class="card-body">
-            <h5 class="card-title">Entertainment for All Ages</h5>
-            <p class="card-text">Search through various movie categories to find your favorite cartoon, TV show, or movie.</p>
-          </div>
+      </div>
+      <div class="card shadow">
+        <img src="https://img.buzzfeed.com/buzzfeed-static/static/2015-09/4/19/campaign_images/webdr07/watching-movies-at-home-poll-2-23462-1441407636-3_dblbig.jpg" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">Entertainment for All Ages</h5>
+          <p class="card-text">Search through various movie categories to find your favorite cartoon, TV show, or movie.</p>
         </div>
-        <div class="card shadow">
-          <img src="https://images.indianexpress.com/2020/04/binge-watching.jpg" class="card-img-top" alt="...">
+      </div>
+      <div class="card shadow">
+        <img src="https://images.indianexpress.com/2020/04/binge-watching.jpg" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">Order on the Go!</h5>
+          <p class="card-text">No waiting lines necessary, enjoy unlimited access to your entertainment with just the click of a button.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row align-content-center login-panel">
+    <div class="container">
+      <div class="col-10 col-md-5 float-right">
+        <div class="card shadow-lg p-3"
           <div class="card-body">
-            <h5 class="card-title">Order on the Go!</h5>
-            <p class="card-text">No waiting lines necessary, enjoy unlimited access to your entertainment with just the click of a button.</p>
+            <h4>Ready to browse our catalogue?</h4>
+            <c:if test="${auth == null}">
+              <a href="<%=request.getContextPath()%>/login">Click here to login!</a>
+            </c:if>
+            <c:if test="${auth != null}">
+              <a href="<%=request.getContextPath()%>/login">Click here to view our movies!</a>
+            </c:if>
           </div>
         </div>
       </div>
     </div>
-    <br>
+  </div>
+
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
 </body>

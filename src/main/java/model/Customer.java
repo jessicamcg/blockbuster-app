@@ -24,9 +24,6 @@ public class Customer {
     this.email = email;
     this.password = password;
   }
-  public int getId() {
-    return id;
-  }
 
   public Customer(int id, String firstName, String lastName, String phone, String address, String email) {
     this.id = id;
@@ -37,11 +34,7 @@ public class Customer {
     this.email = email;
   }
 
-  public boolean validate(String inputName, String inputPassword) {
-    if(inputName.equals(email)&& inputPassword.equals(password)) {
-      return true;
-    } else {
-      return false;
-    }
+  public int getId() {
+    return id;
   }
 }

@@ -75,7 +75,7 @@
 
                <div class="col-sm-6 py-3">
                 <label for="phone" class="form-label">Phone</label>
-                <input type="text" class="form-control" name="phone" value="<c:out value='${auth.phone}'/>" required>
+                <input type="number" class="form-control" name="phone" value="<c:out value='${auth.phone}'/>" required>
               </div>
 
               <div class="col-12 py-3">
@@ -85,29 +85,26 @@
 
               <div class="col-md-12 py-3">
                 <label for="cc-number" class="form-label">Credit Card Number</label>
-                <input type="text" class="form-control" name="cc-number" placeholder="Enter Card Number" required>
+                <input type="number" class="form-control" name="cc-number" placeholder="Enter Card Number" required>
               </div>
 
               <div class="col-12 d-flex justify-content-center pt-3">
                  <button class="btn btn-primary" onclick="openPopup()"> Confirm Order</button>
-
-
-                  </div>
               </div>
+            </div>
           </form>
-              <div class="confirmation" id="popup" style="width:400px; border-style:solid; border-color:blue; border-radius: 15px; position:absolute; top:15%; left:50%;
-                            text-align:center; padding: 30px; color:blue; background:white; visibility:hidden ">
-                              <img src="https://bit.ly/3GB8sBW" style="width: 25%; height:auto;">
-                              <h2> Thank you!</h2>
-                              <h4>Check your inbox for the details of your order!</h4>
-                              <input class="btn btn-primary" type="submit" value="Home" >
+              <div class="confirmation" id="popup" style="width:400px; border-style:solid; border-color:blue; border-radius: 15px; position:absolute; top:15%; left:50%; text-align:center; padding: 30px; color:blue; background:white; visibility:hidden ">
+                <img src="https://bit.ly/3GB8sBW" style="width: 25%; height:auto;" alt="thank you image">
+                <h2> Thank you!</h2>
+                <h4>Check your inbox for the details of your order!</h4>
+                <input class="btn btn-primary" type="submit" value="Home" >
+              </div>
         </div>
       </div>
-    </div>
     <script>
         function openPopup(){
-        document.getElementById("popup").style.visibility = "visible";
+          document.getElementById("popup").style.visibility = "visible";
         }
     </script>
-    </body>
-    </html>
+</body>
+</html>
