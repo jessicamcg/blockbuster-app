@@ -16,25 +16,15 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.sql.SQLException;
-import java.util.Enumeration;
-import java.util.EventListener;
-import java.util.Map;
-import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class SignUpTest extends TestCase {
     @InjectMocks
-    AppServlet AppServlet;
+    AppServlet appServlet;
     @Mock
-    CustomerDAO CustomerDAO;
-    @Mock
-    Customer Customer;
+    CustomerDAO customerDAO;
     @Mock
     HttpServletRequest request;
     @Mock
@@ -54,10 +44,9 @@ class SignUpTest extends TestCase {
         response = mock(HttpServletResponse.class);
         dispatcher = mock(RequestDispatcher.class);
         session = mock(HttpSession.class);
-        CustomerDAO = mock(CustomerDAO.class);
+        customerDAO = mock(CustomerDAO.class);
         servletContext = mock(ServletContext.class);
         servletConfig = mock(ServletConfig.class);
-        GenericServlet genericServlet = mock(GenericServlet.class);
 
         when(request.getSession()).thenReturn(session);
         when(session.getServletContext()).thenReturn(servletContext);
@@ -74,9 +63,9 @@ class SignUpTest extends TestCase {
 
     @Test
     public void testSignUpServlet() throws ServletException, IOException, SQLException, ClassNotFoundException {
-        AppServlet = new AppServlet();
-        AppServlet.init(servletConfig);
-        AppServlet.insertNewCustomer(request,response);
+        appServlet = new AppServlet();
+        appServlet.init(servletConfig);
+        appServlet.insertNewCustomer(request,response);
 
         verify(response,atLeast(1)).sendRedirect("movies");
     }

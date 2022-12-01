@@ -13,13 +13,4 @@ public class Admin {
   private String lastName;
   private String email;
   private String password;
-
-  public boolean validate(String inputName, String inputPassword) {
-    if(inputName.equals(email)&& inputPassword.equals(password)) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
 }

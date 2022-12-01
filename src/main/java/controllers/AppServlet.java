@@ -27,7 +27,6 @@ public class AppServlet extends HttpServlet {
   private static final MovieDAO movieDAO = new MovieDAO();
   private static final OrderDAO orderDAO = new OrderDAO();
   private static final PaymentDAO paymentDAO = new PaymentDAO();
-  private static final EmailService emailService = new EmailService();
 
   @Override
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -139,23 +138,20 @@ public class AppServlet extends HttpServlet {
           renderHome(request, response);
           break;
       }
-    } catch (Exception ex) {
-      ex.printStackTrace();
+    } catch (Exception e) {
+      throw new RuntimeException(e);
     }
   }
 
-  private void updateOrder(HttpServletRequest request, HttpServletResponse response) {
+  private void updateOrder(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     String paymentStatus = request.getParameter("paymentStatus");
     String orderID = request.getParameter("id");
-    try {
-      paymentDAO.updatePaymentStatusById(paymentStatus,orderID);
-      Order order = orderDAO.selectOrderByID(orderID);
-      request.setAttribute("order", order);
-      RequestDispatcher dispatcher = request.getRequestDispatcher("admin-order-details.jsp");
-      dispatcher.forward(request, response);
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
+
+    paymentDAO.updatePaymentStatusById(paymentStatus,orderID);
+    Order order = orderDAO.selectOrderByID(orderID);
+    request.setAttribute("order", order);
+    RequestDispatcher dispatcher = request.getRequestDispatcher("admin-order-details.jsp");
+    dispatcher.forward(request, response);
   }
 
   private void renderOrderDetails(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -287,7 +283,7 @@ public class AppServlet extends HttpServlet {
       try {
         movieDAO.updateMovieStock(movie, quantity);
         if (movie.getStock() < 5){
-          emailService.sendEmail(
+          EmailService.sendEmail(
                   "jessica@admin.com",
                   "Low stock: " + movie.getTitle(),
                   movie.getTitle() + " is low in stock: "+ movie.getStock() +". Restock soon",
@@ -302,13 +298,14 @@ public class AppServlet extends HttpServlet {
     session.setAttribute("cart",null);
     session.setAttribute("cartTotal",null);
 
-    emailService.sendEmail(
+    EmailService.sendEmail(
             customer.getEmail(),
             "Thank you for your order!",
             "Your order is being processed",
             "orders@blockbuster.com"
     );
-    response.sendRedirect("home");
+    response.sendRedirect("movies");
+
   }
 
   private void renderAdminMovies(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -550,7 +547,7 @@ public class AppServlet extends HttpServlet {
     Customer newCustomer = new Customer(firstName,lastName,phone,address,email,password);
     custDAO.insertCustomer(newCustomer);
 
-    emailService.sendEmail(
+    EmailService.sendEmail(
         newCustomer.getEmail(),
         "Thank you for registering!",
         "Enjoy your movies",

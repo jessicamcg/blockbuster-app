@@ -5,7 +5,13 @@
     <title>Blockbuster</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
-
+<style type="text/css">
+  .bgimg {
+      background-image: url('https://live.staticflickr.com/65535/50717141847_72460eeca9_b.jpg');
+      background-size: cover;
+      min-height: 100vh;
+  }
+</style>
 <body>
     <header>
         <nav class="navbar navbar-expand-md navbar-dark" style="background-color: darkblue">
@@ -17,10 +23,10 @@
             </ul>
         </nav>
     </header>
-    <br>
-    <div class="row">
+
+    <div class="row align-content-center bgimg">
         <div class="container col-md-6">
-            <div class="card"
+            <div class="card shadow-lg"
                 <div class="card-body p-2">
                 <h3 class="mx-auto mt-3">Login</h3>
                     <form class="p-3" action="auth" method="post">
